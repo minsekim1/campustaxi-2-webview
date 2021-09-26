@@ -13,8 +13,12 @@ import { atom, atomFamily } from "recoil";
 
 //#region bttomTabIndex
 /**
- *  지도옮길시 내 위치 저장
+ *  새채팅방 만들기
  */
+export const CreateBottomModalState = atom({
+  key: "recoil/createBottomModal",
+  default: false,
+});
 export const BottomModalState = atom({
   key: "recoil/bottomModal",
   default: false,

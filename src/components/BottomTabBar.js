@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as fal from "@fortawesome/pro-light-svg-icons";
 import * as fas from "@fortawesome/free-solid-svg-icons";
+import * as  far from "@fortawesome/pro-regular-svg-icons";
 
 import { useRecoilState } from "recoil";
 import { BottomModalState, bottomTabIndexState, homeTabIndexState } from "./recoil";
@@ -33,7 +34,7 @@ export const BottomTabBar = () => {
         <div style={inlineStyle.barTxt}>
           <button style={inlineStyle.noStyleBtn} onClick={() => onClick(0)}>
             <FontAwesomeIcon
-              icon={bottomTabIndex === 0 ? fas.faHome : fal.faHome}
+              icon={bottomTabIndex === 0 ? far.faHome : fal.faHome}
               size={"lg"}
               opacity={bottomTabIndex === 0 ? 1 : 0.3}
               color={GRAY9}
@@ -43,7 +44,15 @@ export const BottomTabBar = () => {
         <div style={inlineStyle.barTxt}>
           <button style={inlineStyle.noStyleBtn} onClick={() => onClick(1)}>
             <FontAwesomeIcon
-              icon={bottomTabIndex === 1 ? fas.faSearch : fal.faSearch}
+              icon={
+                homeTabIndex === 1
+                  ? bottomTabIndex === 1
+                    ? far.faSearchLocation
+                    : fal.faSearchLocation
+                  : bottomTabIndex === 1
+                  ? far.faTelescope
+                  : fal.faTelescope
+              }
               size={"lg"}
               opacity={bottomTabIndex === 1 ? 1 : 0.3}
               color={GRAY9}
@@ -53,7 +62,7 @@ export const BottomTabBar = () => {
         <div style={inlineStyle.barTxt}>
           <button style={inlineStyle.noStyleBtn} onClick={() => onClick(2)}>
             <FontAwesomeIcon
-              icon={bottomTabIndex === 2 ? fas.faShoppingBag : fal.faShoppingBag}
+              icon={bottomTabIndex === 2 ? far.faShoppingBag : fal.faShoppingBag}
               size={"lg"}
               opacity={bottomTabIndex === 2 ? 1 : 0.3}
               color={GRAY9}
@@ -63,7 +72,7 @@ export const BottomTabBar = () => {
         <div style={inlineStyle.barTxt}>
           <button style={inlineStyle.noStyleBtn} onClick={() => onClick(3)}>
             <FontAwesomeIcon
-              icon={bottomTabIndex === 3 ? fas.faEnvelope : fal.faEnvelope}
+              icon={bottomTabIndex === 3 ? far.faEnvelope : fal.faEnvelope}
               size={"lg"}
               opacity={bottomTabIndex === 3 ? 1 : 0.3}
               color={GRAY9}
