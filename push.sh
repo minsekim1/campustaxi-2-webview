@@ -1,4 +1,3 @@
-cd .. 
 if [ $# -ne 2 ]
 	then 
 	git add . && git commit -m "$1/minsekim" && git push
@@ -6,4 +5,3 @@ if [ $# -ne 2 ]
 else
 	git add . && git commit -m "default_push/minsekim" && git push
 fi
-cd .env
