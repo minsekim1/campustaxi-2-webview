@@ -8,6 +8,8 @@ import { GRAY8, GRAY6 } from "./../style/index";
 import { useState } from "react";
 import { DateToStr } from "./exchange";
 import { getfetch, postfetch } from "./common";
+import { Input } from './Input/index';
+import { Switch } from "./Input/switch";
 
 export const BottomModal = () => {
   const [visible, setVisible] = useRecoilState(BottomModalState);
@@ -94,7 +96,13 @@ export const CreateBottomModal = () => {
         blocking={false}
         open={visible}
         onDismiss={() => setVisible(false)}
-        snapPoints={({ minHeight, maxHeight }) => [maxHeight * 0.3, maxHeight * 0.5, maxHeight * 0.7, maxHeight * 0.9]}
+        snapPoints={({ minHeight, maxHeight }) => [
+          maxHeight * 0.1,
+          maxHeight * 0.3,
+          maxHeight * 0.5,
+          maxHeight * 0.7,
+          maxHeight * 0.9,
+        ]}
         defaultSnap={({ lastSnap, snapPoints }) => [SCREEN_HEIGHT * 0.7]}
       >
         <div style={{ padding: "12px 20px" }}>
@@ -125,86 +133,44 @@ export const CreateBottomModal = () => {
             )}
           </div>
           <div style={{ clear: "both", marginTop: 40 }}>
-            <input
+            <Input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              inputMode={"text"}
               placeholder="채팅방 이름을 입력해주세요. (미입력시 자동생성)"
-              style={{
-                width: SCREEN_WIDTH - 60,
-                backgroundColor: GRAY2,
-                border: "none",
-                padding: 10,
-                borderRadius: 10,
-              }}
             />
-            <input
+            <Input
               value={startPos.title}
               onChange={(e) => setStartPos({ ...startPos, title: e.target.value })}
-              inputMode={"text"}
               placeholder="출발지를 입력해주세요."
-              style={{
-                width: SCREEN_WIDTH - 60,
-                backgroundColor: GRAY2,
-                border: "none",
-                padding: 10,
-                borderRadius: 10,
-              }}
             />
-            <input
+            <Input
               value={endPos.title}
               onChange={(e) => setEndPos({ ...endPos, title: e.target.value })}
-              inputMode={"text"}
               placeholder="도착지를 입력해주세요."
-              style={{
-                width: SCREEN_WIDTH - 60,
-                backgroundColor: GRAY2,
-                border: "none",
-                padding: 10,
-                borderRadius: 10,
-              }}
             />
-            <input
-              value={date.toString()}
-              disabled
-              inputMode={"text"}
-              placeholder="출발 시간을 선택해주세요."
-              style={{
-                width: SCREEN_WIDTH - 60,
-                backgroundColor: GRAY2,
-                border: "none",
-                padding: 10,
-                borderRadius: 10,
-              }}
-            />
-
-            <input
+            <Input value={date.toString()} disabled placeholder="출발 시간을 선택해주세요." />
+            <Input
               type="datetime-local"
               id="appt"
               name="appt"
               value={DateToStr(date)}
               onChange={(e) => setDate(e.target.value)}
             />
-            <div>
-              <label class="switch">
-                <input type="checkbox" checked={genderLimit} onClick={() => setGenderLimit(!genderLimit)} />
-                <span class="slider round"></span>
-              </label>
-              성별무관 탑승
-            </div>
+            <Switch value={genderLimit} onPress={() => setGenderLimit(!genderLimit)} title={"성별무관 탑승"}/>
             <div>
               인원 제한을 선택해주세요.
               <div>
-                {[2, 3, 4, 5, 6, 7, 8].map((item) => (
-                  <>
+                {[2, 3, 4, 5, 6, 7, 8].map((item, i) => (
+                  <div key={i.toString()} style={{ float: "left" }}>
                     <input
                       name="personLimit"
                       type="radio"
                       checked={personLimit == item}
+                      readOnly
                       onClick={() => setPersonLimit(item)}
                     />
-                    <label for="personLimit">{item}</label>
-                  </>
+                    <div>{item}</div>
+                  </div>
                 ))}
               </div>
             </div>

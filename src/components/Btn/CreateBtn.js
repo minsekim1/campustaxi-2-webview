@@ -27,7 +27,7 @@ export const CreateBtn = () => {
       }}
       onClick={onClick}
     >
-      <FontAwesomeIcon icon={faEdit} size={"lg"} />
+      <FontAwesomeIcon icon={faEdit} size={"sm"} />
     </div>
   );
 };
