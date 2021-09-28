@@ -13,6 +13,14 @@ import { atom, atomFamily } from "recoil";
 
 //#region bttomTabIndex
 /**
+ *  출발지/도착지 선택 시 지도에서 검색하기
+ */
+export const SearchPositionState = atom({
+  key: "recoil/searchPosition",
+  default: false,
+});
+//#region bttomTabIndex
+/**
  *  새채팅방 만들기
  */
 export const CreateBottomModalState = atom({

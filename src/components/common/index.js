@@ -50,3 +50,5 @@ export const getfetch = (url, params) => {
       .catch((e) => reject(e));
   });
 };
+
+export const posInit = { title: "", address: "", lat: 0, lon: 0, addressDetail: "", addressCode: "" };
