@@ -1,5 +1,5 @@
-import { GRAY2, GRAY6, GRAY9, SCREEN_WIDTH } from "../../style";
-import { useState } from "react";
+import { GRAY2, GRAY6, GRAY7, GRAY8, GRAY9, SCREEN_WIDTH } from "../../style";
+import { forwardRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as fal from "@fortawesome/pro-light-svg-icons";
 import * as fas from "@fortawesome/free-solid-svg-icons";
@@ -8,13 +8,15 @@ import { CreateBottomModalState, SearchPositionState } from "../recoil";
 import { useRecoilState } from "recoil";
 import { Icon } from "../common/Icon";
 
-export const Input = ({ value, placeholder, inputMode, type, readOnly, disabled }) => {
-  const onChangeInput = (e) => {
-    value.current = e.target.value;
-  };
+export const Input = forwardRef(({ onChange, placeholder, inputMode, type, readOnly, disabled, defaultValue }, ref) => {
+  const onChangeInupt = (e) => {
+    if (onChange) onChange(e.target.value);
+  }
   return (
     <input
-      onChange={onChangeInput}
+      ref={ref}
+      defaultValue={defaultValue}
+      onChange={onChangeInupt}
       readOnly={readOnly ?? false}
       inputMode={inputMode ?? "text"}
       placeholder={placeholder}
@@ -27,11 +29,11 @@ export const Input = ({ value, placeholder, inputMode, type, readOnly, disabled 
         padding: 10,
         borderRadius: 10,
         fontSize: 15,
-        color: GRAY9,
+        color: GRAY7,
       }}
     />
   );
-};
+});
 
 export const InputSearch = ({ value, placeholder, inputMode, type, readOnly, disabled, onChange }) => {
   const onChangeInput = (e) => {
@@ -66,9 +68,9 @@ export const InputSearch = ({ value, placeholder, inputMode, type, readOnly, dis
   );
 };
 
-export const InputMap = ({ value, placeholder }) => {
+export const InputMap = ({ value, placeholder, position }) => {
   const [, setVisible] = useRecoilState(CreateBottomModalState);
-  const [, setVisibleSearch] = useRecoilState(SearchPositionState);
+  const [visibleSearch, setVisibleSearch] = useRecoilState(SearchPositionState);
   return (
     <div
       style={{
@@ -80,7 +82,7 @@ export const InputMap = ({ value, placeholder }) => {
       }}
       onClick={() => {
         setVisible(false);
-        setVisibleSearch(true);
+        setVisibleSearch({ visible: true, position: position });
       }}
     >
       <div style={{ float: "left", justifyContent: "center", alignItems: "center", display: "flex", marginRight: 6 }}>

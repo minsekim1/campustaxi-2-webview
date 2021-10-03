@@ -1,4 +1,4 @@
-export const API_URL = "http://ec2-3-36-124-229.ap-northeast-2.compute.amazonaws.com:1337";
+export const API_URL = "http://ec2-3-34-77-193.ap-northeast-2.compute.amazonaws.com:1337";
 
 export const postfetch = (url, params) => {
   // let details = {
@@ -51,4 +51,17 @@ export const getfetch = (url, params) => {
   });
 };
 
-export const posInit = { title: "", address: "", lat: 0, lon: 0, addressDetail: "", addressCode: "" };
+export const posInit = {
+  address_name: "",
+  category_group_code: "",
+  category_group_name: "",
+  category_name: "",
+  distance: "",
+  id: "",
+  phone: "",
+  place_name: "",
+  place_url: "",
+  road_address_name: "",
+  x: "", //127.036586636975
+  y: "", //37.5090312068588
+};

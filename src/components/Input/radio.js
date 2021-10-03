@@ -1,22 +1,22 @@
 import { useState } from "react";
 
-export const Radio = ({ value, title, initIndex }) => {
-  const [clicked, setClicked] = useState(initIndex);
+export const Radio = ({ data, title, defaultIndex, onClick }) => {
+  const [clicked, setClicked] = useState(defaultIndex);
   const onChangeInput = (i) => {
-    value.current = i;
     setClicked(i);
+    if (onClick) onClick(i);
   };
-	return (
+  return (
     <div style={{ flex: 1, display: "flex", justifyContent: "space-evenly" }}>
-      {value.map((item, i) => (
+      {data.map((item, i) => (
         <div key={i.toString()}>
           <input
             name="name"
             type="radio"
             checked={clicked == i}
             readOnly
-						onClick={() => onChangeInput(i)}
-						style={{marginRight:6}}
+            onClick={() => onChangeInput(i)}
+            style={{ marginRight: 6 }}
           />
           {item}
         </div>

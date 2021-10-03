@@ -1,20 +1,27 @@
 import { BottomSheet } from "react-spring-bottom-sheet";
 import { useRecoilState } from "recoil";
-import { BottomModalState, CreateBottomModalState, SearchPositionState } from "../components/recoil";
+import {
+  BottomModalState,
+  CreateBottomModalState,
+  endPosState,
+  SearchPositionState,
+  startPosState,
+} from "../components/recoil";
 import "react-spring-bottom-sheet/dist/style.css";
 import "../style/switch.css";
 import { GRAY2, GRAY3, GRAY7, ORANGE, SCREEN_HEIGHT, SCREEN_WIDTH } from "../style";
 import { GRAY8, GRAY6 } from "./../style/index";
-import { useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { DateToStr } from "./exchange";
 import { getfetch, posInit, postfetch } from "./common";
 import { Input, InputMap } from "./Input/index";
 import { Switch } from "./Input/switch";
 import { Radio } from "./Input/radio";
+import { PositionCard } from "./card/PositionCard";
 
 export const BottomModal = () => {
   const [visible, setVisible] = useRecoilState(BottomModalState);
-  const [searchMode, setSearchMode] = useRecoilState(SearchPositionState);
+  const [visibleSearch, setVisibleSearch] = useRecoilState(SearchPositionState);
   return (
     <>
       <BottomSheet
@@ -22,6 +29,7 @@ export const BottomModal = () => {
         onDismiss={() => setVisible(false)}
         snapPoints={({ minHeight, maxHeight }) => [maxHeight * 0.8, maxHeight]}
         defaultSnap={({ lastSnap, snapPoints }) => [snapPoints]}
+        expandOnContentDrag={true}
       >
         <div>
           <p>검색</p>
@@ -35,60 +43,76 @@ export const BottomModal = () => {
     </>
   );
 };
+
+//2021-10-05T21:50
+const defaultValueDate = new Date(new Date().setHours(new Date().getHours() + 9)).toISOString().split(".")[0];
+
 export const CreateBottomModal = () => {
-  const title = useRef("");
-  const startPos = useRef(posInit);
-  const endPos = useRef(posInit);
-  const date = useRef(new Date());
-  const genderLimit = useRef(false);
-  const personLimit = useRef(4);
   const [visible, setVisible] = useRecoilState(CreateBottomModalState);
 
-  const closeCondition = title !== "" || startPos.title !== "" || endPos.title !== "";
-  const postCondition = startPos.title !== "" && endPos.title !== "" && date !== "";
+  const [title, setTitle] = useState("");
+  const [date, setDate] = useState(defaultValueDate);
+  const [personLimit, setPersonLimit] = useState(2); //보낼때 +2
+  const [genderLimit, setGenderLimit] = useState(false);
+
+  const [startPos, setStartPos] = useRecoilState(startPosState);
+  const [endPos, setEndPos] = useRecoilState(endPosState);
+
+  const closeCondition = useMemo(
+    () => title !== "" || startPos.place_name !== "" || endPos.place_name !== "",
+    [title, startPos.place_name, endPos.place_name]
+  );
+  const postCondition = useMemo(
+    () => startPos.place_name !== "" && endPos.place_name !== "",
+    [ startPos.place_name, endPos.place_name]
+  );
 
   const postCreateChatRoom = async () => {
     if (!postCondition) {
       alert("출발지/도착지/출발시간을 확인해주세요.");
     } else {
       // getfetch("/users").then((d) => console.log(d));
-      // const response = await postfetch("/chat-rooms", {
-      //   gender: genderLimit ? "M" : "None",
-      //   creator_id: "0",
-      //   chat_user: ["0"],
-      //   "start_route[]": JSON.stringify({
-      //     __component: "route.route",
-      //     address: startPos.address,
-      //     address_detail: startPos.addressDetail,
-      //     lat: startPos.lat,
-      //     lon: startPos.lon,
-      //     address_code: startPos.addressCode,
-      //     title: startPos.title,
-      //   }),
-      //   "end_route[]": JSON.stringify({
-      //     __component: "route.route",
-      //     address: endPos.address,
-      //     address_detail: endPos.addressDetail,
-      //     lat: endPos.lat,
-      //     lon: endPos.lon,
-      //     address_code: endPos.addressCode,
-      //     title: endPos.title,
-      //   }),
-      //   person_limit: personLimit,
-      //   start_at: date,
-      //   expect_fee: 0,
-      //   course_id: 0,
-      //   expect_distance: 0,
-      // });
-      // if (typeof response.id == "number") {
-      //   title.current = "";
-      //   startPos.current = posInit;
-      //   endPos.current = posInit;
-      //   date.current = "";
-      //   personLimit.current = 4;
-      //   genderLimit.current = false;
-      //   setVisible(false);
-      // }
+      const response = await postfetch("/chat-rooms", {
+        title: title,
+        gender: genderLimit ? "M" : "None",
+        creator_id: "0",
+        chat_user: ["0"],
+        "start_route[]": JSON.stringify({
+          __component: "route.route",
+          ...startPos,
+          naver_id: startPos.id,
+          x: Number(startPos.x),
+          y: Number(startPos.y),
+        }),
+        "end_route[]": JSON.stringify({
+          __component: "route.route",
+          ...endPos,
+          naver_id: endPos.id,
+          x: Number(endPos.x),
+          y: Number(endPos.y),
+        }),
+        person_limit: personLimit + 2,
+        start_at: date,
+        expect_fee: 0,
+        // course_id: 0,
+        expect_distance: 0,
+      });
+      console.log("response", response);
+      if (typeof response.id == 'number') {
+        setTitle("");
+        setDate(defaultValueDate);
+        setStartPos(posInit);
+        setEndPos(posInit);
+        setPersonLimit(2);
+        setGenderLimit(false);
+        setVisible(false);
+      } else if (response.statusCode == 200) {
+        try {
+          alert(JSON.stringify(response.data.errors));
+        } catch (e) {
+          console.debug(e);
+        }
+      }
     }
   };
   return (
@@ -105,6 +129,7 @@ export const CreateBottomModal = () => {
           maxHeight * 0.9,
         ]}
         defaultSnap={({ lastSnap, snapPoints }) => [SCREEN_HEIGHT * 0.7]}
+        expandOnContentDrag={true}
       >
         <div style={{ padding: "12px 20px" }}>
           <div>
@@ -133,15 +158,49 @@ export const CreateBottomModal = () => {
               </div>
             )}
           </div>
-          <div style={{ clear: "both", marginTop: 40 }}>
-            <Input value={title} placeholder="채팅방 이름을 입력해주세요. (미입력시 자동생성)" />
-            <InputMap value={startPos} placeholder="출발지를 선택해주세요." />
-            <InputMap value={endPos} placeholder="도착지를 선택해주세요." />
-            출발 시간을 선택해주세요.
-            <Input type="datetime-local" id="appt" name="appt" value={date} />
-            <Switch value={genderLimit} title={"성별무관 탑승"} />
-            인원 제한을 선택해주세요.
-            <Radio value={[2, 3, 4, 5, 6, 7, 8]} initIndex={2} />
+          <div style={{ marginTop: 40 }}>
+            <div style={{ marginTop: 12 }}>
+              <Input defaultValue={title} onChange={setTitle} placeholder="채팅방 이름을 입력해주세요. (선택)" />
+            </div>
+            <div style={{ marginTop: 12 }}>
+              <InputMap value={startPos} placeholder="출발지를 선택해주세요." position={"start"} />
+              {startPos.place_name ? (
+                <PositionCard
+                  address={startPos.address_name}
+                  title={startPos.place_name}
+                  desc={startPos.category_name}
+                  url={startPos.place_url}
+                  img={"https://picsum.photos/200"}
+                />
+              ) : (
+                false
+              )}
+            </div>
+            <div style={{ marginTop: 12 }}>
+              <InputMap value={endPos} placeholder="도착지를 선택해주세요." position={"end"} />
+              {endPos.place_name ? (
+                <PositionCard
+                  address={endPos.address_name}
+                  title={endPos.place_name}
+                  desc={endPos.category_name}
+                  url={endPos.place_url}
+                  img={"https://picsum.photos/200"}
+                />
+              ) : (
+                false
+              )}
+            </div>
+            <div style={{ marginTop: 12 }}>
+              <div style={{ fontWeight: "bold", margin: "0 12px 12px", color: GRAY7 }}>출발 시간을 선택해주세요.</div>
+              <Input defaultValue={date} onChange={setDate} type="datetime-local" id="appt" name="appt" />
+            </div>
+            <div style={{ marginTop: 0, padding: 8 }}>
+              <Switch defaultValue={genderLimit} title={"성별무관 탑승"} onChange={setGenderLimit} />
+            </div>
+            <div style={{ marginTop: 12, color: GRAY7 }}>
+              인원 제한을 선택해주세요.
+              <Radio data={[2, 3, 4, 5, 6, 7, 8]} defaultIndex={personLimit} onClick={setPersonLimit} />
+            </div>
           </div>
         </div>
       </BottomSheet>
