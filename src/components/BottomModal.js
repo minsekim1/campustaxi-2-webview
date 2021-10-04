@@ -197,9 +197,11 @@ export const CreateBottomModal = () => {
             <div style={{ marginTop: 0, padding: 8 }}>
               <Switch defaultValue={genderLimit} title={"성별무관 탑승"} onChange={setGenderLimit} />
             </div>
-            <div style={{ marginTop: 12, color: GRAY7 }}>
+            <div style={{ marginTop: 12, color: GRAY7, padding: "0 8px", fontSize: 15 }}>
               인원 제한을 선택해주세요.
-              <Radio data={[2, 3, 4, 5, 6, 7, 8]} defaultIndex={personLimit} onClick={setPersonLimit} />
+              <div style={{ marginTop: 8 }}>
+                <Radio data={[2, 3, 4, 5, 6, 7]} defaultIndex={personLimit} onClick={setPersonLimit} />
+              </div>
             </div>
           </div>
         </div>

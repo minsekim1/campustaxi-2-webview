@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/static/css/main.075e648d.chunk.css",
+    "main.js": "/static/js/main.d3fb1ad9.chunk.js",
+    "main.js.map": "/static/js/main.d3fb1ad9.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.a883c82b.js",
+    "runtime-main.js.map": "/static/js/runtime-main.a883c82b.js.map",
+    "static/css/2.9c5eef5f.chunk.css": "/static/css/2.9c5eef5f.chunk.css",
+    "static/js/2.4a72c488.chunk.js": "/static/js/2.4a72c488.chunk.js",
+    "static/js/2.4a72c488.chunk.js.map": "/static/js/2.4a72c488.chunk.js.map",
+    "static/js/3.01f976f9.chunk.js": "/static/js/3.01f976f9.chunk.js",
+    "static/js/3.01f976f9.chunk.js.map": "/static/js/3.01f976f9.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.9c5eef5f.chunk.css.map": "/static/css/2.9c5eef5f.chunk.css.map",
+    "static/css/main.075e648d.chunk.css.map": "/static/css/main.075e648d.chunk.css.map",
+    "static/js/2.4a72c488.chunk.js.LICENSE.txt": "/static/js/2.4a72c488.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/static/media/AppleSDGothicNeoR00.d159b4d4.ttf"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a883c82b.js",
+    "static/css/2.9c5eef5f.chunk.css",
+    "static/js/2.4a72c488.chunk.js",
+    "static/css/main.075e648d.chunk.css",
+    "static/js/main.d3fb1ad9.chunk.js"
+  ]
+}

@@ -16,7 +16,7 @@ export const Radio = ({ data, title, defaultIndex, onClick }) => {
             checked={clicked == i}
             readOnly
             onClick={() => onChangeInput(i)}
-            style={{ marginRight: 6 }}
+            style={{ marginRight: 12 }}
           />
           {item}
         </div>

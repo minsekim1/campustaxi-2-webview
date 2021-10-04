@@ -67,6 +67,16 @@ export const startPosState = atom({
   default: posInit,
 });
 /**
+ *  DB에 있는 모든 채팅방
+ * address_name* / category_group_code / category_group_name / category_name*
+ * distance / id / phone* / place_name* / place_url / x* / y*
+ */
+export const ChatRoomListState = atom({
+  key: "recoil/chatRoomList",
+  default: [],
+});
+
+/**
  *  출발지/도착지 선택 후 장소 검색 결과
  * address_name* / category_group_code / category_group_name / category_name*
  * distance / id / phone* / place_name* / place_url / x* / y*
