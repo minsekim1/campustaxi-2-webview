@@ -14,6 +14,7 @@ export const BottomTabBar = () => {
   const [homeTabIndex] = useRecoilState(homeTabIndexState);
   const [, setVisible] = useRecoilState(BottomModalState);
   const [bottomTabIndex, setBottomTabIndex] = useRecoilState(bottomTabIndexState);
+  
   const onClick = (index) => {
     if (bottomTabIndex !== index) {
       if (homeTabIndex === 1 && index === 1) {
@@ -29,6 +30,7 @@ export const BottomTabBar = () => {
     }
   };
   return (
+    
     <div style={inlineStyle.barInner}>
       <div style={inlineStyle.barFlexInner}>
         <div style={inlineStyle.barTxt}>

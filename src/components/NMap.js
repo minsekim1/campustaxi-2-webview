@@ -1,9 +1,18 @@
-import { RenderAfterNavermapsLoaded, NaverMap, Marker, Circle, GroundOverlay, Ellipse } from "react-naver-maps";
-import { HEADER_HEIGHT, SCREEN_HEIGHT } from "./../style";
+import {
+  RenderAfterNavermapsLoaded,
+  NaverMap,
+  Marker,
+  Circle,
+  GroundOverlay,
+  Ellipse,
+  Polyline,
+} from "react-naver-maps";
+import { HEADER_HEIGHT, ORANGE, SCREEN_HEIGHT } from "./../style";
 import { SCREEN_WIDTH } from "./../style/index";
 import { useRecoilState } from "recoil";
 import {
   ChatRoomListState,
+  ChatRoomSeletedState,
   CreateBottomModalState,
   endPosState,
   MyPosState,
@@ -39,14 +48,25 @@ function NaverMapAPI() {
   const [zoomLevel, setZoomLevel] = useState(13);
   const [chatRoomList, setChatRoomList] = useRecoilState(ChatRoomListState);
   const naverMapRef = useRef();
-
   const navermaps = window.naver.maps;
+
+  //# 방검색 데이터
+  const [chatRoomSeleted, setChatRoomSeleted] = useRecoilState(ChatRoomSeletedState);
 
   //# useEffect
   useEffect(() => {
     getfetch("/chat-rooms").then((d) => setChatRoomList(d));
   }, []);
 
+  useEffect(() => {
+    if (chatRoomSeleted.id != -1 && naverMapRef.current) {
+      // let moveToPos = new navermaps.bo [
+      //   new navermaps.LatLng(chatRoomSeleted.start_route[0].x, chatRoomSeleted.start_route[0].y),
+      //   new navermaps.LatLng(chatRoomSeleted.end_route[0].x, chatRoomSeleted.end_route[0].y),
+      // ];
+      // navermaps.current.panTo(new navermaps.LatLng(chatRoomSeleted.start_route[0].x, chatRoomSeleted.start_route[0].y));
+    }
+  }, [chatRoomSeleted]);
   //# 함수
   // const onDrag = (d) => {
   //   // setMyPos({ lat: d.latlng._lat, lng: d.latlng._lng });
@@ -65,46 +85,48 @@ function NaverMapAPI() {
       mapDivId={"maps-getting-started-uncontrolled"} // default: react-naver-map
       style={{
         width: SCREEN_WIDTH, // 네이버지도 가로 길이
-        height: SCREEN_HEIGHT - HEADER_HEIGHT, // 네이버지도 세로 길이
+        height: SCREEN_HEIGHT - HEADER_HEIGHT + 22, // 네이버지도 세로 길이
       }}
       defaultCenter={myPos} // 지도 초기 위치
       // onDrag={onDrag} // TEST CODE
       defaultZoom={zoomLevel} // 지도 초기 확대 배율
       onZoomChanged={(z) => setZoomLevel(z)}
+      // bound={}
     >
-      {/* DB 모든 출발지 */}
       {chatRoomList.length > 0 &&
-        chatRoomList
-          .map((room) => room.start_route[0])
-          .map((pos, i) => (
-            <Marker
-              key={i.toString()}
-              position={new navermaps.LatLng(Number(pos.y), Number(pos.x))}
-              icon={{
-                url: "https://picsum.photos/200",
-                size: new navermaps.Size(50, 52),
-                origin: new navermaps.Point(0, 0),
-                anchor: new navermaps.Point(25, 26),
-              }}
+        chatRoomList.map((room, i) => (
+          <div key={i.toString()}>
+            {/* DB 모든 출발지 */}
+            <ImageMarker
+              color={"#FF6F6F"}
+              onClick={() => console.log("as")}
+              position={new navermaps.LatLng(Number(room.start_route[0].y), Number(room.start_route[0].x))}
+              navermaps={navermaps}
             />
-          ))}
-      {/* DB 모든 도착지 */}
-      {chatRoomList.length > 0 &&
-        chatRoomList
-          .map((room) => room.end_route[0])
-          .map((pos, i) => (
-            <Marker
-              key={i.toString()}
-              position={new navermaps.LatLng(Number(pos.y), Number(pos.x))}
-              icon={{
-                url: "https://picsum.photos/200",
-                size: new navermaps.Size(50, 52),
-                origin: new navermaps.Point(0, 0),
-                anchor: new navermaps.Point(25, 26),
-              }}
+            {/* DB 모든 도착지 */}
+            <ImageMarker
+              onClick={() => console.log("as")}
+              position={new navermaps.LatLng(Number(room.end_route[0].y), Number(room.end_route[0].x))}
+              navermaps={navermaps}
             />
-          ))}
-
+            {/* 출->도 경로 */}
+            {chatRoomList.length > 0 &&
+              chatRoomList
+                // .map((room) => room.end_route[0])
+                .map((room, i) => (
+                  <Polyline
+                    key={i.toString()}
+                    path={[
+                      new navermaps.LatLng(Number(room.start_route[0].y), Number(room.start_route[0].x)),
+                      new navermaps.LatLng(Number(room.end_route[0].y), Number(room.end_route[0].x)),
+                    ]}
+                    strokeColor={"#FF6E6E"}
+                    strokeOpacity={0.2}
+                    strokeWeight={3}
+                  />
+                ))}
+          </div>
+        ))}
       {/* 검색결과 */}
       {visibleSearch.visible &&
         searchResult.documents.map((pos, i) => (
@@ -115,15 +137,19 @@ function NaverMapAPI() {
             onClick={() => onClickMarker(pos)}
           />
         ))}
-
-      {/* <Marker
-        key={1}
-        position={new navermaps.LatLng(myPos.lat, myPos.lng)}
-        animation={2}
-        onClick={() => {
-          alert("여기는 N서울타워입니다.");
-        }}
-      /> */}
     </NaverMap>
   );
+}
+
+function ImageMarker(props) {
+  const navermaps = props.navermaps;
+  const icon = {
+    content: `<div onClick=\"${props.onClick}\"><img style=\"border-radius:30px;border-style:solid;border-color:${
+      props.color ?? "#535353"
+    };border-width:3px\" width=37 height=37 src=https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg /></div>`,
+    size: new navermaps.Size(20, 20),
+    anchor: new navermaps.Point(20, 20),
+  };
+
+  return <Marker title="Green" icon={icon} {...props} />;
 }

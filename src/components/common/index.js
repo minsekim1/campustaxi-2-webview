@@ -57,7 +57,7 @@ export const posInit = {
   category_group_name: "",
   category_name: "",
   distance: "",
-  id: "",
+  id: -1,
   phone: "",
   place_name: "",
   place_url: "",

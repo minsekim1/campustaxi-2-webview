@@ -1,5 +1,5 @@
 import { homeTabIndexState } from "../components/recoil";
-import { SCREEN_WIDTH } from "./../style/index";
+import { HEADER_HEIGHT, SCREEN_WIDTH } from "./../style/index";
 import { useRecoilState } from "recoil";
 import { useHistory } from "react-router";
 
@@ -50,8 +50,8 @@ export const BottomHeader = () => {
               alignItems: "center",
               justifyContent: "center",
               display: "flex",
-              width: 48,
-              height: 48,
+              width: 44,
+              height: 44,
             }}
           >
             <img
@@ -68,11 +68,11 @@ export const BottomHeader = () => {
 };
 
 const inlineStyle = {
-  barInner: { height: 96, width: SCREEN_WIDTH, display: "flex", alignItems: "center" },
+  barInner: { height: HEADER_HEIGHT, width: SCREEN_WIDTH, display: "flex", alignItems: "center" },
   barFlexInner: { flex: 1, display: "flex", justifyContent: "center", alignItems: "baseline" },
   flex: { flex: 1 },
   flexL: { float: "left" },
-  noStyleBtnActive: { backgroundColor: "transparent", border: "none", fontSize: 19, fontWeight: "bold" },
-  noStyleBtn: { backgroundColor: "transparent", border: "none", fontSize: 17, fontWeight: "normal" },
+  noStyleBtnActive: { backgroundColor: "transparent", border: "none", fontSize: 17, fontWeight: "bold", width: "3em" },
+  noStyleBtn: { backgroundColor: "transparent", border: "none", fontSize: 15, fontWeight: "normal", width: "3em" },
   BtnProfile: {},
 };

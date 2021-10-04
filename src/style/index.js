@@ -25,7 +25,7 @@ export const BLUE01 = "#2f8ded";
 export const RED01 = "#eb5757";
 export const SCREEN_HEIGHT = window.innerHeight;
 export const SCREEN_WIDTH = window.innerWidth;
-export const HEADER_HEIGHT = 96;
+export const HEADER_HEIGHT = 72;
 export const textOverflowHidden = {
   overflow: "hidden",
   textOverflow: "ellipsis",

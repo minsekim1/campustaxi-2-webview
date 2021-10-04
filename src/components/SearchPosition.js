@@ -23,7 +23,7 @@ export const SearchPosition = () => {
   return (
     <>
       {visibleSearch.visible ? (
-        <div style={{ position: "absolute", top: 96 + 24, left: 10, zIndex: 1 }}>
+        <div style={{ position: "absolute", top: 72 + 12, left: 20, zIndex: 1 }}>
           <InputSearch value={title} placeholder={"검색 장소를 입력해주세요."} onChange={onChange} />
         </div>
       ) : (

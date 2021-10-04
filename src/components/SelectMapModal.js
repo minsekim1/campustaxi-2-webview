@@ -48,7 +48,6 @@ export const SelectMapModal = () => {
         open={visibleSearch.visible}
         onDismiss={onDismiss}
         snapPoints={({ minHeight, maxHeight }) => [
-          maxHeight * 0.1,
           maxHeight * 0.3,
           maxHeight * 0.5,
           maxHeight * 0.7,

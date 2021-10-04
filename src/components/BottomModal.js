@@ -2,6 +2,8 @@ import { BottomSheet } from "react-spring-bottom-sheet";
 import { useRecoilState } from "recoil";
 import {
   BottomModalState,
+  ChatRoomListState,
+  ChatRoomSeletedState,
   CreateBottomModalState,
   endPosState,
   SearchPositionState,
@@ -11,33 +13,66 @@ import "react-spring-bottom-sheet/dist/style.css";
 import "../style/switch.css";
 import { GRAY2, GRAY3, GRAY7, ORANGE, SCREEN_HEIGHT, SCREEN_WIDTH } from "../style";
 import { GRAY8, GRAY6 } from "./../style/index";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { createRef, useEffect, useMemo, useRef, useState } from "react";
 import { DateToStr } from "./exchange";
 import { getfetch, posInit, postfetch } from "./common";
 import { Input, InputMap } from "./Input/index";
 import { Switch } from "./Input/switch";
 import { Radio } from "./Input/radio";
 import { PositionCard } from "./card/PositionCard";
+import { RoomCard } from "./card/RoomCard";
 
 export const BottomModal = () => {
   const [visible, setVisible] = useRecoilState(BottomModalState);
   const [visibleSearch, setVisibleSearch] = useRecoilState(SearchPositionState);
+
+  const [chatRoomList, setChatRoomList] = useRecoilState(ChatRoomListState);
+  const bottomRef = useRef();
+
+  const onClickRoom = () => {
+    bottomRef.current.snapTo(SCREEN_HEIGHT * 0.5);
+  };
+
   return (
     <>
       <BottomSheet
+        ref={bottomRef}
+        blocking={false}
         open={visible}
         onDismiss={() => setVisible(false)}
-        snapPoints={({ minHeight, maxHeight }) => [maxHeight * 0.8, maxHeight]}
-        defaultSnap={({ lastSnap, snapPoints }) => [snapPoints]}
+        snapPoints={({ minHeight, maxHeight }) => [maxHeight * 0.3, maxHeight * 0.5, maxHeight * 0.7, maxHeight * 0.9]}
+        defaultSnap={({ lastSnap, snapPoints }) => [SCREEN_HEIGHT * 0.4]}
+        header={
+          <div>
+            <div style={{ fontFamily: "roboto", fontWeight: "bold", fontSize: 15, color: GRAY7, float: "left" }}>
+              더 많은 채팅방을 검색해보세요!
+            </div>
+            <div
+              style={{ fontFamily: "roboto", fontWeight: "bold", fontSize: 15, color: GRAY6, float: "right" }}
+              onClick={() => setVisible(false)}
+            >
+              닫기
+            </div>
+          </div>
+        }
         expandOnContentDrag={true}
       >
-        <div>
-          <p>검색</p>
-          <div>
-            <div className="bg-gray-200 block rounded-md h-10 w-full my-10" />
-            <p>The height adjustment is done automatically, it just works™!</p>
-            <div className="bg-gray-200 block rounded-md h-10 w-full my-10" />
-          </div>
+        <div style={{ padding: "0 10px 30px 10px" }} >
+          {chatRoomList.length > 0 &&
+            chatRoomList.map((room, i) => {
+              const ref = createRef();
+              const handleClick = () =>
+                ref.current.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              return (
+                <div key={i.toString()} ref={ref}>
+                  {/* DB 모든 채팅방 */}
+                  <RoomCard room={room} onClick={() => { onClickRoom(); handleClick();}} />
+                </div>
+              );
+            })}
         </div>
       </BottomSheet>
     </>
@@ -64,7 +99,7 @@ export const CreateBottomModal = () => {
   );
   const postCondition = useMemo(
     () => startPos.place_name !== "" && endPos.place_name !== "",
-    [ startPos.place_name, endPos.place_name]
+    [startPos.place_name, endPos.place_name]
   );
 
   const postCreateChatRoom = async () => {
@@ -97,8 +132,7 @@ export const CreateBottomModal = () => {
         // course_id: 0,
         expect_distance: 0,
       });
-      console.log("response", response);
-      if (typeof response.id == 'number') {
+      if (typeof response.id == "number") {
         setTitle("");
         setDate(defaultValueDate);
         setStartPos(posInit);
@@ -121,13 +155,7 @@ export const CreateBottomModal = () => {
         blocking={false}
         open={visible}
         onDismiss={() => setVisible(false)}
-        snapPoints={({ minHeight, maxHeight }) => [
-          maxHeight * 0.1,
-          maxHeight * 0.3,
-          maxHeight * 0.5,
-          maxHeight * 0.7,
-          maxHeight * 0.9,
-        ]}
+        snapPoints={({ minHeight, maxHeight }) => [maxHeight * 0.3, maxHeight * 0.5, maxHeight * 0.7, maxHeight * 0.9]}
         defaultSnap={({ lastSnap, snapPoints }) => [SCREEN_HEIGHT * 0.7]}
         expandOnContentDrag={true}
       >
