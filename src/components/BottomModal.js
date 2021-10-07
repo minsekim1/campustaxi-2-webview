@@ -30,7 +30,10 @@ export const BottomModal = () => {
   const bottomRef = useRef();
 
   const onClickRoom = () => {
-    bottomRef.current.snapTo(SCREEN_HEIGHT * 0.5);
+    bottomRef.current.snapTo(({ snapPoints }) => SCREEN_HEIGHT * 0.4 + 30, {
+      source: "custom",
+      velocity: 0,
+    });
   };
 
   return (
@@ -40,7 +43,12 @@ export const BottomModal = () => {
         blocking={false}
         open={visible}
         onDismiss={() => setVisible(false)}
-        snapPoints={({ minHeight, maxHeight }) => [maxHeight * 0.3, maxHeight * 0.5, maxHeight * 0.7, maxHeight * 0.9]}
+        snapPoints={({ minHeight, maxHeight }) => [
+          maxHeight * 0.4 + 30,
+          maxHeight * 0.5,
+          maxHeight * 0.7,
+          maxHeight * 0.9,
+        ]}
         defaultSnap={({ lastSnap, snapPoints }) => [SCREEN_HEIGHT * 0.4]}
         header={
           <div>
@@ -55,21 +63,27 @@ export const BottomModal = () => {
             </div>
           </div>
         }
-        expandOnContentDrag={true}
+        expandOnContentDrag={false}
       >
-        <div style={{ padding: "0 10px 30px 10px" }} >
+        <div style={{ padding: "0 10px 80px 10px" }}>
           {chatRoomList.length > 0 &&
             chatRoomList.map((room, i) => {
               const ref = createRef();
-              const handleClick = () =>
-                ref.current.scrollIntoView({
-                  behavior: "smooth",
-                  block: "start",
-                });
+              const handleClick = () => {
+                ref.current.scrollIntoView({ behavior: "smooth", block: "start" });
+              };
               return (
                 <div key={i.toString()} ref={ref}>
                   {/* DB 모든 채팅방 */}
-                  <RoomCard room={room} onClick={() => { onClickRoom(); handleClick();}} />
+                  <RoomCard
+                    room={room}
+                    onClick={() => {
+                      onClickRoom();
+                      handleClick();
+                      // let timerId = setInterval(handleClick, 100);
+                      // setTimeout(() => clearInterval(timerId), 1000);
+                    }}
+                  />
                 </div>
               );
             })}

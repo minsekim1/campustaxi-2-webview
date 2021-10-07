@@ -45,10 +45,16 @@ function NaverMapAPI() {
   const [endPos, setEndPos] = useRecoilState(endPosState);
 
   //# 기본 데이터
-  const [zoomLevel, setZoomLevel] = useState(13);
+  const navermaps = window.naver.maps;
+  const [bounds, setBounds] = useState(
+    new navermaps.LatLngBounds(
+      new navermaps.LatLng(33.3590628, 126.534361),
+      new navermaps.LatLng(35.1797865, 129.0750194)
+    )
+  );
+  // const [zoomLevel, setZoomLevel] = useState(13);
   const [chatRoomList, setChatRoomList] = useRecoilState(ChatRoomListState);
   const naverMapRef = useRef();
-  const navermaps = window.naver.maps;
 
   //# 방검색 데이터
   const [chatRoomSeleted, setChatRoomSeleted] = useRecoilState(ChatRoomSeletedState);
@@ -59,12 +65,14 @@ function NaverMapAPI() {
   }, []);
 
   useEffect(() => {
+    console.log(naverMapRef.current);
     if (chatRoomSeleted.id != -1 && naverMapRef.current) {
-      // let moveToPos = new navermaps.bo [
-      //   new navermaps.LatLng(chatRoomSeleted.start_route[0].x, chatRoomSeleted.start_route[0].y),
-      //   new navermaps.LatLng(chatRoomSeleted.end_route[0].x, chatRoomSeleted.end_route[0].y),
-      // ];
-      // navermaps.current.panTo(new navermaps.LatLng(chatRoomSeleted.start_route[0].x, chatRoomSeleted.start_route[0].y));
+      let { x: x1, y: y1 } = chatRoomSeleted.start_route[0];
+      let { x: x2, y: y2 } = chatRoomSeleted.end_route[0];
+      if (y1 > y2) {y1 += 0.001; y2 -= 0.003}
+      else {y2 += 0.001; y1 -= 0.003}
+      let bounds = new navermaps.LatLngBounds(new navermaps.LatLng(y1, x1), new navermaps.LatLng(y2, x2)); //.getCenter();
+      setBounds(bounds);
     }
   }, [chatRoomSeleted]);
   //# 함수
@@ -89,9 +97,8 @@ function NaverMapAPI() {
       }}
       defaultCenter={myPos} // 지도 초기 위치
       // onDrag={onDrag} // TEST CODE
-      defaultZoom={zoomLevel} // 지도 초기 확대 배율
-      onZoomChanged={(z) => setZoomLevel(z)}
-      // bound={}
+      bounds={bounds}
+      onBoundsChanged={setBounds}
     >
       {chatRoomList.length > 0 &&
         chatRoomList.map((room, i) => (
