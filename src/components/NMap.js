@@ -27,6 +27,8 @@ import { useEffect, useRef, useState } from "react";
 import { NAVER_API_KEY, posInit } from "./common";
 import { getfetch } from "./common/index";
 import { getPath } from "./common/function/getPath";
+import { PathInfo } from "./PathInfo";
+import _ from "lodash";
 
 export const NMAP = () => {
   return (
@@ -67,47 +69,47 @@ function NaverMapAPI() {
 
   //# useEffect
   useEffect(() => {
-    getfetch("/chat-rooms").then((d) => setChatRoomList(d));
+    getfetch("/chat-rooms").then((d) =>
+      setChatRoomList(
+        d.map((room) => {
+          return { ...room, path: _.chunk(_.split(room.path, ","), 2) };
+        })
+      )
+    );
   }, []);
 
   useEffect(() => {
-    alert(1);
     if (endPos.place_name && startPos.place_name) {
-      let { x: x1, y: y1 } = startPos;
-      let { x: x2, y: y2 } = endPos;
-      if (y1 > y2) {
-        y1 += 0.0001;
-        y2 -= 0.0003;
-      } else {
-        y2 += 0.0001;
-        y1 -= 0.0003;
-      }
-      let bounds = new navermaps.LatLngBounds(new navermaps.LatLng(y1, x1), new navermaps.LatLng(y2, x2)); //.getCenter();
-      setBounds(bounds);
-      getPath(x1, y1, x2, y2).then((d) => console.log(d));
+      let x1 = Number(startPos.x);
+      let y1 = Number(startPos.y);
+      let x2 = Number(endPos.x);
+      let y2 = Number(endPos.y);
+      setBounds(new navermaps.LatLngBounds(new navermaps.LatLng(y1 - 0.04, x1), new navermaps.LatLng(y2 + 0.02, x2)));
+      getPath(x1, y1, x2, y2).then((d) => {
+        if (typeof d.distance === "number" && d.distance > 0) setPath(d);
+      });
+    } else if (startPos.place_name.length > 0 || endPos.place_name.length > 0) {
+      const Pos = startPos.place_name.length > 0 ? startPos : endPos;
+      setBounds(
+        new navermaps.LatLngBounds(
+          new navermaps.LatLng(Number(Pos.y) - 0.02, Number(Pos.x)),
+          new navermaps.LatLng(Number(Pos.y) + 0.02, Number(Pos.x))
+        )
+      );
     }
   }, [startPos.place_name, endPos.place_name]);
 
   useEffect(() => {
     if (chatRoomSeleted.id != -1 && naverMapRef.current) {
-      let { x: x1, y: y1 } = chatRoomSeleted.start_route[0];
-      let { x: x2, y: y2 } = chatRoomSeleted.end_route[0];
-      if (y1 > y2) {
-        y1 += 0.0001;
-        y2 -= 0.0003;
-      } else {
-        y2 += 0.0001;
-        y1 -= 0.0003;
-      }
-      let bounds = new navermaps.LatLngBounds(new navermaps.LatLng(y1, x1), new navermaps.LatLng(y2, x2)); //.getCenter();
-      setBounds(bounds);
-      // naverMapRef.current.fitBounds(bounds);
+      let x1 = Number(chatRoomSeleted.start_route[0].x);
+      let y1 = Number(chatRoomSeleted.start_route[0].y);
+      let x2 = Number(chatRoomSeleted.end_route[0].x);
+      let y2 = Number(chatRoomSeleted.end_route[0].y);
+      setBounds(new navermaps.LatLngBounds(new navermaps.LatLng(y1 - 0.08, x1), new navermaps.LatLng(y2 + 0.02, x2)));
     }
   }, [chatRoomSeleted]);
+
   //# 함수
-  // const onDrag = (d) => {
-  //   // setMyPos({ lat: d.latlng._lat, lng: d.latlng._lng });
-  // };
   const onClickMarker = (pos) => {
     if (visibleSearch.position == "start") setStartPos(pos);
     else setEndPos(pos);
@@ -151,24 +153,24 @@ function NaverMapAPI() {
               position={new navermaps.LatLng(Number(room.end_route[0].y), Number(room.end_route[0].x))}
               navermaps={navermaps}
             />
-            {/* 출->도 경로 */}
-            {chatRoomList.length > 0 &&
-              chatRoomList
-                // .map((room) => room.end_route[0])
-                .map((room, i) => (
-                  <Polyline
-                    key={i.toString()}
-                    path={[
-                      new navermaps.LatLng(Number(room.start_route[0].y), Number(room.start_route[0].x)),
-                      new navermaps.LatLng(Number(room.end_route[0].y), Number(room.end_route[0].x)),
-                    ]}
-                    strokeColor={"#FF6E6E"}
-                    strokeOpacity={0.2}
-                    strokeWeight={3}
-                  />
-                ))}
           </div>
         ))}
+      {/* 출->도 직선경로 */}
+      {chatRoomList.length > 0 &&
+        chatRoomList
+          // .map((room) => room.end_route[0])
+          .map((room, i) => (
+            <Polyline
+              key={i.toString()}
+              path={[
+                new navermaps.LatLng(Number(room.start_route[0].y), Number(room.start_route[0].x)),
+                new navermaps.LatLng(Number(room.end_route[0].y), Number(room.end_route[0].x)),
+              ]}
+              strokeColor={"#FF6E6E"}
+              strokeOpacity={0.2}
+              strokeWeight={3}
+            />
+          ))}
       {/* 검색결과 */}
       {visibleSearch.visible &&
         searchResult.documents.map((pos, i) => (
@@ -195,6 +197,32 @@ function NaverMapAPI() {
           position={new navermaps.LatLng(Number(endPos.y), Number(endPos.x))}
           navermaps={navermaps}
         />
+      ) : (
+        false
+      )}
+      {/* 출->도 실제 택시경로 */}
+      {(startPos.place_name.length > 0 && endPos.place_name.length > 0 && path.distance > 0 && visibleCreate) ||
+      (chatRoomSeleted.path.length > 0 && visible) ? (
+        <>
+          <PathInfo data={path.distance > 0 && visibleCreate ? path : chatRoomSeleted} />
+          <Polyline
+            path={
+              path.distance > 0 && visibleCreate
+                ? path.path.map((line) => new navermaps.LatLng(Number(line[1]), Number(line[0])))
+                : chatRoomSeleted.path.map((line) => new navermaps.LatLng(Number(line[1]), Number(line[0])))
+            }
+            strokeColor={"red"}
+            strokeOpacity={1}
+            strokeWeight={5}
+            strokeStyle={"solid"}
+            strokeLineCap={"round"}
+            strokeLineJoin={"round"}
+            startIcon={3}
+            startIconSize={20}
+            endIcon={1}
+            endIconSize={20}
+          />
+        </>
       ) : (
         false
       )}

@@ -66,5 +66,22 @@ export const posInit = {
   y: "", //37.5090312068588
 };
 
+export const ChatRoomInit = {
+  ...posInit,
+  departureTime: "",
+  created_at: "",
+  deleted_at: "",
+  disable_at: "",
+  distance: "",
+  end_route: [],
+  gender: "",
+  path: [],
+  person_limit: -1,
+  start_at: "",
+  start_route: [],
+  taxiFare: -1,
+  title: "",
+};
+
 export const NAVER_API_KEY = "lxll2d6397";
 export const NAVER_API_SECRET_KEY = "cqaiGWouBEzt1W2A1re3KJb50znmMmx0qwBx8KpU";

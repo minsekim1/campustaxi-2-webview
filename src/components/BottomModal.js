@@ -6,6 +6,7 @@ import {
   ChatRoomSeletedState,
   CreateBottomModalState,
   endPosState,
+  pathState,
   SearchPositionState,
   startPosState,
 } from "../components/recoil";
@@ -21,6 +22,7 @@ import { Switch } from "./Input/switch";
 import { Radio } from "./Input/radio";
 import { PositionCard } from "./card/PositionCard";
 import { RoomCard } from "./card/RoomCard";
+import _ from 'lodash'
 
 export const BottomModal = () => {
   const [visible, setVisible] = useRecoilState(BottomModalState);
@@ -105,14 +107,16 @@ export const CreateBottomModal = () => {
 
   const [startPos, setStartPos] = useRecoilState(startPosState);
   const [endPos, setEndPos] = useRecoilState(endPosState);
+  const [path, setPath] = useRecoilState(pathState);
+  const [chatRoomList, setChatRoomList] = useRecoilState(ChatRoomListState);
 
   const closeCondition = useMemo(
     () => title !== "" || startPos.place_name !== "" || endPos.place_name !== "",
     [title, startPos.place_name, endPos.place_name]
   );
   const postCondition = useMemo(
-    () => startPos.place_name !== "" && endPos.place_name !== "",
-    [startPos.place_name, endPos.place_name]
+    () => startPos.place_name !== "" && endPos.place_name !== "" && path.distance > 0,
+    [startPos.place_name, endPos.place_name, path.distance]
   );
 
   const postCreateChatRoom = async () => {
@@ -139,11 +143,14 @@ export const CreateBottomModal = () => {
           x: Number(endPos.x),
           y: Number(endPos.y),
         }),
-        person_limit: personLimit + 2,
+        person_limit: personLimit,
         start_at: date,
-        expect_fee: 0,
+        path: path.path,
+        taxiFare: path.taxiFare,
+        distance: path.distance,
+        duration: path.duration,
+        departureTime: path.departureTime,
         // course_id: 0,
-        expect_distance: 0,
       });
       if (typeof response.id == "number") {
         setTitle("");
@@ -153,6 +160,14 @@ export const CreateBottomModal = () => {
         setPersonLimit(2);
         setGenderLimit(false);
         setVisible(false);
+        // # 새로 방 업데이트
+        getfetch("/chat-rooms").then((d) =>
+          setChatRoomList(
+            d.map((room) => {
+              return { ...room, path: _.chunk(_.split(room.path, ","), 2) };
+            })
+          )
+        );
       } else if (response.statusCode == 200) {
         try {
           alert(JSON.stringify(response.data.errors));
@@ -212,6 +227,7 @@ export const CreateBottomModal = () => {
                   desc={startPos.category_name}
                   url={startPos.place_url}
                   img={"https://picsum.photos/200"}
+                  onClickDelete={() => setStartPos(posInit)}
                 />
               ) : (
                 false
@@ -226,6 +242,7 @@ export const CreateBottomModal = () => {
                   desc={endPos.category_name}
                   url={endPos.place_url}
                   img={"https://picsum.photos/200"}
+                  onClickDelete={() => setEndPos(posInit)}
                 />
               ) : (
                 false

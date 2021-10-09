@@ -4,6 +4,7 @@ import { PositionCard, PositionCardReverse } from "./PositionCard";
 import { useRecoilState } from "recoil";
 import { ChatRoomSeletedState } from "../recoil";
 import { prettyDate } from "../common/prettyDate";
+import { ChatRoomInit } from "../common";
 
 export const RoomCard = ({ room, onClick }) => {
   const [chatRoomSeleted, setChatRoomSeleted] = useRecoilState(ChatRoomSeletedState);
@@ -18,7 +19,8 @@ export const RoomCard = ({ room, onClick }) => {
   const isSeleted = chatRoomSeleted.id == room.id;
   const onClickRoom = (room) => {
     onClick();
-    setChatRoomSeleted(room);
+    if (isSeleted) setChatRoomSeleted(ChatRoomInit);
+    else setChatRoomSeleted(room);
   };
   return (
     <div

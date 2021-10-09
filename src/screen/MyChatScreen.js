@@ -8,18 +8,6 @@ import { SCREEN_WIDTH } from './../style/index';
 const MyChatScreen = () => {
   return (
     <>
-      <div onClick={()=>alert(1)} style={{background:'black', width: 500}}>
-        MyChatScreenasadawdopawd
-        a
-        SCREEN_WIDTHawd
-        aw
-        dw
-        position
-        width height
-        flex
-        
-        
-      </div>
       <BottomModal />
       <BottomTabBar />
     </>

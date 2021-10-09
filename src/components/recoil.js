@@ -1,6 +1,6 @@
 // import { User } from "./model/User";
 import { atom, atomFamily } from "recoil";
-import { posInit } from "./common";
+import { ChatRoomInit, posInit } from "./common";
 //#region userData token
 /**
  * 유저 데이터 Badge, user 포함
@@ -56,7 +56,7 @@ export const SearchStartPosState = atom({
  */
 export const pathState = atom({
   key: "recoil/path",
-  default: { visible: false, path: [], distance: "", time: "", fee: "" },
+  default: { path: [], distance: -1, duration: -1, taxiFare: -1, departureTime: "2020-01-01T00:00:00" },
 });
 /**
  *  도착지
@@ -81,7 +81,7 @@ export const startPosState = atom({
  */
 export const ChatRoomSeletedState = atom({
   key: "recoil/chatRoomSeleted",
-  default: posInit,
+  default: ChatRoomInit,
 });
 /**
  *  DB에 있는 모든 채팅방
