@@ -17,18 +17,20 @@ import { GRAY8, GRAY6 } from "./../style/index";
 import { createRef, useEffect, useMemo, useRef, useState } from "react";
 import { DateToStr } from "./exchange";
 import { getfetch, posInit, postfetch } from "./common";
-import { Input, InputMap } from "./Input/index";
+import { Input, InputMap, InputSearch } from "./Input/index";
 import { Switch } from "./Input/switch";
 import { Radio } from "./Input/radio";
 import { PositionCard } from "./card/PositionCard";
 import { RoomCard } from "./card/RoomCard";
-import _ from 'lodash'
+import _ from "lodash";
 
 export const BottomModal = () => {
   const [visible, setVisible] = useRecoilState(BottomModalState);
   const [visibleSearch, setVisibleSearch] = useRecoilState(SearchPositionState);
 
   const [chatRoomList, setChatRoomList] = useRecoilState(ChatRoomListState);
+  const [chatRoomListFilterd, setChatRoomListFilterd] = useState([]);
+  const filterSearchTxt = useRef("");
   const bottomRef = useRef();
 
   const onClickRoom = () => {
@@ -38,6 +40,29 @@ export const BottomModal = () => {
     });
   };
 
+  const onChangeFilterSearchTxt = async (t) => {
+    if (t.length == 0) {
+      setChatRoomListFilterd([]);
+    } else {
+      const list = await chatRoomList.filter(
+        (room) =>
+          // 추후 방장이름도 추가
+          room.title.includes(t) ||
+          room.start_route[0].road_address_name.includes(t) ||
+          room.start_route[0].place_name.includes(t) ||
+          room.start_route[0].phone.includes(t) ||
+          room.start_route[0].address_name.includes(t) ||
+          room.start_route[0].category_name.includes(t) ||
+          room.end_route[0].road_address_name.includes(t) ||
+          room.end_route[0].place_name.includes(t) ||
+          room.end_route[0].phone.includes(t) ||
+          room.end_route[0].address_name.includes(t) ||
+          room.end_route[0].category_name.includes(t)
+      );
+      setChatRoomListFilterd(list);
+    }
+  };
+  const LIST = filterSearchTxt.current.length > 0 ? chatRoomListFilterd : chatRoomList;
   return (
     <>
       <BottomSheet
@@ -68,8 +93,15 @@ export const BottomModal = () => {
         expandOnContentDrag={false}
       >
         <div style={{ padding: "0 10px 80px 10px" }}>
+          <div style={{ display: "flex", justifyContent: "center", marginTop: 16 }}>
+            <InputSearch
+              value={filterSearchTxt}
+              placeholder={"검색 장소를 입력해주세요."}
+              onChange={onChangeFilterSearchTxt}
+            />
+          </div>
           {chatRoomList.length > 0 &&
-            chatRoomList.map((room, i) => {
+            LIST.map((room, i) => {
               const ref = createRef();
               const handleClick = () => {
                 ref.current.scrollIntoView({ behavior: "smooth", block: "start" });
