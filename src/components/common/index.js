@@ -65,3 +65,6 @@ export const posInit = {
   x: "", //127.036586636975
   y: "", //37.5090312068588
 };
+
+export const NAVER_API_KEY = "lxll2d6397";
+export const NAVER_API_SECRET_KEY = "cqaiGWouBEzt1W2A1re3KJb50znmMmx0qwBx8KpU";

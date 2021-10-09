@@ -54,6 +54,14 @@ export const SearchStartPosState = atom({
  *  도착지
  * address_name category_group_code category_group_name category_name distance id phone place_name place_url road_address_name x y
  */
+export const pathState = atom({
+  key: "recoil/path",
+  default: { visible: false, path: [], distance: "", time: "", fee: "" },
+});
+/**
+ *  도착지
+ * address_name category_group_code category_group_name category_name distance id phone place_name place_url road_address_name x y
+ */
 export const endPosState = atom({
   key: "recoil/endPos",
   default: posInit,

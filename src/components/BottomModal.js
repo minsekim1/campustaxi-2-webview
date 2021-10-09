@@ -94,8 +94,7 @@ export const BottomModal = () => {
 };
 
 //2021-10-05T21:50
-const defaultValueDate = new Date(new Date().setHours(new Date().getHours() + 9)).toISOString().split(".")[0];
-
+const defaultValueDate = new Date().toJSON().split(".")[0];
 export const CreateBottomModal = () => {
   const [visible, setVisible] = useRecoilState(CreateBottomModalState);
 
