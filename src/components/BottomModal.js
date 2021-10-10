@@ -285,7 +285,11 @@ export const CreateBottomModal = () => {
               <Input defaultValue={date} onChange={setDate} type="datetime-local" id="appt" name="appt" />
             </div>
             <div style={{ marginTop: 0, padding: 8 }}>
-              <Switch defaultValue={genderLimit} title={"성별무관 탑승"} onChange={setGenderLimit} />
+              <Switch
+                defaultValue={genderLimit}
+                title={genderLimit ? "성별제한" : "성별무관 탑승"}
+                onChange={setGenderLimit}
+              />
             </div>
             <div style={{ marginTop: 12, color: GRAY7, padding: "0 8px", fontSize: 15 }}>
               인원 제한을 선택해주세요.

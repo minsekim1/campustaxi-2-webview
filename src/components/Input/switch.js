@@ -4,15 +4,15 @@ import { GRAY6, GRAY7, GRAY8, GRAY9 } from "../../style";
 
 export const Switch = ({ defalutValue, title, onChange }) => {
   const [clicked, setClicked] = useState(defalutValue);
-  const onChangeInput = (e) => {
-    if (onChange) onChange(e.target.value)
-    setClicked(!clicked);
+  const onChangeInput = (b) => {
+    if (onChange) onChange(b);
+    setClicked(b);
   };
   return (
     <div style={{ display: "flex" }}>
       <div>
         <label className="switch">
-          <input type="checkbox" checked={clicked || false} readOnly onClick={onChangeInput} />
+          <input type="checkbox" checked={clicked || false} readOnly onClick={()=>onChangeInput(!clicked)} />
           <span className="slider round"></span>
         </label>
       </div>

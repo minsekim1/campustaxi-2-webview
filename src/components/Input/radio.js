@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { GRAY2, GRAY4, GRAY6 } from "../../style";
 
 export const Radio = ({ data, title, defaultIndex, onClick }) => {
   const [clicked, setClicked] = useState(defaultIndex);
@@ -10,24 +11,21 @@ export const Radio = ({ data, title, defaultIndex, onClick }) => {
     <div style={{ flex: 1, display: "flex", justifyContent: "space-evenly" }}>
       {data.map((item, i) => (
         <div key={i.toString()}>
-          <input
-            name="name"
-            type="radio"
-            checked={clicked == i}
-            readOnly
+          <div
             onClick={() => onChangeInput(i)}
-            style={{ marginRight: 12 }}
-          />
-          {item}
+            style={{
+              backgroundColor: clicked == i ? "white" : GRAY2,
+              borderStyle: "solid",
+              borderColor: clicked == i ? GRAY2 : "white",
+              padding: "12px 16px",
+              borderRadius: 10,
+              textAlign: "center",
+            }}
+          >
+            {item}
+          </div>
         </div>
       ))}
     </div>
-    // <div>
-    //   <label className="switch">
-    //     <input type="checkbox" checked={clicked} readOnly onClick={onChangeInput} />
-    //     <span className="slider round"></span>
-    //   </label>
-    //   {title}
-    // </div>
   );
 };
