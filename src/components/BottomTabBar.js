@@ -88,7 +88,7 @@ export const BottomTabBar = () => {
 
 const inlineStyle = {
   barInner: {
-    position: "absolute",
+    position: "fixed",
     bottom: 48,
     height: 42,
     boxShadow: "0.2px 0.2px 0 0 gray",

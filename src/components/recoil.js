@@ -113,6 +113,13 @@ export const SearchPositionState = atom({
 });
 //#region bttomTabIndex
 /**
+ *  새Route 만들기
+ */
+export const CreateRouteBottomModalState = atom({
+  key: "recoil/createRouteBottomModal",
+  default: false,
+});
+/**
  *  새채팅방 만들기
  */
 export const CreateBottomModalState = atom({

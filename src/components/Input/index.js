@@ -1,5 +1,5 @@
 import { GRAY2, GRAY6, GRAY7, GRAY8, GRAY9, SCREEN_WIDTH } from "../../style";
-import { forwardRef, useState } from "react";
+import { forwardRef, useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as fal from "@fortawesome/pro-light-svg-icons";
 import * as fas from "@fortawesome/free-solid-svg-icons";
@@ -11,7 +11,7 @@ import { Icon } from "../common/Icon";
 export const Input = forwardRef(({ onChange, placeholder, inputMode, type, readOnly, disabled, defaultValue }, ref) => {
   const onChangeInupt = (e) => {
     if (onChange) onChange(e.target.value);
-  }
+  };
   return (
     <input
       ref={ref}
@@ -34,6 +34,33 @@ export const Input = forwardRef(({ onChange, placeholder, inputMode, type, readO
     />
   );
 });
+
+export const Textarea = ({ onChange, placeholder, inputMode, type, readOnly, disabled, defaultValue }) => {
+  const onChangeInupt = (e) => {
+    if (onChange) onChange(e.target.value);
+    e.target.style.height = "inherit";
+    e.target.style.height = `${e.target.scrollHeight}px`;
+  };
+  return (
+    <textarea
+      defaultValue={defaultValue}
+      onChange={onChangeInupt}
+      placeholder={placeholder}
+      style={{
+        width: SCREEN_WIDTH - 60,
+        height: "auto",
+        backgroundColor: GRAY2,
+        border: "none",
+        padding: 10,
+        borderRadius: 10,
+        fontSize: 15,
+        color: GRAY7,
+        resize: "none",
+      }}
+      autoComplete={"true"}
+    />
+  );
+};
 
 export const InputSearch = ({ value, placeholder, inputMode, type, readOnly, disabled, onChange }) => {
   const onChangeInput = (e) => {
@@ -60,7 +87,7 @@ export const InputSearch = ({ value, placeholder, inputMode, type, readOnly, dis
           border: "none",
           width: SCREEN_WIDTH - 100,
           fontSize: 15,
-          color:GRAY9
+          color: GRAY9,
         }}
         placeholder={placeholder}
       ></input>

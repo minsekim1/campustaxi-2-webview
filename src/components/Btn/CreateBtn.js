@@ -13,7 +13,7 @@ export const CreateBtn = () => {
   return (
     <div
       style={{
-        position: "absolute",
+        position: "fixed",
         width: 48,
         height: 48,
         borderRadius: 200,
