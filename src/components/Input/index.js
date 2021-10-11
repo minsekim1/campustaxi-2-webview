@@ -1,5 +1,5 @@
 import { GRAY2, GRAY6, GRAY7, GRAY8, GRAY9, SCREEN_WIDTH } from "../../style";
-import { forwardRef, useState, useRef } from "react";
+import { forwardRef, useState, useRef, useEffect, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as fal from "@fortawesome/pro-light-svg-icons";
 import * as fas from "@fortawesome/free-solid-svg-icons";
@@ -7,6 +7,7 @@ import * as far from "@fortawesome/pro-regular-svg-icons";
 import { CreateBottomModalState, SearchPositionState } from "../recoil";
 import { useRecoilState } from "recoil";
 import { Icon } from "../common/Icon";
+import TextareaAutosize from "react-autosize-textarea";
 
 export const Input = forwardRef(({ onChange, placeholder, inputMode, type, readOnly, disabled, defaultValue }, ref) => {
   const onChangeInupt = (e) => {
@@ -35,29 +36,46 @@ export const Input = forwardRef(({ onChange, placeholder, inputMode, type, readO
   );
 });
 
-export const Textarea = ({ onChange, placeholder, inputMode, type, readOnly, disabled, defaultValue }) => {
-  const onChangeInupt = (e) => {
-    if (onChange) onChange(e.target.value);
-    e.target.style.height = "inherit";
-    e.target.style.height = `${e.target.scrollHeight}px`;
-  };
+export const Textarea = ({ placeholder, style, maxrows }) => {
+  const [rowIndex, setRowIndex] = useState({ height: 0, index: 0 });
+  const onChangeInput = useCallback(
+    (e) => {
+      // if (!!onChange) onChange(e.target.value);
+      if (!!maxrows) {
+        if (rowIndex.index < maxrows && rowIndex.height < e.target.scrollHeight)
+          setRowIndex({ index: rowIndex.index + 1, height: e.target.scrollHeight });
+        else if (rowIndex.height < e.target.scrollHeight) e.target.value = e.target.value.slice(0, -1);
+        e.target.style.maxHeight = rowIndex.height - 4 + "px";
+        e.target.style.height = rowIndex.height - 4 + "px";
+      }
+    },
+    [rowIndex]
+  );
   return (
-    <textarea
-      defaultValue={defaultValue}
-      onChange={onChangeInupt}
+    <TextareaAutosize
+      // rows={rows ?? 1}
+      onChange={onChangeInput}
       placeholder={placeholder}
-      style={{
-        width: SCREEN_WIDTH - 60,
-        height: "auto",
-        backgroundColor: GRAY2,
-        border: "none",
-        padding: 10,
-        borderRadius: 10,
-        fontSize: 15,
-        color: GRAY7,
-        resize: "none",
-      }}
-      autoComplete={"true"}
+      maxRows={maxrows}
+      // onResize={onResizeInput}
+      // defaultValue={defaultValue}
+      style={
+        style
+          ? style
+          : {
+              width: SCREEN_WIDTH - 60,
+              height: "20px",
+              backgroundColor: GRAY2,
+              border: "none",
+              padding: 10,
+              borderRadius: 10,
+              fontSize: 15,
+              color: GRAY7,
+              resize: "none",
+              fontFamily: "AppleSDGothic",
+              overflow: "hidden",
+            }
+      }
     />
   );
 };

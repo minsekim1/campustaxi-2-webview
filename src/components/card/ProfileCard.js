@@ -1,53 +1,33 @@
-import { Icon } from './../common/Icon';
+import { GRAY5, GRAY6, GRAY7, GRAY8, textOverflowHidden } from "../../style";
+import { Icon } from "../common/Icon";
+import { GRAY4 } from "./../../style/index";
+import { ProfileIcon } from './../Icon/ProfileIcon';
 
-export const ProfileCard = ({ size, icon}) => {
-	return (
-    <button
-      onClick={() => {}}
-      style={{
-        ...inlineStyle.noStyleBtn,
-        border: `3px solid white`,
-        borderRadius: 200,
-        backgroundColor: "white",
-        alignItems: "center",
-        justifyContent: "center",
-        display: "flex",
-        width: size == "sm" ? 44 : 52,
-        height: size == "sm" ? 44 : 52,
-      }}
-    >
-      <img
-        width={size == "sm" ? 40 : 48}
-        height={size == "sm" ? 40 : 48}
-        style={{ borderRadius: 200 }}
-        src={"https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"}
-      ></img>
-      {icon ? (
-        <div
-          style={{
-            position: "absolute",
-            marginTop: size == "sm" ? 26 : 30,
-            marginLeft: size == "sm" ? 26 : 30,
-            height: size == "sm" ? 18 : 20,
-            width: size == "sm" ? 18 : 20,
-            backgroundColor: "#0075FF",
-            borderStyle: "solid",
-            borderColor: "white",
-            borderWidth: 1.5,
-            borderRadius: 20,
-            alignItems: "center",
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <Icon name={icon} color={"white"} size={size != "sm" ? "sm" : "xs"} />
+export const ProfileCard = ({ title, desc, address, url, img, onClick, onClickDelete}) => {
+  return (
+    <div style={{ padding: "16px 16px 0 16px", display: "flex" }} onClick={onClick ? onClick : () => {}}>
+      {/* 유저아이콘 */}
+      <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <ProfileIcon icon={'faCrown'}/>
+      </div>
+      {/* 상세내용 */}
+      <div style={{ flex: 4, marginLeft: 16, alignSelf: "center" }}>
+        <div style={{ ...textOverflowHidden, fontSize: 12, color: GRAY7 }}>{address}</div>
+        <div style={{ ...textOverflowHidden, fontSize: 15, color: GRAY8 }}>{title}</div>
+        <div style={{ ...textOverflowHidden, fontSize: 13, color: GRAY6 }}>{desc}</div>
+      </div>
+      {/* 삭제버튼 */}
+      {typeof onClickDelete === "function" ? (
+        <div style={{ position: "relative", width: 16, height: 28, top: -8 }} onClick={onClickDelete}>
+          <Icon type={"regular"} name={"faTrashAlt"} size={"sm"} color={GRAY4} />
         </div>
       ) : (
         false
       )}
-    </button>
+      {/* 팔로우버튼 */}
+      <div style={{}} onClick={()=>alert("팔로우!")}>
+        팔로우
+      </div>
+    </div>
   );
-}
-const inlineStyle = {
-  noStyleBtn: { backgroundColor: "transparent", border: "none", fontSize: 15, fontWeight: "normal", width: "3em" },
 };

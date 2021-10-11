@@ -1,7 +1,7 @@
 import { GRAY2, GRAY7, SCREEN_WIDTH, textOverflowHidden } from "../../style";
 import { Icon } from "../common/Icon";
 import { GRAY8 } from "./../../style/index";
-import { ProfileCard } from "./ProfileCard";
+import { ProfileIcon } from './../Icon/ProfileIcon';
 
 export const TagBlack = ({ title }) => {
   return (
@@ -22,7 +22,7 @@ export const TagBlack = ({ title }) => {
 };
 export const CourseCard = () => {
   return (
-    <div style={{ margin: SCREEN_WIDTH > 340 ?"16px 24px" :"16px 12px" }}>
+    <div style={{ margin: SCREEN_WIDTH > 340 ? "16px 24px" : "16px 12px" }}>
       <div
         style={{
           width: "100%",
@@ -60,13 +60,13 @@ export const CourseCard = () => {
             {/* 유저사진, 댓글, 북마크수 */}
             <div style={{ display: "flex", flexDirection: "row", marginTop: 12, alignItems: "flex-end" }}>
               <div style={{ flex: 1, display: "flex", flexDirection: "row", alignItems: "flex-end" }}>
-                <ProfileCard icon={"faCrown"} />
+                <ProfileIcon icon={"faCrown"} />
                 <div style={{ marginLeft: 3 }}>
-                  <ProfileCard size={"sm"} />
+                  <ProfileIcon size={"sm"} />
                 </div>
                 {SCREEN_WIDTH > 340 ? (
                   <div style={{ marginLeft: 3 }}>
-                    <ProfileCard size={"sm"} />
+                    <ProfileIcon size={"sm"} />
                   </div>
                 ) : (
                   false

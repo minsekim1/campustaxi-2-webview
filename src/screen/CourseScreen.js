@@ -7,6 +7,7 @@ import { CourseList } from "../components/CourseList";
 import { CreateBtn } from './../components/Btn/CreateBtn';
 import { CreateBtnCourse } from "../components/Btn/CreateBtnCourse";
 import { RouteCreateModal } from './../components/modal/RouteCreateModal';
+import { CropScreen } from './../components/modal/CropScreen';
 
 const CourseScreen = () => {
 
@@ -17,6 +18,7 @@ const CourseScreen = () => {
       <CourseList />
       <CreateBtnCourse />
       <RouteCreateModal />
+      <CropScreen/>
       <BottomTabBar />
     </>
   );

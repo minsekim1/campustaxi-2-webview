@@ -113,6 +113,13 @@ export const SearchPositionState = atom({
 });
 //#region bttomTabIndex
 /**
+ *  이미지 수정 crop
+ */
+export const CropState = atom({
+  key: "recoil/crop",
+  default: { visible: false, file: "", previewURL:"" },
+});
+/**
  *  새Route 만들기
  */
 export const CreateRouteBottomModalState = atom({
