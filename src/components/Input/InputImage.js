@@ -43,7 +43,7 @@ export const InputImage = ({ onChange, placeholder, inputMode, type, readOnly, d
           }}
         />
         {/* 바탕사진 선택버튼 */}
-        <div style={{ position: "absolute" }}>
+        <div style={{ position: "relative", top: -125 }}>
           {crop.previewURL ? (
             <div style={{ display: "flex" }}>
               <div style={inputFileCSSNone} onClick={() => setCrop({ ...crop, visible: true })}>

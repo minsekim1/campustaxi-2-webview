@@ -10,10 +10,11 @@ import { Input, Textarea } from "./../Input/index";
 import { InputImage } from "./../Input/InputImage";
 import { BookmarkBtn } from "../Btn/BookmarkBtn";
 import { ProfileCard } from "../card/ProfileCard";
+import { CommandTextarea } from './../Input/CommandTextarea';
 
 export const RouteCreateModal = () => {
   const [visibleRoute, setVisibleRoute] = useRecoilState(CreateRouteBottomModalState);
-  const [title, setTitle] = useState("");
+  // const [title, setTitle] = useState("");
   const bottomRef = useRef();
   return (
     <>
@@ -42,18 +43,19 @@ export const RouteCreateModal = () => {
         <div>
           <InputImage />
           <div style={{ padding: "0 16px 80px 16px" }}>
-            <div style={{ marginTop: -20 }}>
+            <div style={{ marginTop: -40 }}>
               <Textarea
                 placeholder={"코스 제목을 입력해주세요."}
                 style={{
                   border: "none",
                   width: "100%",
-                  fontSize: 21,
+                  fontSize: 19,
                   paddingRight: 6,
                   padding: 2,
                   fontFamily: "AppleSDGothic",
                   backgroundColor: "transparent",
                   resize: "none",
+                  outline: "none",
                 }}
                 maxrows={2}
               />
@@ -68,27 +70,16 @@ export const RouteCreateModal = () => {
                     backgroundColor: "transparent",
                     resize: "none",
                     overflow: "hidden",
+                    outline: "none",
                   }}
                   maxrows={3}
                   placeholder={"간단한 소개 (최대 3줄)"}
                 />
               </div>
               <BookmarkBtn disable />
-              <ProfileCard address={"캠퍼스택시"} title={"서울시 강남구"} desc={"팔로워 3,456명"} img={"img"} />
-              <div style={{ marginTop: 12, padding:16 }}>
-                <Textarea
-                  style={{
-                    border: "none",
-                    width: "100%",
-                    fontSize: 15,
-                    paddingRight: 6,
-                    fontFamily: "AppleSDGothic",
-                    backgroundColor: "transparent",
-                    resize: "none",
-                    overflow: "hidden",
-                  }}
-                  placeholder={"내용을 입력해주세요."}
-                />
+              <ProfileCard address={"캠퍼스택시"} title={"서울시 강남구"} desc={"팔로워 3,456명"} img={"img"} disable />
+              <div style={{ marginTop: 6, padding: "0px 16px" }}>
+                <CommandTextarea/>
               </div>
             </div>
           </div>

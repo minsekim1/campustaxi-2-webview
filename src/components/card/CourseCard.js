@@ -59,7 +59,7 @@ export const CourseCard = () => {
             </div>
             {/* 유저사진, 댓글, 북마크수 */}
             <div style={{ display: "flex", flexDirection: "row", marginTop: 12, alignItems: "flex-end" }}>
-              <div style={{ flex: 1, display: "flex", flexDirection: "row", alignItems: "flex-end" }}>
+              <div style={{ flex: 1, display: "flex", flexDirection: "row", alignItems: "baseline" }}>
                 <ProfileIcon icon={"faCrown"} />
                 <div style={{ marginLeft: 3 }}>
                   <ProfileIcon size={"sm"} />

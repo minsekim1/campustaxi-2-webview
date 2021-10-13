@@ -31,6 +31,7 @@ export const Input = forwardRef(({ onChange, placeholder, inputMode, type, readO
         borderRadius: 10,
         fontSize: 15,
         color: GRAY7,
+        outline:'none',
       }}
     />
   );
@@ -74,6 +75,7 @@ export const Textarea = ({ placeholder, style, maxrows }) => {
               resize: "none",
               fontFamily: "AppleSDGothic",
               overflow: "hidden",
+              outline: "none",
             }
       }
     />
@@ -106,6 +108,7 @@ export const InputSearch = ({ value, placeholder, inputMode, type, readOnly, dis
           width: SCREEN_WIDTH - 100,
           fontSize: 15,
           color: GRAY9,
+          outline: "none",
         }}
         placeholder={placeholder}
       ></input>
