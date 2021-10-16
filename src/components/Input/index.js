@@ -1,15 +1,11 @@
 import { GRAY2, GRAY6, GRAY7, GRAY8, GRAY9, SCREEN_WIDTH } from "../../style";
 import { forwardRef, useState, useRef, useEffect, useCallback } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import * as fal from "@fortawesome/pro-light-svg-icons";
-import * as fas from "@fortawesome/free-solid-svg-icons";
-import * as far from "@fortawesome/pro-regular-svg-icons";
 import { CreateBottomModalState, SearchPositionState } from "../recoil";
 import { useRecoilState } from "recoil";
 import { Icon } from "../common/Icon";
 import TextareaAutosize from "react-autosize-textarea";
 
-export const Input = forwardRef(({ onChange, placeholder, inputMode, type, readOnly, disabled, defaultValue }, ref) => {
+export const Input = forwardRef(({ onChange, placeholder, inputMode, type, readOnly, disabled, defaultValue, }, ref) => {
   const onChangeInupt = (e) => {
     if (onChange) onChange(e.target.value);
   };

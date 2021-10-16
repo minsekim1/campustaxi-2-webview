@@ -29,11 +29,11 @@ export const prettyDate = (dateString) => {
   const YMD_today = list_today[0].split("-"); //[0]년[1]월[2]일
   // const HMS_today = list_today[1].split(":"); //[0]시[1]분[2]초
 
-  if (YMD[0] != YMD_today[0] || YMD[1] != YMD_today[1] || Number(YMD[2]) < Number(YMD_today[2]))
+  if (YMD[0] !== YMD_today[0] || YMD[1] !== YMD_today[1] || Number(YMD[2]) < Number(YMD_today[2]))
     return `${Number(YMD[0])}년${Number(YMD[1])}월${Number(YMD[2])}일`;
-  else if (YMD[2] == YMD_today[2]) return `오늘 ${Number(HMS[0])}시${Number(HMS[1])}분`;
-  else if (Number(YMD[2]) == Number(YMD_today[2]) + 1) return `내일 ${Number(HMS[0])}시${Number(HMS[1])}분`;
-  else if (Number(YMD[2]) == Number(YMD_today[2]) + 2)
+  else if (YMD[2] === YMD_today[2]) return `오늘 ${Number(HMS[0])}시${Number(HMS[1])}분`;
+  else if (Number(YMD[2]) === Number(YMD_today[2]) + 1) return `내일 ${Number(HMS[0])}시${Number(HMS[1])}분`;
+  else if (Number(YMD[2]) === Number(YMD_today[2]) + 2)
     return `모레 ${Number(YMD[2])}일 ${Number(HMS[0])}시${Number(HMS[1])}분`;
   else return `이번주 ${day}요일 ${Number(HMS[0])}시${Number(HMS[1])}분`;
 };

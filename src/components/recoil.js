@@ -1,6 +1,8 @@
 // import { User } from "./model/User";
-import { atom, atomFamily } from "recoil";
+import { atom,  } from "recoil";
 import { ChatRoomInit, posInit } from "./common";
+import { getItems } from "./Input/CommandInput/dndFunc";
+import { localStorageEffect } from "./common/function/localStorageEffect";
 //#region userData token
 /**
  * 유저 데이터 Badge, user 포함
@@ -11,6 +13,21 @@ import { ChatRoomInit, posInit } from "./common";
 //   default: new User(),
 //   // effects_UNSTABLE: [localForageEffectObject("recoil/user", "object")],
 // });
+
+/**
+ *
+ * address_name category_group_code category_group_name category_name distance id phone place_name place_url road_address_name x y
+ */
+export const commandInputListState = atom({
+  key: "recoil/commandInputList",
+  default: getItems(1),
+  effects_UNSTABLE: [localStorageEffect("recoil/cache/commandInputList")],
+});
+
+export const commandWindowState = atom({
+  key: "recoil/commandWindow",
+  default: { visible: false, top: 0, left: 0, index: -1 },
+});
 
 /**
  *  출발지/도착지 선택 후 도착 장소 결과
@@ -50,6 +67,7 @@ export const SearchStartPosState = atom({
     y: -1,
   },
 });
+
 /**
  *  도착지
  * address_name category_group_code category_group_name category_name distance id phone place_name place_url road_address_name x y
@@ -117,7 +135,7 @@ export const SearchPositionState = atom({
  */
 export const CropState = atom({
   key: "recoil/crop",
-  default: { visible: false, file: "", previewURL:"" },
+  default: { visible: false, file: "", previewURL: "" },
 });
 /**
  *  새Route 만들기

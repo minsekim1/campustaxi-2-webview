@@ -1,20 +1,20 @@
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
-import { GRAY7, SCREEN_HEIGHT, SCREEN_WIDTH } from "../../style";
+import { GRAY7 } from "../../style";
 import { GRAY6 } from "./../../style/index";
 import _ from "lodash";
 import { useRecoilState } from "recoil";
-import { CreateRouteBottomModalState } from "./../recoil";
-import { useRef, useState } from "react";
-import { Input, Textarea } from "./../Input/index";
+import { commandWindowState, CreateRouteBottomModalState } from "./../recoil";
+import { useRef } from "react";
+import { Textarea } from "./../Input/index";
 import { InputImage } from "./../Input/InputImage";
 import { BookmarkBtn } from "../Btn/BookmarkBtn";
 import { ProfileCard } from "../card/ProfileCard";
-import { CommandTextarea } from './../Input/CommandTextarea';
+import { CommandArea } from "./../Input/CommandArea";
 
 export const RouteCreateModal = () => {
   const [visibleRoute, setVisibleRoute] = useRecoilState(CreateRouteBottomModalState);
-  // const [title, setTitle] = useState("");
+  const [commandWindow, setCommandWindow] = useRecoilState(commandWindowState);
   const bottomRef = useRef();
   return (
     <>
@@ -25,6 +25,10 @@ export const RouteCreateModal = () => {
         onDismiss={() => setVisibleRoute(false)}
         snapPoints={({ minHeight, maxHeight }) => [maxHeight * 0.5, maxHeight * 0.95]}
         defaultSnap={({ lastSnap, snapPoints }) => [snapPoints[1]]}
+        onScrollCapture={(e) => {
+          if (e.nativeEvent.target.style.width != "300px")
+            setCommandWindow({ ...commandWindow, visible: false, index: -1 });
+        }}
         header={
           <div>
             <div style={{ fontFamily: "roboto", fontWeight: "bold", fontSize: 15, color: GRAY7, float: "left" }}>
@@ -79,7 +83,7 @@ export const RouteCreateModal = () => {
               <BookmarkBtn disable />
               <ProfileCard address={"캠퍼스택시"} title={"서울시 강남구"} desc={"팔로워 3,456명"} img={"img"} disable />
               <div style={{ marginTop: 6, padding: "0px 16px" }}>
-                <CommandTextarea/>
+                <CommandArea />
               </div>
             </div>
           </div>
