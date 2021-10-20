@@ -4,6 +4,8 @@ import {
   BottomModalState,
   CreateBottomModalState,
   endPosState,
+  homeTabIndexState,
+  placePosState,
   SearchPositionState,
   SearchPosResultState,
   startPosState,
@@ -18,7 +20,8 @@ import { getfetch, posInit, postfetch } from "./common";
 import { Input, InputMap } from "./Input/index";
 import { Switch } from "./Input/switch";
 import { Radio } from "./Input/radio";
-import { PositionCard } from './card/PositionCard';
+import { PositionCard } from "./card/PositionCard";
+import { useHistory } from "react-router-dom";
 
 export const SelectMapModal = () => {
   // const title = useRef("");
@@ -27,19 +30,32 @@ export const SelectMapModal = () => {
   const [visibleCreate, setVisibleCreate] = useRecoilState(CreateBottomModalState);
   const [startPos, setStartPos] = useRecoilState(startPosState);
   const [endPos, setEndPos] = useRecoilState(endPosState);
+  const [placePos, setPlacePos] = useRecoilState(placePosState);
+  const [homeTabIndex, setHomeTabIndex] = useRecoilState(homeTabIndexState);
+  const history = useHistory();
 
+  const goBackPlace = (pos) => {
+    if (visibleSearch.position == "place") {
+      if (pos) setPlacePos(pos);
+      else setPlacePos(posInit);
+      setHomeTabIndex(0);
+      history.push('/course');
+    }
+  };
   const onDismiss = () => {
     setSearchResult({ documents: [posInit], meta: { is_end: true, pageable_count: -1, total_count: -1 } });
     setVisibleSearch({ visible: false, position: "" });
     setVisibleCreate(true);
+    goBackPlace();
   };
 
   const onClick = (pos) => {
     if (visibleSearch.position == "start") setStartPos(pos);
-    else setEndPos(pos);
+    else if (visibleSearch.position == "end") setEndPos(pos);
     setSearchResult({ documents: [posInit], meta: { is_end: true, pageable_count: -1, total_count: -1 } });
     setVisibleSearch({ visible: false, position: "" });
     setVisibleCreate(true);
+    goBackPlace(pos);
   };
   return (
     <>
@@ -47,12 +63,7 @@ export const SelectMapModal = () => {
         blocking={false}
         open={visibleSearch.visible}
         onDismiss={onDismiss}
-        snapPoints={({ minHeight, maxHeight }) => [
-          maxHeight * 0.3,
-          maxHeight * 0.5,
-          maxHeight * 0.7,
-          maxHeight * 0.9,
-        ]}
+        snapPoints={({ minHeight, maxHeight }) => [maxHeight * 0.3, maxHeight * 0.5, maxHeight * 0.7, maxHeight * 0.9]}
         defaultSnap={({ lastSnap, snapPoints }) => [SCREEN_HEIGHT * 0.4]}
         header={
           <div>
@@ -80,7 +91,7 @@ export const SelectMapModal = () => {
                   desc={pos.category_name}
                   url={pos.place_url}
                   img={"https://picsum.photos/200"}
-                  onClick={()=>onClick(pos)}
+                  onClick={() => onClick(pos)}
                 />
               ))}
           </div>

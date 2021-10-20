@@ -4,7 +4,6 @@ import { useRecoilState } from 'recoil';
 import { commandWindowState } from "../recoil";
 
 const box_active = {
-  width: "300px",
   border: `1px solid ${GRAY2}`,
   borderRadius: 4,
   padding: 8,
@@ -14,7 +13,6 @@ const box_active = {
 };
 
 const box_hidden = {
-  width: "300px",
   border: `1px solid ${GRAY2}`,
   borderRadius: 4,
   padding: 8,

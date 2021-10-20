@@ -20,18 +20,10 @@ const ShopScreen = () => {
   //   // alert(data);
   // }, []);
 
-  // // 새함수만들기
-  // const postMyFetch = (value) => {
-  //   // 새채팅방 만들기
-  //   postfetch("/chat-rooms").then(d=>console.log(d));
-  // };
-
   // // alert('re-render!')
   return (
     <>
-      {/* <div onClick={() => setData([1, 2, 3])} style={{ height: 100, width: 100, backgroundColor: "red" }}></div> */}
-      {/* <div onClick={() => postMyFetch([1, 2, 3])} style={{ height: 100, width: 100, backgroundColor: "red" }}></div> */}
-      {/* {JSON.stringify(data)} */}
+
       <BottomModal />
       <BottomTabBar />
     </>
@@ -42,18 +34,3 @@ const ShopScreen = () => {
 
 export default ShopScreen;
 
-/*
-
-<div>=> 스타일? 레이아웃 = 버튼가능
-<div onClick={()=>console.log("눌렀네!")}> </div>
-
-RN => <Text>asd</Text>
-React => asd
-태그표현
- 1. <div> {내용} </div>
- 2. <div />
-
-<img/> => 이미지 넣고
-<video /> 비디오
-<input /> 방생성 할떄 시간/텍스트 입력
-*/

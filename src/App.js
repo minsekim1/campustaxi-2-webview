@@ -3,7 +3,6 @@ import HomeScreen from "./screen/HomeScreen";
 import { BrowserRouter as Router, Switch, Route, Link, BrowserRouter } from "react-router-dom";
 
 import SearchScreen from "./screen/SearchScreen";
-import CourseCreateScreen from "./screen/CourseCreateScreen";
 import CourseDetailScreen from "./screen/CourseDetailScreen";
 import CourseScreen from "./screen/CourseScreen";
 import ShopScreen from "./screen/ShopScreen";
@@ -23,9 +22,6 @@ const App = () => {
              */}
             <Route exact path="/">
               <HomeScreen />
-            </Route>
-            <Route exact path="/course/create">
-              <CourseCreateScreen />
             </Route>
             <Route exact path="/course/detail">
               <CourseDetailScreen />

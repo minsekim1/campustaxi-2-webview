@@ -77,6 +77,14 @@ export const pathState = atom({
   default: { path: [], distance: -1, duration: -1, taxiFare: -1, departureTime: "2020-01-01T00:00:00" },
 });
 /**
+ *  코스 생성시 장소 선택
+ * address_name category_group_code category_group_name category_name distance id phone place_name place_url road_address_name x y
+ */
+export const placePosState = atom({
+  key: "recoil/placePos",
+  default: posInit,
+});
+/**
  *  도착지
  * address_name category_group_code category_group_name category_name distance id phone place_name place_url road_address_name x y
  */
@@ -123,7 +131,7 @@ export const SearchPosResultState = atom({
 
 /**
  *  출발지/도착지 선택 시 지도에서 검색하기
- *  position : "start" | "end"
+ *  position : "start" | "end" | "place"
  */
 export const SearchPositionState = atom({
   key: "recoil/searchPosition",
@@ -133,9 +141,17 @@ export const SearchPositionState = atom({
 /**
  *  이미지 수정 crop
  */
+export const CropInit = { visible: false, file: "", previewURL: ""};
 export const CropState = atom({
   key: "recoil/crop",
   default: { visible: false, file: "", previewURL: "" },
+});
+/**
+ *  코스에 새 상품 추가
+ */
+export const RouteProductModalState = atom({
+  key: "recoil/RouteProductModal",
+  default: false,
 });
 /**
  *  새Route 만들기

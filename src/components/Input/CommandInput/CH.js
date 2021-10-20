@@ -1,11 +1,11 @@
-import { GRAY2, GRAY7, SCREEN_WIDTH } from "../../../style";
+import { GRAY2, GRAY7, GRAY8, SCREEN_WIDTH } from "../../../style";
 import { useState, useCallback, useRef } from "react";
 import TextareaAutosize from "react-autosize-textarea";
 import { position, offset } from "caret-pos";
 import { useRecoilState } from "recoil";
-import { commandInputListState, commandWindowState } from "./../../recoil";
+import { commandInputListState, commandWindowState } from "../../recoil";
 
-export const CTextarea = ({ style, maxrows, index }) => {
+export const CH = ({ index, type = "h1" }) => {
   const [placeholder, setPlaceHolder] = useState("");
   const [rowIndex, setRowIndex] = useState({ height: 0, index: 0 });
   const [beforeInput, setBeforeInput] = useState("");
@@ -34,16 +34,6 @@ export const CTextarea = ({ style, maxrows, index }) => {
       //#endregion
       setBeforeInput(e.target.value);
       //#endregion #누르면 명령어창 보여줌
-
-      //#region 줄 수 제한 높이체크
-      if (!!maxrows) {
-        if (rowIndex.index < maxrows && rowIndex.height < e.target.scrollHeight)
-          setRowIndex({ index: rowIndex.index + 1, height: e.target.scrollHeight });
-        else if (rowIndex.height < e.target.scrollHeight) e.target.value = e.target.value.slice(0, -1);
-        e.target.style.maxHeight = rowIndex.height - 4 + "px";
-        e.target.style.height = rowIndex.height - 4 + "px";
-      }
-      //#endregion 줄 수 제한 높이체크
     },
     [rowIndex, beforeInput, commandWindow, index]
   );
@@ -57,32 +47,28 @@ export const CTextarea = ({ style, maxrows, index }) => {
     }
     setPlaceHolder('명령어 사용시 "#"을 입력하세요.');
   };
+
+  const style =
+    type == "h1" ? { fontSize: 21, fontWeight: "bold" } : type == "h2" ? { fontSize: 18 } : { fontSize: 16 };
   return (
     <TextareaAutosize
       ref={ref}
-      // rows={rows ?? 1}
       onFocus={onFocus}
       onChange={onChangeInput}
       placeholder={placeholder}
-      maxRows={maxrows}
       onBlur={onBlur}
-      // onResize={onResizeInput}
       defaultValue={commandInputList[index].content}
-      style={
-        style
-          ? style
-          : {
-              width: SCREEN_WIDTH - 60,
-              height: "20px",
-              border: "none",
-              fontSize: 15,
-              color: GRAY7,
-              resize: "none",
-              fontFamily: "AppleSDGothic",
-              overflow: "hidden",
-              outline: "none",
-            }
-      }
+      style={{
+        ...style,
+        width: SCREEN_WIDTH - 60,
+        height: "20px",
+        border: "none",
+        color: GRAY7,
+        resize: "none",
+        fontFamily: "AppleSDGothic",
+        overflow: "hidden",
+        outline: "none",
+      }}
     />
   );
 };

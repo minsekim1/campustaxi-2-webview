@@ -1,6 +1,6 @@
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
-import { GRAY7 } from "../../style";
+import { GRAY7, SCREEN_HEIGHT, SCREEN_WIDTH } from "../../style";
 import { GRAY6 } from "./../../style/index";
 import _ from "lodash";
 import { useRecoilState } from "recoil";
@@ -16,6 +16,14 @@ export const RouteCreateModal = () => {
   const [visibleRoute, setVisibleRoute] = useRecoilState(CreateRouteBottomModalState);
   const [commandWindow, setCommandWindow] = useRecoilState(commandWindowState);
   const bottomRef = useRef();
+
+  const onClick = (e) => {
+    // 명령어창이 아닌 추천코스 생성창 클릭 시 명령어창 닫기
+    setCommandWindow({ ...commandWindow, visible: false, index: -1 });
+  };
+  const onScrollCapture = (e) => {
+    if (e.nativeEvent.target.style.height != "400px") setCommandWindow({ ...commandWindow, visible: false, index: -1 });
+  };
   return (
     <>
       <BottomSheet
@@ -23,12 +31,9 @@ export const RouteCreateModal = () => {
         blocking={false}
         open={visibleRoute}
         onDismiss={() => setVisibleRoute(false)}
-        snapPoints={({ minHeight, maxHeight }) => [maxHeight * 0.5, maxHeight * 0.95]}
+        snapPoints={({ minHeight, maxHeight }) => [maxHeight * 0.99]}
         defaultSnap={({ lastSnap, snapPoints }) => [snapPoints[1]]}
-        onScrollCapture={(e) => {
-          if (e.nativeEvent.target.style.width != "300px")
-            setCommandWindow({ ...commandWindow, visible: false, index: -1 });
-        }}
+        onScrollCapture={onScrollCapture}
         header={
           <div>
             <div style={{ fontFamily: "roboto", fontWeight: "bold", fontSize: 15, color: GRAY7, float: "left" }}>
@@ -45,7 +50,7 @@ export const RouteCreateModal = () => {
         expandOnContentDrag={false}
       >
         <div>
-          <InputImage />
+          <InputImage placeholder={"배경 사진을 선택해주세요!"} />
           <div style={{ padding: "0 16px 80px 16px" }}>
             <div style={{ marginTop: -40 }}>
               <Textarea
@@ -82,7 +87,7 @@ export const RouteCreateModal = () => {
               </div>
               <BookmarkBtn disable />
               <ProfileCard address={"캠퍼스택시"} title={"서울시 강남구"} desc={"팔로워 3,456명"} img={"img"} disable />
-              <div style={{ marginTop: 6, padding: "0px 16px" }}>
+              <div style={{ marginTop: 6 }}>
                 <CommandArea />
               </div>
             </div>

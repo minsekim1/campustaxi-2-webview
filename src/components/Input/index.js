@@ -78,7 +78,7 @@ export const Textarea = ({ placeholder, style, maxrows }) => {
   );
 };
 
-export const InputSearch = ({ value, placeholder, inputMode, type, readOnly, disabled, onChange }) => {
+export const InputSearch = ({ value, placeholder, onChange, autoFocus=false }) => {
   const onChangeInput = (e) => {
     value.current = e.target.value;
     onChange(e.target.value);
@@ -95,6 +95,7 @@ export const InputSearch = ({ value, placeholder, inputMode, type, readOnly, dis
     >
       <Icon type={"regular"} name={"faSearch"} size={"lg"} />
       <input
+        autoFocus={autoFocus}
         onChange={onChangeInput}
         style={{
           marginLeft: 6,
@@ -112,7 +113,7 @@ export const InputSearch = ({ value, placeholder, inputMode, type, readOnly, dis
   );
 };
 
-export const InputMap = ({ value, placeholder, position }) => {
+export const InputMap = ({ placeholder, position }) => {
   const [, setVisible] = useRecoilState(CreateBottomModalState);
   const [visibleSearch, setVisibleSearch] = useRecoilState(SearchPositionState);
   return (

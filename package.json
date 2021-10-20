@@ -17,6 +17,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.22.0",
     "caret-pos": "^2.0.0",
+    "http-proxy-middleware": "^2.0.1",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-autosize-textarea": "^7.1.0",
@@ -55,6 +56,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "https://naveropenapi.apigw.ntruss.com"
+  }
 }

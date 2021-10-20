@@ -3,23 +3,48 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Icon } from "../common/Icon";
 import { CTextarea } from "./CommandInput/CTextarea";
 import { useRecoilState } from "recoil";
-import { commandInputListState, commandWindowState } from "../recoil";
+import { commandInputListState, commandWindowState, placePosState } from "../recoil";
 import { FadeDiv } from "../FadeDiv";
-import { CommandListRenderItem } from './CommandInput/CommandListRenderItem';
-import {  getItemStyle, getListStyle, onDragEnd } from "./CommandInput/dndFunc";
-
+import { CommandListRenderItem } from "./CommandInput/CommandListRenderItem";
+import { getItems, getItemStyle, getListStyle, onDragEnd } from "./CommandInput/dndFunc";
+import { useCallback, useEffect } from "react";
+import { posInit } from "../common";
+import { CItem } from "./CommandInput/CItem";
+import { SCREEN_WIDTH } from './../../style/index';
 
 export const CommandArea = ({}) => {
   const [commandInputList, setCommandInputList] = useRecoilState(commandInputListState);
   const [commandWindow, setCommandWindow] = useRecoilState(commandWindowState);
+  const [placePos, setPlacePos] = useRecoilState(placePosState);
 
-  return (
-    <div style={{ paddingBottom: 600 }}>
+  //#region  장소 선택 후 돌아올떄 반영
+  useEffect(() => {
+    if (placePos.id != -1) {
+      let i = commandWindow.index;
+      if (commandInputList.slice(i + 1, 999).length != 0)
+        setCommandInputList([
+          ...commandInputList.slice(0, i + 1),
+          ...getItems(1, commandInputList.length, "place", placePos),
+          ...commandInputList.slice(i + 1, 999),
+        ]);
+      else
+        setCommandInputList([
+          ...commandInputList.slice(0, i + 1),
+          ...getItems(1, commandInputList.length, "place", placePos),
+          ...getItems(1, commandInputList.length + 1, "text"),
+        ]);
+      setPlacePos(posInit);
+    }
+  }, []);
+  //#endregion
+
+  const CommandRect = useCallback(() => {
+    return (
       <FadeDiv
         visible={commandWindow.visible}
-        style={{ position: "absolute", top: commandWindow.top, left: commandWindow.left }}
+        style={{ position: "absolute", top: commandWindow.top, left: commandWindow.left, zIndex: 9999 }}
       >
-        <div style={{ width: 300, height: 500, overflow: "scroll" }}>
+        <div style={{ height: 400, overflow: "scroll" }}>
           <CommandListRenderItem img={"text"} title={"#텍스트, #text"} desc={"일반 텍스트로 글을 작성하세요."} />
           <CommandListRenderItem img={"place"} title={"#장소, #place"} desc={"지도에서 장소를 선택하세요."} />
           <CommandListRenderItem img={"product"} title={"#상품, #product"} desc={"네이버샵의 상품을 선택하세요."} />
@@ -58,7 +83,11 @@ export const CommandArea = ({}) => {
         {/* <div>#파일</div> */}
         {/* <div>#북마크</div> */}
       </FadeDiv>
-
+    );
+  }, [commandWindow.visible, commandWindow.left, commandWindow.top]);
+  return (
+    <div style={{ paddingBottom: 600 }}>
+      <CommandRect />
       <DragDropContext onDragEnd={(r) => onDragEnd(r, commandInputList, setCommandInputList)}>
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
@@ -73,20 +102,22 @@ export const CommandArea = ({}) => {
                         {...provided.dragHandleProps}
                         style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
                       >
-                        <div style={{ display: "flex", alignItems: "flex-start", justifyItems: "center" }}>
+                        <div
+                          style={{ display: "flex", alignItems: "flex-start", justifyItems: "center", marginTop: 8 }}
+                        >
                           <div
                             style={{
                               display: "flex",
                               alignItems: "center",
                               justifyItems: "center",
                               marginRight: 8,
-                              marginTop: 6,
+                              marginTop: 7,
                             }}
                           >
                             <Icon name={"faEllipsisV"} type={"solid"} size={"xs"} color={GRAY6} />
                             <Icon name={"faEllipsisV"} type={"solid"} size={"xs"} color={GRAY6} />
                           </div>
-                          <CTextarea index={index} />
+                          <CItem index={index} data={item} />
                         </div>
                       </div>
                     );
