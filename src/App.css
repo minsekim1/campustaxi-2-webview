@@ -36,3 +36,33 @@
     transform: rotate(360deg);
   }
 }
+
+.ReactTags__tag {
+  font-size: 18px;
+  color: white;
+  background-color: #282c34;
+  border-radius: 10px;
+  padding: 4px 8px;
+  margin-left: 6px;
+  margin-bottom: 6px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 13px;
+}
+
+.ReactTags__remove {
+  background-color: lightgray;
+  border-style: none;
+  padding: 0px 4px;
+  border-radius: 8px;
+  margin-left: 6px;
+  color: white;
+  border-width: 0px;
+}
+.ReactTags__tagInputField{
+  border: none;
+  width: 300px;
+  font-size: 11px;
+  margin-left: 10px;
+  outline: none;
+}

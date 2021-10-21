@@ -75,7 +75,7 @@ export const CommandListRenderItem = ({ img, title, desc }) => {
     } else if (img == "tag") {
       setCommandInputList([
         ...commandInputList.slice(0, i + 1),
-        ...getItems(1, commandInputList.length, "tag"),
+        ...getItems(1, commandInputList.length, "tag",{tagList:[], inputValue:""}),
         ...commandInputList.slice(i + 1, 999),
       ]);
       setCommandWindow({ ...commandWindow, visible: false, index: -1 });

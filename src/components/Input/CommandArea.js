@@ -54,7 +54,7 @@ export const CommandArea = ({}) => {
           <CommandListRenderItem img={"h3"} title={"#소제목 #h3"} desc={"소주제로 글을 시작하세요."} />
           <CommandListRenderItem img={"tag"} title={"#태그, #tag"} desc={"태그를 걸어 다른 사용자와 공유하세요."} />
           <CommandListRenderItem img={"contour"} title={"#구분선, #contour"} desc={"블록을 구분선으로 나눕니다."} />
-          <CommandListRenderItem img={"emoji"} title={"#이모지, #emoji"} desc={"텍스트로 넣을 이모지 선택하세요."} />
+          {/* <CommandListRenderItem img={"emoji"} title={"#이모지, #emoji"} desc={"텍스트로 넣을 이모지 선택하세요."} /> */}
           <CommandListRenderItem img={"red"} title={"#빨간색 글씨, #red"} desc={"빨간색으로 글을 작성하세요."} />
           <CommandListRenderItem img={"blue"} title={"#파란색 글씨, #blue"} desc={"파란색으로 글을 작성하세요."} />
           <CommandListRenderItem img={"brown"} title={"#갈색 글씨, #yellow"} desc={"갈색으로 글을 작성하세요."} />

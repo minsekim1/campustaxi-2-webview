@@ -1,29 +1,25 @@
 import { useEffect, useState } from "react";
 import { SCREEN_WIDTH } from "./../../../style/index";
-import { CropInit, CropState } from "./../../recoil";
+import { commandInputListState, CropInit, CropState } from "./../../recoil";
 import { useRecoilState } from "recoil";
 import { Icon } from "./../../common/Icon";
 
-export const CImage = ({ index, data }) => {
-  const [source, setSource] = useState(data.content);
-  return (
-    <div >
-      <InputImageInner isBackground={false} isAbsolute={false} index={index} />
-      <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center" }}>
-        <img src={data.content} width={"100%"} style={{ borderRadius: 20 }}></img>
-      </div>
-    </div>
-  );
-};
-
-export const InputImageInner = ({ index }) => {
+export const CImage = ({ index }) => {
+  const [commandInputList, setCommandInputList] = useRecoilState(commandInputListState);
   const [crop, setCrop] = useRecoilState(CropState);
   const [filepath, setFilepath] = useState({ file: "", previewURL: "" });
   const [isCrop, setIsCrop] = useState(false);
 
   //#region 편집 후 가져오기
+  
   useEffect(() => {
     if (!crop.visible && isCrop) {
+          // setCommandInputList([
+          //   ...commandInputList.slice(0, index),
+          //   { ...commandInputList[index], content: { inputValue: e, tagList: tagList } },
+          //   ...commandInputList.slice(index + 1, 999),
+          // ]);
+      
       setFilepath({ file: crop.file, previewURL: crop.previewURL });
       setIsCrop(false);
       setCrop(CropInit);
@@ -73,7 +69,7 @@ export const InputImageInner = ({ index }) => {
         <div
           style={{
             position: "relative",
-            height:0,
+            height: 0,
             left: filepath.previewURL == "" ? (SCREEN_WIDTH - 175 - 64) / 2 : (SCREEN_WIDTH - 100 - 64) / 2,
             top: -(((SCREEN_WIDTH - 64) * 200) / 415 / 2 + 15),
           }}

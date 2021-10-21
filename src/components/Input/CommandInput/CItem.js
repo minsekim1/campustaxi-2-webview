@@ -2,6 +2,8 @@ import { CPlace } from "./CPlace";
 import { CTextarea } from "./CTextarea";
 import { CImage } from './CImage';
 import { CH } from './CH';
+import { CTag } from './CTag';
+import { CContour } from './CContour';
 
 export const CItem = ({ index, data }) => {
   switch (data.type) {
@@ -18,9 +20,9 @@ export const CItem = ({ index, data }) => {
     case "h3":
       return <CH index={index} data={data} type={"h3"} />;
     case "tag":
-      return <CTextarea index={index} data={data} />;
+      return <CTag index={index} data={data} />;
     case "contour":
-      return <CTextarea index={index} data={data} />;
+      return <CContour index={index} data={data} />;
     default:
       return <></>;
   }
