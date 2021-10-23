@@ -24,7 +24,7 @@ const box_hidden = {
 export const FadeDiv = ({ visible, children, style }) => {
   const [select, setSelect] = useState(false);
   const [disable, setDisable] = useState(true);
-  const [commandWindow, setCommandWindow] = useRecoilState(commandWindowState);
+  const [commandWindow, ] = useRecoilState(commandWindowState);
   useEffect(() => {
     handleClick(visible);
     if (visible) setDisable(false);

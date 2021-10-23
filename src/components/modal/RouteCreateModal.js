@@ -17,12 +17,14 @@ export const RouteCreateModal = () => {
   const [commandWindow, setCommandWindow] = useRecoilState(commandWindowState);
   const bottomRef = useRef();
 
-  const onClick = (e) => {
-    // 명령어창이 아닌 추천코스 생성창 클릭 시 명령어창 닫기
-    setCommandWindow({ ...commandWindow, visible: false, index: -1 });
-  };
+  // const onClick = (e) => {
+  //   // 명령어창이 아닌 추천코스 생성창 터치 시 명령어창 닫기
+  //   console.log("outer", e.nativeEvent.target.outerText, e.nativeEvent.target.outerText[0]);
+  //   if (e.nativeEvent.target.outerText[0] != "#") setCommandWindow({ ...commandWindow, visible: false, index: -1 });
+  // };
   const onScrollCapture = (e) => {
-    if (e.nativeEvent.target.style.height != "400px") setCommandWindow({ ...commandWindow, visible: false, index: -1 });
+    // 명령어창이 아닌 추천코스 생성창 스크롤 시 명령어창 닫기
+    if (e.nativeEvent.target.outerText[0] != "#") setCommandWindow({ ...commandWindow, visible: false, index: -1 });
   };
   return (
     <>
@@ -31,7 +33,7 @@ export const RouteCreateModal = () => {
         blocking={false}
         open={visibleRoute}
         onDismiss={() => setVisibleRoute(false)}
-        snapPoints={({ minHeight, maxHeight }) => [maxHeight * 0.99]}
+        snapPoints={({ minHeight, maxHeight }) => [maxHeight * 0.995]}
         defaultSnap={({ lastSnap, snapPoints }) => [snapPoints[1]]}
         onScrollCapture={onScrollCapture}
         header={

@@ -1,9 +1,11 @@
-import { GRAY2, GRAY7, SCREEN_WIDTH } from "../../../style";
+import { GRAY2, GRAY7, SCREEN_HEIGHT, SCREEN_WIDTH } from "../../../style";
 import { useState, useCallback, useRef } from "react";
 import TextareaAutosize from "react-autosize-textarea";
 import { position, offset } from "caret-pos";
 import { useRecoilState } from "recoil";
 import { commandInputListState, commandWindowState } from "./../../recoil";
+import { getPlatform } from "../../common/function/getPlatform";
+export const platform = getPlatform();
 
 export const CTextarea = ({ style, maxrows, index }) => {
   const [placeholder, setPlaceHolder] = useState("");
@@ -15,13 +17,26 @@ export const CTextarea = ({ style, maxrows, index }) => {
   const ref = useRef();
   const onChangeInput = useCallback(
     (e) => {
-      //#region #누르면 명령어창 보여줌
-      if (e.nativeEvent.data == "#") {
+      //#region #누르면 명령어창 보여줌 || 안드로이드 설정(한번에 여러개들어옴)
+      if (
+        e.nativeEvent.data == "#" ||
+        (platform === "android" && !!e.nativeEvent.data && e.nativeEvent.data.includes("#"))
+      ) {
         let { left, top, height } = offset(ref.current);
-        //#region 최대 가로이동 제한
-        if (left > 164) left = 164;
+        //#region 가로이동 제한 & height 화면 안 넘어가게 제한
+        // 가로제한
+        if (left + 260 > SCREEN_WIDTH && left < 260) {
+          left = commandWindow.left;
+        } else if (SCREEN_WIDTH - left < 260 && left > 260) left -= 280;
+        // 세로제한
+        let heightCommand = 448;
+        top -= heightCommand;
+        if (top < 0) {
+          heightCommand += top - height;
+          top = 0;
+        }
         //#endregion
-        setCommandWindow({ visible: true, top: top - 430, left: left, index: index, height: height });
+        setCommandWindow({ visible: true, top: top, left: left, index: index, height: heightCommand });
       } else {
         setCommandWindow({ ...commandWindow, visible: false, index: -1 });
       }

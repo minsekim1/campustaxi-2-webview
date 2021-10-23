@@ -14,7 +14,7 @@ import { SCREEN_WIDTH } from './../../style/index';
 
 export const CommandArea = ({}) => {
   const [commandInputList, setCommandInputList] = useRecoilState(commandInputListState);
-  const [commandWindow, setCommandWindow] = useRecoilState(commandWindowState);
+  const [commandWindow, ] = useRecoilState(commandWindowState);
   const [placePos, setPlacePos] = useRecoilState(placePosState);
 
   //#region  장소 선택 후 돌아올떄 반영
@@ -39,16 +39,15 @@ export const CommandArea = ({}) => {
   //#endregion
 
   const CommandRect = useCallback(() => {
-    console.log(commandInputList.height);
     return (
       <FadeDiv
         visible={commandWindow.visible}
         style={{ position: "absolute", top: commandWindow.top, left: commandWindow.left, zIndex: 9999 }}
       >
-        <div style={{ height: commandInputList.height ?? 0, overflow: "scroll" }}>
+        <div style={{ height: commandWindow.height, width:260, overflow: "scroll" }}>
           <CommandListRenderItem img={"text"} title={"#텍스트, #text"} desc={"일반 텍스트로 글을 작성하세요."} />
           <CommandListRenderItem img={"place"} title={"#장소, #place"} desc={"지도에서 장소를 선택하세요."} />
-          <CommandListRenderItem img={"product"} title={"#상품, #product"} desc={"네이버샵의 상품을 선택하세요."} />
+          {/* <CommandListRenderItem img={"product"} title={"#상품, #product"} desc={"네이버샵의 상품을 선택하세요."} /> */}
           <CommandListRenderItem img={"image"} title={"#이미지, #image"} desc={"이미지를 업로드해보세요."} />
           <CommandListRenderItem img={"h1"} title={"#큰 제목, h1"} desc={"큰 제목으로 글을 시작하세요."} />
           <CommandListRenderItem img={"h2"} title={"#부제목, #h2"} desc={"부제목으로 글을 시작하세요."} />
@@ -87,7 +86,7 @@ export const CommandArea = ({}) => {
     );
   }, [commandWindow.visible, commandWindow.left, commandWindow.top]);
   return (
-    <div style={{ paddingBottom: 600 }}>
+    <div style={{ paddingBottom: 300 }}>
       <CommandRect />
       <DragDropContext onDragEnd={(r) => onDragEnd(r, commandInputList, setCommandInputList)}>
         <Droppable droppableId="droppable">
