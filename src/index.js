@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-console.log("TEST 끝나면 주석풀기!");
-// import reportWebVitals from './reportWebVitals';
+// console.log("TEST 끝나면 주석풀기!");
+import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -15,5 +15,5 @@ ReactDOM.render(
 // If you want to start measuring performance in your app, pass a function
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 
-console.log("TEST 끝나면 주석풀기!");
-// reportWebVitals();
+// console.log("TEST 끝나면 주석풀기!");
+reportWebVitals();
