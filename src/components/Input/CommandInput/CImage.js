@@ -4,28 +4,77 @@ import { commandInputListState, CropInit, CropState } from "./../../recoil";
 import { useRecoilState } from "recoil";
 import { Icon } from "./../../common/Icon";
 
+function loadXHR(url) {
+  return new Promise((resolve, reject) => {
+    try {
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", url);
+      xhr.responseType = "blob";
+      xhr.onerror = (event) => {
+        // reject(`Network error: ${event}`);
+        reject();
+      };
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          resolve(xhr.response);
+        } else {
+          // reject(`XHR load error: ${xhr.statusText}`);
+          reject("");
+        }
+      };
+      xhr.send();
+    } catch (err) {
+      // reject(err.message);
+      reject("");
+    }
+  });
+}
+
 export const CImage = ({ index }) => {
   const [commandInputList, setCommandInputList] = useRecoilState(commandInputListState);
   const [crop, setCrop] = useRecoilState(CropState);
-  const [filepath, setFilepath] = useState({ file: "", previewURL: "" });
+  // const [filepath, setFilepath] = useState({ file: "", previewURL: "" });
   const [isCrop, setIsCrop] = useState(false);
+  const filepath = commandInputList[index].content;
 
+  //#region 앱껏다 키고 캐쉬 초기화 시 이미지 아닌게 들어깄으면 삭제
+  useEffect(() => {
+    loadXHR(filepath.file)
+      .then((f) => {
+        try {
+          if (typeof f.type === "string") console.log(f.type.includes("image"), f);
+        } catch (e) {}
+      })
+      .catch(() => {
+        setCommandInputList([
+          ...commandInputList.slice(0, index),
+          { ...commandInputList[index], content: { file: "", previewURL: "" } },
+          ...commandInputList.slice(index + 1, 999),
+        ]);
+      });
+  }, []);
+  //#endregion
   //#region 편집 후 가져오기
-  
   useEffect(() => {
     if (!crop.visible && isCrop) {
-          // setCommandInputList([
-          //   ...commandInputList.slice(0, index),
-          //   { ...commandInputList[index], content: { inputValue: e, tagList: tagList } },
-          //   ...commandInputList.slice(index + 1, 999),
-          // ]);
-      
-      setFilepath({ file: crop.file, previewURL: crop.previewURL });
+      setCommandInputList([
+        ...commandInputList.slice(0, index),
+        { ...commandInputList[index], content: { file: crop.file, previewURL: crop.previewURL } },
+        ...commandInputList.slice(index + 1, 999),
+      ]);
+      // setFilepath({ file: crop.file, previewURL: crop.previewURL });
       setIsCrop(false);
       setCrop(CropInit);
     }
   }, [crop.visible]);
   //#endregion
+  const onDeletePhoto = () => {
+    setCommandInputList([
+      ...commandInputList.slice(0, index),
+      { ...commandInputList[index], content: { file: "", previewURL: "" } },
+      ...commandInputList.slice(index + 1, 999),
+    ]);
+  };
 
   const onChangeInput = (e) => {
     try {
@@ -85,10 +134,7 @@ export const CImage = ({ index }) => {
               >
                 <Icon name={"faEdit"} size={"lg"} color={"rgba(73,80,87,0.5)"} />
               </div>
-              <div
-                style={{ ...inputFileCSSNone, marginLeft: 5 }}
-                onClick={() => setFilepath({ file: "", previewURL: "" })}
-              >
+              <div style={{ ...inputFileCSSNone, marginLeft: 5 }} onClick={onDeletePhoto}>
                 <Icon name={"faTrash"} size={"lg"} color={"rgba(73,80,87,0.5)"} />
               </div>
             </div>

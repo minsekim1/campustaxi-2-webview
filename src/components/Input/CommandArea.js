@@ -39,12 +39,13 @@ export const CommandArea = ({}) => {
   //#endregion
 
   const CommandRect = useCallback(() => {
+    console.log(commandInputList.height);
     return (
       <FadeDiv
         visible={commandWindow.visible}
         style={{ position: "absolute", top: commandWindow.top, left: commandWindow.left, zIndex: 9999 }}
       >
-        <div style={{ height: 400, overflow: "scroll" }}>
+        <div style={{ height: commandInputList.height ?? 0, overflow: "scroll" }}>
           <CommandListRenderItem img={"text"} title={"#텍스트, #text"} desc={"일반 텍스트로 글을 작성하세요."} />
           <CommandListRenderItem img={"place"} title={"#장소, #place"} desc={"지도에서 장소를 선택하세요."} />
           <CommandListRenderItem img={"product"} title={"#상품, #product"} desc={"네이버샵의 상품을 선택하세요."} />

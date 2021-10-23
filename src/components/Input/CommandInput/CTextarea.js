@@ -21,7 +21,7 @@ export const CTextarea = ({ style, maxrows, index }) => {
         //#region 최대 가로이동 제한
         if (left > 164) left = 164;
         //#endregion
-        setCommandWindow({ visible: true, top: top - 430, left: left, index: index });
+        setCommandWindow({ visible: true, top: top - 430, left: left, index: index, height: height });
       } else {
         setCommandWindow({ ...commandWindow, visible: false, index: -1 });
       }

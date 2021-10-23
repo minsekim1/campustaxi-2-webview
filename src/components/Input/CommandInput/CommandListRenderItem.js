@@ -47,7 +47,7 @@ export const CommandListRenderItem = ({ img, title, desc }) => {
     } else if (img == "image") {
       setCommandInputList([
         ...commandInputList.slice(0, i + 1),
-        ...getItems(1, commandInputList.length, "image"),
+        ...getItems(1, commandInputList.length, "image", { file: '', previewURL: ''}),
         ...commandInputList.slice(i + 1, 999),
       ]);
       setCommandWindow({ ...commandWindow, visible: false, index: -1 });

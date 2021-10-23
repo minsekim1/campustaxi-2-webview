@@ -26,7 +26,7 @@ export const commandInputListState = atom({
 
 export const commandWindowState = atom({
   key: "recoil/commandWindow",
-  default: { visible: false, top: 0, left: 0, index: -1 },
+  default: { visible: false, top: 0, left: 0, index: -1, height:0 },
 });
 
 /**
