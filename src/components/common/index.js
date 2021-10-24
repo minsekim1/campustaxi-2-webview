@@ -1,4 +1,4 @@
-export const API_URL = "http://ec2-3-34-77-193.ap-northeast-2.compute.amazonaws.com:1337";
+export const API_URL = "https://www.campus-taxi.com";
 
 export const postfetch = (url, params) => {
   let formBody = [];

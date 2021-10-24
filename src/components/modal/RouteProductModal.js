@@ -10,65 +10,68 @@ import { InputSearch } from "./../Input/index";
 import { RoomCard } from "../card/RoomCard";
 import { getfetchCommon } from "../common";
 import { NAVER_API_SECRET_KEY, NAVER_API_KEY } from "./../common/index";
+import { PositionCard } from "./../card/PositionCard";
 
+//#region 콤마함수 : 숫자 3자리마다 콤마 찍어줌
+export const numberWithCommas = (x) => {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+export const noTags = (x) => {
+  return x.toString().replace(/(<([^>]+)>)/gi, "");
+};
+//#endregion
+export const productInit = {
+  brand: "",
+  category1: "",
+  category2: "",
+  category3: "",
+  category4: "",
+  // hprice: "",
+  image: "",
+  link: "",
+  lprice: "",
+  maker: "",
+  mallName: "",
+  productId: "",
+  productType: "",
+  title: "",
+};
+const procductInfoInit = {
+  items: [productInit],
+  display: 80,
+  start: 1,
+  total: 0,
+  lastBuildDate: "",
+};
 export const RouteProductModal = () => {
   const [visibleRouteProduct, setVisibleRouteProduct] = useRecoilState(RouteProductModalState);
   const [commandWindow, setCommandWindow] = useRecoilState(commandWindowState);
-  const [procductList, setProcductList] = useState([]);
-  const [procductListFilterd, setProcductListFilterd] = useState([]);
+  const [procductInfo, setProcductInfo] = useState(procductInfoInit);
   const filterSearchTxt = useRef("");
   const bottomRef = useRef();
 
+  //#region 네이버 상품검색
   const onChangeFilterSearchTxt = async (t) => {
     if (t.length == 0) {
-      setProcductListFilterd([]);
+      setProcductInfo(procductInfoInit);
     } else {
       // https://openapi.naver.com/v1/search/shop.json?query=
-      fetch("/openapi/v1/search/shop?query=asd", {
+      fetch(`/v1/search/shop.json?query=${ t }&display=${procductInfoInit.display}`, {
         method: "GET",
         headers: {
           Accept: "application/json",
-          // "Content-Type": "application/json",
-          // "X-Naver-Client-Id": "0f8NE4coMei9Rs3yMjzd",//cir
-          // "X-Naver-Client-Secret": "jctS7OgJQj",//cir
-
+          "Content-Type": "application/json",
           "X-Naver-Client-Id": "yeoXdUtxPpcjkxR4G932",
           "X-Naver-Client-Secret": "TChrYL1rxH",
         },
       })
         .then((d) => d.json())
-        .then((d) => console.log(d));
-      // setprocductList(
-      // d.map((room) => {
-      //   return { ...room, path: _.chunk(_.split(room.path, ","), 2) };
-      // })
-      // )
-      //       getfetch("/chat-rooms").then((d) =>
-      //   setprocductList(
-      //     d.map((room) => {
-      //       return { ...room, path: _.chunk(_.split(room.path, ","), 2) };
-      //     })
-      //   )
-      // );
-      //   const list = await procductList.filter(
-      //     (room) =>
-      //       // 추후 방장이름도 추가
-      //       room.title.includes(t) ||
-      //       room.start_route[0].road_address_name.includes(t) ||
-      //       room.start_route[0].place_name.includes(t) ||
-      //       room.start_route[0].phone.includes(t) ||
-      //       room.start_route[0].address_name.includes(t) ||
-      //       room.start_route[0].category_name.includes(t) ||
-      //       room.end_route[0].road_address_name.includes(t) ||
-      //       room.end_route[0].place_name.includes(t) ||
-      //       room.end_route[0].phone.includes(t) ||
-      //       room.end_route[0].address_name.includes(t) ||
-      //       room.end_route[0].category_name.includes(t)
-      //   );
-      //   setprocductListFilterd(list);
+        .then((d) => setProcductInfo(d));
     }
   };
-  const LIST = filterSearchTxt.current.length > 0 ? procductListFilterd : procductList;
+  //#endregion
+
+  const LIST = procductInfo.items;
   return (
     <>
       <BottomSheet
@@ -101,20 +104,25 @@ export const RouteProductModal = () => {
               onChange={onChangeFilterSearchTxt}
             />
           </div>
-          {procductList.length > 0 &&
-            LIST.map((room, i) => {
+          {LIST[0].brand != "" &&
+            LIST.map((product, i) => {
               const ref = createRef();
               const handleClick = () => {
-                ref.current.scrollIntoView({ behavior: "smooth", block: "start" });
+                // ref.current.scrollIntoView({ behavior: "smooth", block: "start" });
               };
               return (
                 <div key={i.toString()} ref={ref}>
-                  <RoomCard
-                    room={room}
-                    onClick={() => {
-                      // onClickRoom();
-                      handleClick();
-                    }}
+                  <PositionCard
+                    address={`${product.category1} > ${product.category2} > ${product.category3} > ${product.category4}`}
+                    title={noTags(product.title)}
+                    desc={`최저가 ${numberWithCommas(product.lprice)}원`}
+                    url={""}
+                    img={product.image}
+                    onClick={""}
+                    // room={product}
+                    // onClick={() => {
+                    //   // onClickRoom();
+                    //   handleClick();
                   />
                 </div>
               );
