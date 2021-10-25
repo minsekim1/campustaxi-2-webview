@@ -1,5 +1,4 @@
 import { PositionCard } from './../../card/PositionCard';
-import { SCREEN_WIDTH } from './../../../style/index';
 
 export const CPlace = ({index, data}) => {
   return (

@@ -1,7 +1,7 @@
-import { GRAY1, GRAY2, GRAY3, GRAY4, GRAY5, GRAY7, GRAY8, textOverflowHidden } from "../../style";
+import { GRAY2, GRAY3, GRAY7, textOverflowHidden } from "../../style";
 import "../../index.css";
 export const Tag = ({ text, index }) => {
-  const marginLeft = index == 0 ? 0 : 4;
+  const marginLeft = index === 0 ? 0 : 4;
   return (
     <div
       style={{

@@ -1,5 +1,5 @@
-import { GRAY2, GRAY6, GRAY7, GRAY8, GRAY9, SCREEN_WIDTH } from "../../style";
-import { forwardRef, useState, useRef, useEffect, useCallback } from "react";
+import { GRAY2, GRAY7, GRAY9, SCREEN_WIDTH } from "../../style";
+import { forwardRef, useState, useCallback } from "react";
 import { CreateBottomModalState, SearchPositionState } from "../recoil";
 import { useRecoilState } from "recoil";
 import { Icon } from "../common/Icon";
@@ -33,7 +33,7 @@ export const Input = forwardRef(({ onChange, placeholder, inputMode, type, readO
   );
 });
 
-export const Textarea = ({ placeholder, style, maxrows }) => {
+export const Textarea = forwardRef(({ placeholder, style, maxrows },ref) => {
   const [rowIndex, setRowIndex] = useState({ height: 0, index: 0 });
   const onChangeInput = useCallback(
     (e) => {
@@ -46,10 +46,11 @@ export const Textarea = ({ placeholder, style, maxrows }) => {
         e.target.style.height = rowIndex.height - 4 + "px";
       }
     },
-    [rowIndex]
+    [rowIndex, maxrows]
   );
   return (
     <TextareaAutosize
+      ref={ref}
       // rows={rows ?? 1}
       onChange={onChangeInput}
       placeholder={placeholder}
@@ -76,7 +77,7 @@ export const Textarea = ({ placeholder, style, maxrows }) => {
       }
     />
   );
-};
+});
 
 export const InputSearch = ({ value, placeholder, onChange, autoFocus=false }) => {
   const onChangeInput = (e) => {
@@ -115,7 +116,7 @@ export const InputSearch = ({ value, placeholder, onChange, autoFocus=false }) =
 
 export const InputMap = ({ placeholder, position }) => {
   const [, setVisible] = useRecoilState(CreateBottomModalState);
-  const [visibleSearch, setVisibleSearch] = useRecoilState(SearchPositionState);
+  const [, setVisibleSearch] = useRecoilState(SearchPositionState); //visibleSearch
   return (
     <div
       style={{

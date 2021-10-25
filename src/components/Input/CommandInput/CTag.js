@@ -1,9 +1,6 @@
-import { GRAY2, GRAY7, GRAY8, SCREEN_WIDTH } from "../../../style";
-import { useState, useCallback, useRef } from "react";
-import TextareaAutosize from "react-autosize-textarea";
-import { position, offset } from "caret-pos";
+import { useState } from "react";
 import { useRecoilState } from "recoil";
-import { commandInputListState, commandWindowState } from "../../recoil";
+import { commandInputListState } from "../../recoil";
 import { WithContext as ReactTags } from "react-tag-input";
 
 import "../../../App.css";
@@ -21,7 +18,8 @@ export const CTag = ({ index, type = "h1" }) => {
   const [commandInputList, setCommandInputList] = useRecoilState(commandInputListState);
   const tagList = commandInputList[index].content.tagList;
   const inputValue = commandInputList[index].content.inputValue;
-  const [suggestionList, setSuggestionList] = useState([
+  const [suggestionList] = useState([
+    //setSuggestionList
     { id: "캠퍼스택시", text: "캠퍼스택시" },
     { id: "Campustaxi", text: "Campustaxi" },
   ]);
@@ -77,8 +75,4 @@ export const CTag = ({ index, type = "h1" }) => {
       />
     </>
   );
-};
-
-const Tag = ({ text }) => {
-  return <div>{text}</div>;
 };

@@ -9,11 +9,11 @@ export const CropScreen = () => {
   const [crop, setCrop] = useRecoilState(CropState);
 
   const [cropXY, setCropXY] = useState({ x: 0, y: 0 });
-  const [rotation, setRotation] = useState(0);
+  const [rotation] = useState(0); //setRotation
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState();
-	const [croppedImage, setCroppedImage] = useState();
-	
+  const [, setCroppedImage] = useState(); //croppedImage
+
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
@@ -21,8 +21,8 @@ export const CropScreen = () => {
   const showCroppedImage = useCallback(async () => {
     try {
       const croppedImage = await getCroppedImg(crop.previewURL, croppedAreaPixels, rotation);
-			setCroppedImage(croppedImage);
-			setCrop({ visible: false, file: croppedImage, previewURL: croppedImage });
+      setCroppedImage(croppedImage);
+      setCrop({ visible: false, file: croppedImage, previewURL: croppedImage });
     } catch (e) {
       console.error(e);
     }
@@ -46,7 +46,7 @@ export const CropScreen = () => {
             onClick={onCropComplete}
             style={{
               display: "flex",
-              justifyContent: 'space-between',
+              justifyContent: "space-between",
               padding: "12px 0px",
               color: ORANGE,
               position: "relative",
@@ -54,7 +54,7 @@ export const CropScreen = () => {
               backgroundColor: "white",
             }}
           >
-            <div style={{ paddingLeft: 16, color:GRAY6 }} onClick={()=>setCrop({...crop, visible:false})}>
+            <div style={{ paddingLeft: 16, color: GRAY6 }} onClick={() => setCrop({ ...crop, visible: false })}>
               취소
             </div>
             <div style={{ paddingRight: 16 }} onClick={showCroppedImage}>

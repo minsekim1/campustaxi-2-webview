@@ -1,5 +1,5 @@
 // import { User } from "./model/User";
-import { atom,  } from "recoil";
+import { atom } from "recoil";
 import { ChatRoomInit, posInit } from "./common";
 import { getItems } from "./Input/CommandInput/dndFunc";
 import { localStorageEffect } from "./common/function/localStorageEffect";
@@ -26,7 +26,7 @@ export const commandInputListState = atom({
 
 export const commandWindowState = atom({
   key: "recoil/commandWindow",
-  default: { visible: false, top: 0, left: 0, index: -1, height:0 },
+  default: { visible: false, top: 0, left: 0, index: -1, height: 0 },
 });
 
 /**
@@ -75,6 +75,23 @@ export const SearchStartPosState = atom({
 export const pathState = atom({
   key: "recoil/path",
   default: { path: [], distance: -1, duration: -1, taxiFare: -1, departureTime: "2020-01-01T00:00:00" },
+});
+/**
+ *  AlertDialog 띄우기
+ *  { visible: false, text: "" }
+ */
+export const alertDialogInit = { visible: false, title: "", text: "", handleConfirm: () => {} };
+export const alertDialogState = atom({
+  key: "recoil/alertDialog",
+  default: alertDialogInit,
+});
+/**
+ *  코스 생성시 삭제모드
+ * {visible: false, index: -1, isDialog: false}
+ */
+export const deleteModePosState = atom({
+  key: "recoil/deleteMode",
+  default: { visible: false, index: -1 },
 });
 /**
  *  코스 생성시 장소 선택
@@ -138,19 +155,29 @@ export const SearchPositionState = atom({
   default: { visible: false, position: "" },
 });
 //#region bttomTabIndex
+
+export const FilePathInit = { file: "", previewURL: "", type: "" };
+/**
+ * type : "" | "CourseCreateMainImg"
+ */
+export const FilePathState = atom({
+  key: "recoil/filepath",
+  default: FilePathInit,
+  effects_UNSTABLE: [localStorageEffect("recoil/cache/filepath")],
+});
 /**
  *  이미지 수정 crop
  */
-export const CropInit = { visible: false, file: "", previewURL: ""};
+export const CropInit = { visible: false, file: "", previewURL: "" };
 export const CropState = atom({
   key: "recoil/crop",
-  default: { visible: false, file: "", previewURL: "" },
+  default: CropInit,
 });
 /**
  *  코스에 새 상품 추가
  */
-export const RouteProductModalState = atom({
-  key: "recoil/RouteProductModal",
+export const CourseProductModalState = atom({
+  key: "recoil/CourseProductModalState",
   default: false,
 });
 /**

@@ -12,13 +12,13 @@ export const ProfileIcon = ({ size, icon }) => (
         alignItems: "center",
         justifyContent: "center",
         display: "flex",
-        width: size == "sm" ? 44 : 52,
-        height: size == "sm" ? 44 : 52,
+        width: size === "sm" ? 44 : 52,
+        height: size === "sm" ? 44 : 52,
       }}
     >
       <img
-        width={size == "sm" ? 40 : 48}
-        height={size == "sm" ? 40 : 48}
+        width={size === "sm" ? 40 : 48}
+        height={size === "sm" ? 40 : 48}
         style={{ borderRadius: 200 }}
         src={"https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"}
       ></img>
@@ -27,10 +27,10 @@ export const ProfileIcon = ({ size, icon }) => (
       <div
         style={{
           position: "relative",
-          marginTop: size == "sm" ? 26 : 30,
-          marginLeft: size == "sm" ? 26 : 30,
-          height: size == "sm" ? 16 : 18,
-          width: size == "sm" ? 16 : 18,
+          marginTop: size === "sm" ? 26 : 30,
+          marginLeft: size === "sm" ? 26 : 30,
+          height: size === "sm" ? 16 : 18,
+          width: size === "sm" ? 16 : 18,
           backgroundColor: "#0075FF",
           borderStyle: "solid",
           borderColor: "white",

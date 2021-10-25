@@ -1,31 +1,66 @@
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
-import { GRAY7, SCREEN_HEIGHT, SCREEN_WIDTH } from "../../style";
-import { GRAY6 } from "./../../style/index";
-import _ from "lodash";
+import { GRAY7 } from "../../style";
+import { GRAY6 } from "../../style/index";
 import { useRecoilState } from "recoil";
-import { commandWindowState, CreateRouteBottomModalState } from "./../recoil";
-import { useRef } from "react";
-import { Textarea } from "./../Input/index";
-import { InputImage } from "./../Input/InputImage";
+import { commandInputListState, commandWindowState, CreateRouteBottomModalState } from "../recoil";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Textarea } from "../Input/index";
+import { InputImage } from "../Input/InputImage";
 import { BookmarkBtn } from "../Btn/BookmarkBtn";
 import { ProfileCard } from "../card/ProfileCard";
-import { CommandArea } from "./../Input/CommandArea";
+import { CommandArea } from "../Input/CommandArea";
+import { FilePathState } from "./../recoil";
+import { ORANGE } from "./../../style/index";
 
-export const RouteCreateModal = () => {
+export const CourseCreateModal = () => {
   const [visibleRoute, setVisibleRoute] = useRecoilState(CreateRouteBottomModalState);
   const [commandWindow, setCommandWindow] = useRecoilState(commandWindowState);
+  const [filepath] = useRecoilState(FilePathState); //setFilepath
+  const [commandInputList] = useRecoilState(commandInputListState); //setCommandInputList
+  const [CloseData, setCloseData] = useState({ text: "닫기", BtnColor: GRAY6, type: 0 });
   const bottomRef = useRef();
+  const titleRef = useRef("");
+  const descRef = useRef("");
 
   // const onClick = (e) => {
   //   // 명령어창이 아닌 추천코스 생성창 터치 시 명령어창 닫기
-  //   console.log("outer", e.nativeEvent.target.outerText, e.nativeEvent.target.outerText[0]);
+  //   console.debug("outer", e.nativeEvent.target.outerText, e.nativeEvent.target.outerText[0]);
   //   if (e.nativeEvent.target.outerText[0] != "#") setCommandWindow({ ...commandWindow, visible: false, index: -1 });
   // };
   const onScrollCapture = (e) => {
     // 명령어창이 아닌 추천코스 생성창 스크롤 시 명령어창 닫기
-    if (e.nativeEvent.target.outerText[0] != "#") setCommandWindow({ ...commandWindow, visible: false, index: -1 });
+    if (e.nativeEvent.target.outerText[0] !== "#") setCommandWindow({ ...commandWindow, visible: false, index: -1 });
   };
+
+  //#region 닫기 or 생성
+  useEffect(() => {
+    // 배경 사진이 있거나 내용이 있을경우 회색 "생성" 버튼으로
+    if ((filepath.file !== "" && filepath.type === "CourseCreateMainImg") || commandInputList[0].content !== "") {
+      if (filepath.file === "" && filepath.type === "")
+        setCloseData({ text: "생성", BtnColor: GRAY6, type: 1 });
+      else if (commandInputList[0].content === "" && CloseData.type !== 2)
+        setCloseData({ text: "생성", BtnColor: GRAY6, type: 2 });
+      else setCloseData({ text: "생성", BtnColor: ORANGE, type: 3 });
+    } else if (CloseData.type !== 0) setCloseData({ text: "닫기", BtnColor: GRAY6, type: 0 });
+  }, [filepath.file, commandInputList[0].content]);
+
+  const onClickClose = () => {
+    switch (CloseData.type) {
+      case 0:
+        setVisibleRoute(false);
+        break;
+      case 1:
+        alert("[필수] 배경 사진을 선택해주세요.");
+        break;
+      case 2:
+        alert("[필수] 내용을 입력해주세요.");
+        break;
+      case 3:
+        break;
+    }
+  };
+  //#endregion
   return (
     <>
       <BottomSheet
@@ -42,10 +77,16 @@ export const RouteCreateModal = () => {
               추천 코스를 만들어보세요!
             </div>
             <div
-              style={{ fontFamily: "roboto", fontWeight: "bold", fontSize: 15, color: GRAY6, float: "right" }}
-              onClick={() => setVisibleRoute(false)}
+              style={{
+                fontFamily: "roboto",
+                fontWeight: "bold",
+                fontSize: 15,
+                color: CloseData.BtnColor,
+                float: "right",
+              }}
+              onClick={onClickClose}
             >
-              닫기
+              {CloseData.text}
             </div>
           </div>
         }
@@ -56,6 +97,7 @@ export const RouteCreateModal = () => {
           <div style={{ padding: "0 16px 80px 16px" }}>
             <div style={{ marginTop: -40 }}>
               <Textarea
+                ref={titleRef}
                 placeholder={"코스 제목을 입력해주세요."}
                 style={{
                   border: "none",
@@ -72,6 +114,7 @@ export const RouteCreateModal = () => {
               />
               <div style={{ marginTop: 12 }}>
                 <Textarea
+                  ref={descRef}
                   style={{
                     border: "none",
                     width: "100%",

@@ -4,13 +4,13 @@ import { commandInputListState, CropInit, CropState } from "./../../recoil";
 import { useRecoilState } from "recoil";
 import { Icon } from "./../../common/Icon";
 
-function loadXHR(url) {
+export const loadXHR = (url)=>{
   return new Promise((resolve, reject) => {
     try {
       const xhr = new XMLHttpRequest();
       xhr.open("GET", url);
       xhr.responseType = "blob";
-      xhr.onerror = (event) => {
+      xhr.onerror = () => {
         // reject(`Network error: ${event}`);
         reject();
       };
@@ -42,7 +42,7 @@ export const CImage = ({ index }) => {
     loadXHR(filepath.file)
       .then((f) => {
         try {
-          if (typeof f.type === "string") console.log(f.type.includes("image"), f);
+          if (typeof f.type === "string") console.debug(f.type.includes("image"), f);
         } catch (e) {}
       })
       .catch(() => {
@@ -93,7 +93,7 @@ export const CImage = ({ index }) => {
   };
 
   const style =
-    filepath.previewURL != ""
+    filepath.previewURL !== ""
       ? {
           backgroundImage: `url(${filepath.previewURL})`,
           backgroundColor: "transparent",
@@ -123,7 +123,7 @@ export const CImage = ({ index }) => {
             top: -(((SCREEN_WIDTH - 64) * 200) / 415 / 2 + 15),
           }}
         >
-          {filepath.previewURL != "" ? (
+          {filepath.previewURL !== "" ? (
             <div style={{ display: "flex" }}>
               <div
                 style={inputFileCSSNone}

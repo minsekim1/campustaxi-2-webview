@@ -2,13 +2,13 @@ import {
   RenderAfterNavermapsLoaded,
   NaverMap,
   Marker,
-  Circle,
-  GroundOverlay,
-  Ellipse,
+  // Circle,
+  // GroundOverlay,
+  // Ellipse,
   Polyline,
 } from "react-naver-maps";
 
-import { HEADER_HEIGHT, ORANGE, SCREEN_HEIGHT } from "./../style";
+import { HEADER_HEIGHT, SCREEN_HEIGHT } from "./../style";
 import { SCREEN_WIDTH } from "./../style/index";
 import { useRecoilState } from "recoil";
 import {
@@ -100,7 +100,7 @@ function NaverMapAPI() {
   }, [startPos.place_name, endPos.place_name]);
 
   useEffect(() => {
-    if (chatRoomSeleted.id != -1 && naverMapRef.current) {
+    if (chatRoomSeleted.id !== -1 && naverMapRef.current) {
       let x1 = Number(chatRoomSeleted.start_route[0].x);
       let y1 = Number(chatRoomSeleted.start_route[0].y);
       let x2 = Number(chatRoomSeleted.end_route[0].x);
@@ -111,7 +111,7 @@ function NaverMapAPI() {
 
   //# 함수
   const onClickMarker = (pos) => {
-    if (visibleSearch.position == "start") setStartPos(pos);
+    if (visibleSearch.position === "start") setStartPos(pos);
     else setEndPos(pos);
     setSearchResult({ documents: [posInit], meta: { is_end: true, pageable_count: -1, total_count: -1 } });
     setVisibleCreate(true);
@@ -182,7 +182,7 @@ function NaverMapAPI() {
           />
         ))}
       {/* 방 생성 시 출/도 표시 */}
-      {(visibleCreate || visibleSearch.position == "end") && startPos.place_name ? (
+      {(visibleCreate || visibleSearch.position === "end") && startPos.place_name ? (
         <ImageMarker
           url={"/images/startPosIcon.png"}
           position={new navermaps.LatLng(Number(startPos.y), Number(startPos.x))}
@@ -191,7 +191,7 @@ function NaverMapAPI() {
       ) : (
         false
       )}
-      {(visibleCreate || visibleSearch.position == "start") && endPos.place_name ? (
+      {(visibleCreate || visibleSearch.position === "start") && endPos.place_name ? (
         <ImageMarker
           url={"/images/endPosIcon.png"}
           position={new navermaps.LatLng(Number(endPos.y), Number(endPos.x))}

@@ -1,7 +1,7 @@
-import { GRAY2, GRAY7, SCREEN_HEIGHT, SCREEN_WIDTH } from "../../../style";
+import { GRAY7, SCREEN_WIDTH } from "../../../style";
 import { useState, useCallback, useRef } from "react";
 import TextareaAutosize from "react-autosize-textarea";
-import { position, offset } from "caret-pos";
+import { offset } from "caret-pos";
 import { useRecoilState } from "recoil";
 import { commandInputListState, commandWindowState } from "./../../recoil";
 import { getPlatform } from "../../common/function/getPlatform";
@@ -81,8 +81,7 @@ export const CTextarea = ({ style, maxrows, index }) => {
       placeholder={placeholder}
       maxRows={maxrows}
       onBlur={onBlur}
-      // onResize={onResizeInput}
-      defaultValue={commandInputList[index].content}
+      value={commandInputList[index].content}
       style={
         style
           ? style

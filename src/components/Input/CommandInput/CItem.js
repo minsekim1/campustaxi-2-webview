@@ -4,6 +4,7 @@ import { CImage } from './CImage';
 import { CH } from './CH';
 import { CTag } from './CTag';
 import { CContour } from './CContour';
+import { CProduct } from "./CProduct";
 
 export const CItem = ({ index, data }) => {
   switch (data.type) {
@@ -11,6 +12,8 @@ export const CItem = ({ index, data }) => {
       return <CTextarea index={index} />;
     case "place":
       return <CPlace index={index} data={data} />;
+    case "product":
+      return <CProduct index={index} data={data} />;
     case "image":
       return <CImage index={index} data={data} />;
     case "h1":

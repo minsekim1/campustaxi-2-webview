@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { GRAY2, GRAY4, GRAY6 } from "../../style";
+import { GRAY2 } from "../../style";
 
 export const Radio = ({ data, title, defaultIndex, onClick }) => {
   const [clicked, setClicked] = useState(defaultIndex);
@@ -14,9 +14,9 @@ export const Radio = ({ data, title, defaultIndex, onClick }) => {
           <div
             onClick={() => onChangeInput(i)}
             style={{
-              backgroundColor: clicked == i ? "white" : GRAY2,
+              backgroundColor: clicked === i ? "white" : GRAY2,
               borderStyle: "solid",
-              borderColor: clicked == i ? GRAY2 : "white",
+              borderColor: clicked === i ? GRAY2 : "white",
               padding: "12px 16px",
               borderRadius: 10,
               textAlign: "center",

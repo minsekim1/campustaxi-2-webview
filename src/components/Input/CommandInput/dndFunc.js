@@ -14,7 +14,7 @@ const reorder = (list, startIndex, endIndex) => {
 
   return result;
 };
-const grid = 8;
+
 export const getItemStyle = (isDragging, draggableStyle) => {
   let translate = draggableStyle.transform;
   if (isDragging && typeof draggableStyle.transform == "string") {
@@ -32,7 +32,6 @@ export const getItemStyle = (isDragging, draggableStyle) => {
   };
 };
 export const getListStyle = () => ({
-  // padding: grid,
   flex: 1,
 });
 export const onDragEnd = (result, list, setList) => {

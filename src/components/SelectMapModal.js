@@ -1,7 +1,6 @@
 import { BottomSheet } from "react-spring-bottom-sheet";
 import { useRecoilState } from "recoil";
 import {
-  BottomModalState,
   CreateBottomModalState,
   endPosState,
   homeTabIndexState,
@@ -12,14 +11,9 @@ import {
 } from "../components/recoil";
 import "react-spring-bottom-sheet/dist/style.css";
 import "../style/switch.css";
-import { GRAY2, GRAY3, GRAY7, ORANGE, SCREEN_HEIGHT, SCREEN_WIDTH } from "../style";
+import { SCREEN_HEIGHT } from "../style";
 import { GRAY8, GRAY6 } from "./../style/index";
-import { useRef, useState } from "react";
-import { DateToStr } from "./exchange";
-import { getfetch, posInit, postfetch } from "./common";
-import { Input, InputMap } from "./Input/index";
-import { Switch } from "./Input/switch";
-import { Radio } from "./Input/radio";
+import { posInit } from "./common";
 import { PositionCard } from "./card/PositionCard";
 import { useHistory } from "react-router-dom";
 
@@ -27,19 +21,19 @@ export const SelectMapModal = () => {
   // const title = useRef("");
   const [searchResult, setSearchResult] = useRecoilState(SearchPosResultState);
   const [visibleSearch, setVisibleSearch] = useRecoilState(SearchPositionState);
-  const [visibleCreate, setVisibleCreate] = useRecoilState(CreateBottomModalState);
-  const [startPos, setStartPos] = useRecoilState(startPosState);
-  const [endPos, setEndPos] = useRecoilState(endPosState);
-  const [placePos, setPlacePos] = useRecoilState(placePosState);
-  const [homeTabIndex, setHomeTabIndex] = useRecoilState(homeTabIndexState);
+  const [, setVisibleCreate] = useRecoilState(CreateBottomModalState); //visibleCreate
+  const [, setStartPos] = useRecoilState(startPosState); //startPos
+  const [, setEndPos] = useRecoilState(endPosState); //endPos
+  const [, setPlacePos] = useRecoilState(placePosState); //placePos
+  const [, setHomeTabIndex] = useRecoilState(homeTabIndexState); //homeTabIndex
   const history = useHistory();
 
   const goBackPlace = (pos) => {
-    if (visibleSearch.position == "place") {
+    if (visibleSearch.position === "place") {
       if (pos) setPlacePos(pos);
       else setPlacePos(posInit);
       setHomeTabIndex(0);
-      history.push('/course');
+      history.push("/course");
     }
   };
   const onDismiss = () => {
@@ -50,8 +44,8 @@ export const SelectMapModal = () => {
   };
 
   const onClick = (pos) => {
-    if (visibleSearch.position == "start") setStartPos(pos);
-    else if (visibleSearch.position == "end") setEndPos(pos);
+    if (visibleSearch.position === "start") setStartPos(pos);
+    else if (visibleSearch.position === "end") setEndPos(pos);
     setSearchResult({ documents: [posInit], meta: { is_end: true, pageable_count: -1, total_count: -1 } });
     setVisibleSearch({ visible: false, position: "" });
     setVisibleCreate(true);
@@ -82,7 +76,7 @@ export const SelectMapModal = () => {
       >
         <div style={{ padding: "12px 20px" }}>
           <div>
-            {searchResult.documents[0] != posInit &&
+            {searchResult.documents[0] !== posInit &&
               searchResult.documents.map((pos, i) => (
                 <PositionCard
                   key={i.toString()}

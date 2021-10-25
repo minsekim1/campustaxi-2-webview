@@ -1,6 +1,6 @@
 import "../../style/switch.css";
 import { useState } from 'react';
-import { GRAY6, GRAY7, GRAY8, GRAY9 } from "../../style";
+import { GRAY6, GRAY9 } from "../../style";
 
 export const Switch = ({ defalutValue, title, onChange }) => {
   const [clicked, setClicked] = useState(defalutValue);

@@ -18,7 +18,7 @@ Date.prototype.toJSON = function () {
 };
 
 export const prettyDate = (dateString) => {
-  const str = new String(dateString);
+  const str = dateString;
   const list = str.split(".")[0].split("T");
   const YMD = list[0].split("-"); //[0]년[1]월[2]일
   const HMS = list[1].split(":"); //[0]시[1]분[2]초

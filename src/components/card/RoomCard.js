@@ -1,4 +1,4 @@
-import { GRAY1, GRAY2, GRAY3, GRAY4, GRAY5, GRAY6, GRAY7, GRAY8, textOverflowHidden } from "../../style";
+import { GRAY1, GRAY3, GRAY5, GRAY8 } from "../../style";
 import { Tag } from "../common/Tag";
 import { PositionCard, PositionCardReverse } from "./PositionCard";
 import { useRecoilState } from "recoil";
@@ -10,13 +10,13 @@ export const RoomCard = ({ room, onClick }) => {
   const [chatRoomSeleted, setChatRoomSeleted] = useRecoilState(ChatRoomSeletedState);
 
   const enterTag = (room.chat_user ? room.chat_user.length : 0) + "/" + (room.person_limit + 2);
-  const genderTag = room.gender != "None" ? (room.gender == "M" ? "남자만" : "여자만") : "무관";
+  const genderTag = room.gender !== "None" ? (room.gender === "M" ? "남자만" : "여자만") : "무관";
   // const dtmTag = new Date(room.start_at).toLocaleString() + "에 출발";
   const dtmTag = prettyDate(room.start_at) + "에 출발";
   
   const tags = [genderTag, enterTag, dtmTag];
 
-  const isSeleted = chatRoomSeleted.id == room.id;
+  const isSeleted = chatRoomSeleted.id === room.id;
   const onClickRoom = (room) => {
     onClick();
     if (isSeleted) setChatRoomSeleted(ChatRoomInit);

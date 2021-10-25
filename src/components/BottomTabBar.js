@@ -1,13 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as fal from "@fortawesome/pro-light-svg-icons";
-import * as fas from "@fortawesome/free-solid-svg-icons";
 import * as  far from "@fortawesome/pro-regular-svg-icons";
 
 import { useRecoilState } from "recoil";
 import { BottomModalState, bottomTabIndexState, homeTabIndexState } from "./recoil";
-import { GRAY9, SCREEN_HEIGHT } from "../style";
+import { GRAY9 } from "../style";
 import { SCREEN_WIDTH } from "./../style/index";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 export const BottomTabBar = () => {
   const history = useHistory();

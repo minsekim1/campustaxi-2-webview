@@ -1,5 +1,4 @@
-import { GRAY5, GRAY6, GRAY7, GRAY8, SUB_BLUE, textOverflowHidden } from "../../style";
-import { postfetch } from "../common";
+import { GRAY6, GRAY7, SUB_BLUE, textOverflowHidden } from "../../style";
 import { Icon } from "../common/Icon";
 import { GRAY4 } from "./../../style/index";
 import { ProfileIcon } from './../Icon/ProfileIcon';

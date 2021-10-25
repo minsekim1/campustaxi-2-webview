@@ -3,22 +3,23 @@ import { BottomTabBar } from "../components/BottomTabBar";
 import { SearchBar } from "../components/Input/SearchBar";
 import { CourseList } from "../components/CourseList";
 import { CreateBtnCourse } from "../components/Btn/CreateBtnCourse";
-import { RouteCreateModal } from './../components/modal/RouteCreateModal';
-import { CropScreen } from './../components/modal/CropScreen';
-import { RouteProductModal } from "../components/modal/RouteProductModal";
+import { CourseCreateModal } from "./../components/modal/CourseCreateModal";
+import { CropScreen } from "./../components/modal/CropScreen";
+import { CourseProductModal } from "../components/modal/CourseProductModal";
+import { AlertDialog } from "./../components/Dialog/AlertDialog";
 
 const CourseScreen = () => {
-
   return (
     <>
       <BottomHeader />
       <SearchBar />
       <CourseList />
       <CreateBtnCourse />
-      <RouteProductModal />
-      <RouteCreateModal />
+      <CourseProductModal />
+      <CourseCreateModal />
       <CropScreen />
       <BottomTabBar />
+      <AlertDialog />
     </>
   );
 };

@@ -1,6 +1,6 @@
 import { RecoilRoot } from "recoil";
 import HomeScreen from "./screen/HomeScreen";
-import { BrowserRouter as Router, Switch, Route, Link, BrowserRouter } from "react-router-dom";
+import {  Switch, Route,  BrowserRouter } from "react-router-dom";
 
 import SearchScreen from "./screen/SearchScreen";
 import CourseDetailScreen from "./screen/CourseDetailScreen";

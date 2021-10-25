@@ -55,6 +55,7 @@ export const BottomHeader = () => {
             }}
           >
             <img
+              alt={'no image'}
               width={32}
               height={32}
               style={{ borderRadius: 200 }}

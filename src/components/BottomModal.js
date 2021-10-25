@@ -3,19 +3,16 @@ import { useRecoilState } from "recoil";
 import {
   BottomModalState,
   ChatRoomListState,
-  ChatRoomSeletedState,
   CreateBottomModalState,
   endPosState,
   pathState,
-  SearchPositionState,
   startPosState,
 } from "../components/recoil";
 import "react-spring-bottom-sheet/dist/style.css";
 import "../style/switch.css";
-import { GRAY2, GRAY3, GRAY7, ORANGE, SCREEN_HEIGHT, SCREEN_WIDTH } from "../style";
+import { GRAY7, ORANGE, SCREEN_HEIGHT } from "../style";
 import { GRAY8, GRAY6 } from "./../style/index";
-import { createRef, useEffect, useMemo, useRef, useState } from "react";
-import { DateToStr } from "./exchange";
+import { createRef, useMemo, useRef, useState } from "react";
 import { getfetch, posInit, postfetch } from "./common";
 import { Input, InputMap, InputSearch } from "./Input/index";
 import { Switch } from "./Input/switch";
@@ -26,22 +23,21 @@ import _ from "lodash";
 
 export const BottomModal = () => {
   const [visible, setVisible] = useRecoilState(BottomModalState);
-  const [visibleSearch, setVisibleSearch] = useRecoilState(SearchPositionState);
 
-  const [chatRoomList, setChatRoomList] = useRecoilState(ChatRoomListState);
+  const [chatRoomList] = useRecoilState(ChatRoomListState); //setChatRoomList
   const [chatRoomListFilterd, setChatRoomListFilterd] = useState([]);
   const filterSearchTxt = useRef("");
   const bottomRef = useRef();
 
   const onClickRoom = () => {
-    bottomRef.current.snapTo(({ snapPoints }) => SCREEN_HEIGHT * 0.4 + 30, {
+    bottomRef.current.snapTo(() => SCREEN_HEIGHT * 0.4 + 30, {
       source: "custom",
       velocity: 0,
     });
   };
 
   const onChangeFilterSearchTxt = async (t) => {
-    if (t.length == 0) {
+    if (t.length === 0) {
       setChatRoomListFilterd([]);
     } else {
       const list = await chatRoomList.filter(
@@ -139,8 +135,8 @@ export const CreateBottomModal = () => {
 
   const [startPos, setStartPos] = useRecoilState(startPosState);
   const [endPos, setEndPos] = useRecoilState(endPosState);
-  const [path, setPath] = useRecoilState(pathState);
-  const [chatRoomList, setChatRoomList] = useRecoilState(ChatRoomListState);
+  const [path] = useRecoilState(pathState); //setPath
+  const [, setChatRoomList] = useRecoilState(ChatRoomListState);//chatRoomList
 
   const closeCondition = useMemo(
     () => title !== "" || startPos.place_name !== "" || endPos.place_name !== "",
@@ -155,7 +151,7 @@ export const CreateBottomModal = () => {
     if (!postCondition) {
       alert("출발지/도착지/출발시간을 확인해주세요.");
     } else {
-      // getfetch("/users").then((d) => console.log(d));
+      // getfetch("/users").then((d) => console.debug(d));
       const response = await postfetch("/chat-rooms", {
         title: title,
         gender: genderLimit ? "M" : "None",
@@ -184,7 +180,7 @@ export const CreateBottomModal = () => {
         departureTime: path.departureTime,
         // course_id: 0,
       });
-      if (typeof response.id == "number") {
+      if (typeof response.id === "number") {
         setTitle("");
         setDate(defaultValueDate);
         setStartPos(posInit);
@@ -200,7 +196,7 @@ export const CreateBottomModal = () => {
             })
           )
         );
-      } else if (response.statusCode == 200) {
+      } else if (response.statusCode === 200) {
         try {
           alert(JSON.stringify(response.data.errors));
         } catch (e) {

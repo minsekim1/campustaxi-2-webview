@@ -1,7 +1,7 @@
-import { GRAY2, GRAY7, GRAY8, SCREEN_WIDTH } from "../../../style";
+import { GRAY7, SCREEN_WIDTH } from "../../../style";
 import { useState, useCallback, useRef } from "react";
 import TextareaAutosize from "react-autosize-textarea";
-import { position, offset } from "caret-pos";
+import { offset } from "caret-pos";
 import { useRecoilState } from "recoil";
 import { commandInputListState, commandWindowState } from "../../recoil";
 import { platform } from './CTextarea';

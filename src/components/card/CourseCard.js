@@ -1,6 +1,5 @@
 import { GRAY2, GRAY7, SCREEN_WIDTH, textOverflowHidden } from "../../style";
 import { Icon } from "../common/Icon";
-import { GRAY8 } from "./../../style/index";
 import { ProfileIcon } from './../Icon/ProfileIcon';
 
 export const TagBlack = ({ title }) => {

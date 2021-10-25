@@ -1,13 +1,12 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { useRecoilState } from "recoil";
 import { GRAY7, SCREEN_WIDTH } from "../../style";
 import { CreateRouteBottomModalState } from "../recoil";
 import { Icon } from './../common/Icon';
-import { GRAY6, GRAY8 } from './../../style/index';
+import { GRAY8 } from './../../style/index';
 
 export const CreateBtnCourse = () => {
-  const [visibleRoute, setVisibleRoute] = useRecoilState(CreateRouteBottomModalState);
+  const [, setVisibleRoute] = useRecoilState(CreateRouteBottomModalState); //visibleRoute
   const onClick = () => {
     setVisibleRoute(true);
   };
@@ -29,7 +28,7 @@ export const CreateBtnCourse = () => {
       onClick={onClick}
     >
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-				<Icon name={"faIcons"} size={"lg"} color={GRAY8} />
+        <Icon name={"faIcons"} size={"lg"} color={GRAY8} />
         <div style={{ fontSize: 8, color: GRAY7 }}>Create</div>
       </div>
     </div>

@@ -1,9 +1,4 @@
-import { faEdit } from "@fortawesome/pro-light-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { useRecoilState } from "recoil";
-import { SCREEN_WIDTH } from "../../style";
-import { CreateBottomModalState } from "../recoil";
 import { Icon } from './../common/Icon';
 
 export const BookmarkBtn = ({disable}) => {

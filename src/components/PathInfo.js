@@ -1,6 +1,4 @@
-import { GRAY6, GRAY3, GRAY4, GRAY8 } from "./../style/index";
-import { useRecoilState } from "recoil";
-import { pathState } from "./recoil";
+import { GRAY8 } from "./../style/index";
 
 export const PathInfo = ({ data }) => {
   if (typeof data.distance != "number" || data.distance < 1) return <div></div>;

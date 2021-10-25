@@ -1,29 +1,36 @@
-import { GRAY2, GRAY4, GRAY6, GRAY7, GRAY8, GRAY9, SCREEN_HEIGHT, SCREEN_WIDTH } from "../../style";
-import { forwardRef, useState, useRef, useCallback, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import * as fal from "@fortawesome/pro-light-svg-icons";
-import * as fas from "@fortawesome/free-solid-svg-icons";
-import * as far from "@fortawesome/pro-regular-svg-icons";
-import { CreateBottomModalState, CropInit, CropState, SearchPositionState } from "../recoil";
+import { SCREEN_WIDTH } from "../../style";
+import { useState, useEffect } from "react";
+import { CropInit, CropState, FilePathInit, FilePathState } from "../recoil";
 import { useRecoilState } from "recoil";
 import { Icon } from "../common/Icon";
-import Cropper from "react-easy-crop";
+import { loadXHR } from './CommandInput/CImage';
 
 export const InputImage = ({ placeholder }) => {
   const [crop, setCrop] = useRecoilState(CropState);
-  const [filepath, setFilepath] = useState({ file: "", previewURL: "" });
+  const [filepath, setFilepath] = useRecoilState(FilePathState);
   const [isCrop, setIsCrop] = useState(false);
+
+  //#region 앱껏다 키고 캐쉬 초기화 시 이미지 아닌게 들어깄으면 삭제
+  useEffect(() => {
+    loadXHR(filepath.file)
+      .then((f) => {
+        try {
+          if (typeof f.type === "string") console.debug(f.type.includes("image"), f);
+        } catch (e) {}
+      })
+      .catch(() => setFilepath(FilePathInit));
+  }, []);
+  //#endregion
 
   //#region 편집 후 가져오기
   useEffect(() => {
     if (!crop.visible && isCrop) {
-      setFilepath({ file: crop.file, previewURL: crop.previewURL });
+      setFilepath({ file: crop.file, previewURL: crop.previewURL, type: "CourseCreateMainImg" });
       setIsCrop(false);
       setCrop(CropInit);
     }
   }, [crop.visible]);
   //#endregion
-
   const onChangeInput = (e) => {
     try {
       e.preventDefault();
@@ -31,7 +38,7 @@ export const InputImage = ({ placeholder }) => {
       let file = e.target.files[0];
       reader.onloadend = () => {
         setIsCrop(true);
-        setCrop({ visible: true, file: file, previewURL: reader.result});
+        setCrop({ visible: true, file: file, previewURL: reader.result });
       };
       reader.readAsDataURL(file);
     } catch (e) {
@@ -62,16 +69,13 @@ export const InputImage = ({ placeholder }) => {
               <div
                 style={inputFileCSSNone}
                 onClick={() => {
-                  setCrop({ visible: true, file: filepath.file, previewURL: filepath.previewURL});
+                  setCrop({ visible: true, file: filepath.file, previewURL: filepath.previewURL });
                   setIsCrop(true);
                 }}
               >
                 <Icon name={"faEdit"} size={"lg"} color={"rgba(73,80,87,0.5)"} />
               </div>
-              <div
-                style={{ ...inputFileCSSNone, marginLeft: 5 }}
-                onClick={() => setFilepath({ file: "", previewURL: "" })}
-              >
+              <div style={{ ...inputFileCSSNone, marginLeft: 5 }} onClick={() => setFilepath(FilePathInit)}>
                 <Icon name={"faTrash"} size={"lg"} color={"rgba(73,80,87,0.5)"} />
               </div>
             </div>

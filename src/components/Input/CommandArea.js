@@ -1,50 +1,47 @@
-import { GRAY6 } from "../../style";
+import { GRAY1, GRAY3, GRAY6 } from "../../style";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Icon } from "../common/Icon";
-import { CTextarea } from "./CommandInput/CTextarea";
 import { useRecoilState } from "recoil";
-import { commandInputListState, commandWindowState, placePosState } from "../recoil";
+import { alertDialogInit, alertDialogState, commandInputListState, commandWindowState, placePosState } from "../recoil";
 import { FadeDiv } from "../FadeDiv";
 import { CommandListRenderItem } from "./CommandInput/CommandListRenderItem";
 import { getItems, getItemStyle, getListStyle, onDragEnd } from "./CommandInput/dndFunc";
 import { useCallback, useEffect } from "react";
 import { posInit } from "../common";
 import { CItem } from "./CommandInput/CItem";
-import { SCREEN_WIDTH } from './../../style/index';
+import { deleteModePosState } from "./../recoil";
+import Button from "@mui/material/Button";
+import { Rowdot } from "./../Icon/Rowdot";
+import { set } from "lodash";
 
 export const CommandArea = ({}) => {
+  const [deleteMode, setDeleteMode] = useRecoilState(deleteModePosState);
   const [commandInputList, setCommandInputList] = useRecoilState(commandInputListState);
-  const [commandWindow, ] = useRecoilState(commandWindowState);
+  const [alertDialogInfo, setAlertDialogInfo] = useRecoilState(alertDialogState);
+  const [commandWindow] = useRecoilState(commandWindowState);
   const [placePos, setPlacePos] = useRecoilState(placePosState);
 
-  //#region  장소 선택 후 돌아올떄 반영
+  //#region 장소 선택 후 돌아올떄 반영
   useEffect(() => {
-    if (placePos.id != -1) {
+    if (placePos.id !== -1) {
       let i = commandWindow.index;
-      if (commandInputList.slice(i + 1, 999).length != 0)
-        setCommandInputList([
-          ...commandInputList.slice(0, i + 1),
-          ...getItems(1, commandInputList.length, "place", placePos),
-          ...commandInputList.slice(i + 1, 999),
-        ]);
-      else
-        setCommandInputList([
-          ...commandInputList.slice(0, i + 1),
-          ...getItems(1, commandInputList.length, "place", placePos),
-          ...getItems(1, commandInputList.length + 1, "text"),
-        ]);
+      setCommandInputList([
+        ...commandInputList.slice(0, i + 1),
+        ...getItems(1, commandInputList.length, "place", placePos),
+        ...commandInputList.slice(i + 1, 999),
+      ]);
       setPlacePos(posInit);
     }
   }, []);
   //#endregion
-
+  //#region 명령어창 UI
   const CommandRect = useCallback(() => {
     return (
       <FadeDiv
         visible={commandWindow.visible}
         style={{ position: "absolute", top: commandWindow.top, left: commandWindow.left, zIndex: 9999 }}
       >
-        <div style={{ height: commandWindow.height, width:260, overflow: "scroll" }}>
+        <div style={{ height: commandWindow.height, width: 260, overflow: "scroll" }}>
           <CommandListRenderItem img={"text"} title={"#텍스트, #text"} desc={"일반 텍스트로 글을 작성하세요."} />
           <CommandListRenderItem img={"place"} title={"#장소, #place"} desc={"지도에서 장소를 선택하세요."} />
           <CommandListRenderItem img={"product"} title={"#상품, #product"} desc={"네이버샵의 상품을 선택하세요."} />
@@ -55,7 +52,7 @@ export const CommandArea = ({}) => {
           <CommandListRenderItem img={"tag"} title={"#태그, #tag"} desc={"태그를 걸어 다른 사용자와 공유하세요."} />
           <CommandListRenderItem img={"contour"} title={"#구분선, #contour"} desc={"블록을 구분선으로 나눕니다."} />
           {/* <CommandListRenderItem img={"emoji"} title={"#이모지, #emoji"} desc={"텍스트로 넣을 이모지 선택하세요."} /> */}
-          <CommandListRenderItem img={"red"} title={"#빨간색 글씨, #red"} desc={"빨간색으로 글을 작성하세요."} />
+          {/* <CommandListRenderItem img={"red"} title={"#빨간색 글씨, #red"} desc={"빨간색으로 글을 작성하세요."} />
           <CommandListRenderItem img={"blue"} title={"#파란색 글씨, #blue"} desc={"파란색으로 글을 작성하세요."} />
           <CommandListRenderItem img={"brown"} title={"#갈색 글씨, #yellow"} desc={"갈색으로 글을 작성하세요."} />
           <CommandListRenderItem img={"purple"} title={"#보라색 글씨, #purple"} desc={"보라색으로 글을 작성하세요."} />
@@ -73,7 +70,7 @@ export const CommandArea = ({}) => {
             img={"gray"}
             title={"#회색 배경, #gray-background"}
             desc={"회색 배경으로 글을 작성하세요."}
-          />
+          /> */}
         </div>
         {/* <div>#인용</div> */}
         {/* <div>#콜아웃</div> */}
@@ -85,6 +82,24 @@ export const CommandArea = ({}) => {
       </FadeDiv>
     );
   }, [commandWindow.visible, commandWindow.left, commandWindow.top]);
+  //#endregion
+  //#region 블록 하나 삭제
+  const onClickDelete = (i, item) => {
+    if (!alertDialogInfo.visible) {
+      setAlertDialogInfo({
+        visible: true,
+        title: "",
+        text: "정말 삭제하시겠습니까?",
+        handleConfirm: () => {
+          const list = [...commandInputList.slice(0, i), ...commandInputList.slice(i + 1, 999)];
+          setCommandInputList(list.length > 0 ? list : [...getItems(1, 1, "text", "")]);
+          setAlertDialogInfo(alertDialogInit);
+        },
+      });
+      setDeleteMode({ ...deleteMode, index: i });
+    }
+  };
+  //#endregion
   return (
     <div style={{ paddingBottom: 300 }}>
       <CommandRect />
@@ -103,7 +118,12 @@ export const CommandArea = ({}) => {
                         style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
                       >
                         <div
-                          style={{ display: "flex", alignItems: "flex-start", justifyItems: "center", marginTop: 8 }}
+                          style={{
+                            display: "flex",
+                            alignItems: "flex-start",
+                            justifyItems: "center",
+                            marginTop: 8,
+                          }}
                         >
                           <div
                             style={{
@@ -112,12 +132,31 @@ export const CommandArea = ({}) => {
                               justifyItems: "center",
                               marginRight: 8,
                               marginTop: 7,
+                              height: 10,
                             }}
                           >
-                            <Icon name={"faEllipsisV"} type={"solid"} size={"xs"} color={GRAY6} />
-                            <Icon name={"faEllipsisV"} type={"solid"} size={"xs"} color={GRAY6} />
+                            {deleteMode.visible ? (
+                              <div onClick={() => onClickDelete(index, item)}>
+                                <Icon name={"faTrash"} type={"light"} />
+                              </div>
+                            ) : (
+                              <Rowdot />
+                            )}
                           </div>
-                          <CItem index={index} data={item} />
+                          <div
+                            style={
+                              alertDialogInfo.visible && deleteMode.index === index
+                                ? {
+                                    borderStyle: "solid",
+                                    borderWidth: 2,
+                                    borderRadius: 3,
+                                    borderColor: "#d32f2f",
+                                  }
+                                : { padding: 1.5 }
+                            }
+                          >
+                            <CItem index={index} data={item} />
+                          </div>
                         </div>
                       </div>
                     );
@@ -129,6 +168,26 @@ export const CommandArea = ({}) => {
           )}
         </Droppable>
       </DragDropContext>
+      <DeleteBlock />
+    </div>
+  );
+};
+
+const DeleteBlock = ({}) => {
+  const [deleteMode, setDeleteMode] = useRecoilState(deleteModePosState);
+  return (
+    <div
+      style={{
+        position: "absolute",
+        top: "8%",
+        left: "4%",
+      }}
+      onClick={() => setDeleteMode({ visible: !deleteMode.visible, index: -1 })}
+    >
+      <Button style={{ textTransform: "none" }} variant={deleteMode.visible ? "contained" : "outlined"} color="error">
+        <Icon name={"faTrash"} color={deleteMode.visible ? "white" : "#d32f2f"} />
+        <div style={{ marginLeft: 6, fontFamily: "roboto" }}>삭제모드</div>
+      </Button>
     </div>
   );
 };
