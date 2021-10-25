@@ -1,4 +1,3 @@
-import { GRAY1, GRAY3, GRAY6 } from "../../style";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Icon } from "../common/Icon";
 import { useRecoilState } from "recoil";
@@ -12,7 +11,6 @@ import { CItem } from "./CommandInput/CItem";
 import { deleteModePosState } from "./../recoil";
 import Button from "@mui/material/Button";
 import { Rowdot } from "./../Icon/Rowdot";
-import { set } from "lodash";
 
 export const CommandArea = ({}) => {
   const [deleteMode, setDeleteMode] = useRecoilState(deleteModePosState);
@@ -21,6 +19,14 @@ export const CommandArea = ({}) => {
   const [commandWindow] = useRecoilState(commandWindowState);
   const [placePos, setPlacePos] = useRecoilState(placePosState);
 
+  //#region 명령어입력창 마지막는 무조건 텍스트(text,h1,h2,h3)로
+  useEffect(() => {
+    const type = commandInputList[commandInputList.length - 1].type;
+    if (type !== "text" && type !== "h1" && type !== "h2" && type !== "h3") {
+      setCommandInputList([...commandInputList, ...getItems(1, commandInputList.length + 1, "text")]);
+    }
+  }, [commandInputList.length]);
+  //#endregion
   //#region 장소 선택 후 돌아올떄 반영
   useEffect(() => {
     if (placePos.id !== -1) {
@@ -99,6 +105,7 @@ export const CommandArea = ({}) => {
       setDeleteMode({ ...deleteMode, index: i });
     }
   };
+
   //#endregion
   return (
     <div style={{ paddingBottom: 300 }}>

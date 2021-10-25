@@ -17,6 +17,7 @@ export const ProfileIcon = ({ size, icon }) => (
       }}
     >
       <img
+        alt={' '}
         width={size === "sm" ? 40 : 48}
         height={size === "sm" ? 40 : 48}
         style={{ borderRadius: 200 }}

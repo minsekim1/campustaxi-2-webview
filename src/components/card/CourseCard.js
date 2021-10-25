@@ -1,6 +1,7 @@
 import { GRAY2, GRAY7, SCREEN_WIDTH, textOverflowHidden } from "../../style";
 import { Icon } from "../common/Icon";
 import { ProfileIcon } from './../Icon/ProfileIcon';
+import { useHistory } from 'react-router-dom';
 
 export const TagBlack = ({ title }) => {
   return (
@@ -19,10 +20,12 @@ export const TagBlack = ({ title }) => {
     </div>
   );
 };
-export const CourseCard = () => {
+export const CourseCard = ({courseId}) => {
+  const history = useHistory();
   return (
     <div style={{ margin: SCREEN_WIDTH > 340 ? "16px 24px" : "16px 12px" }}>
       <div
+        onClick={() => history.push(`/course/detail?id=${courseId}`)}
         style={{
           width: "100%",
           backgroundColor: GRAY2,

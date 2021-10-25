@@ -1,5 +1,24 @@
 export const API_URL = "https://www.campus-taxi.com";
 
+/**
+ * Example
+ * await fetchWithTimeout('/games', {timeout:6000})
+ * @param {string} resource 
+ * @param {object} options 
+ * @returns 
+ */
+export const fetchWithTimeout = async ({ resource, options = {} }) => {
+  const { timeout = 8000 } = options;
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+  const response = await fetch(resource, {
+    ...options,
+    signal: controller.signal,
+  });
+  clearTimeout(id);
+  return response;
+};
+
 export const postfetch = (url, params) => {
   let formBody = [];
   for (let property in params) {
@@ -22,7 +41,6 @@ export const postfetch = (url, params) => {
       .catch((e) => reject(e));
   });
 };
-
 
 export const getfetch = (url, params) => {
   let formBody = [];

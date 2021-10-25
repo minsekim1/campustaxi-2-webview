@@ -233,7 +233,7 @@ function NaverMapAPI() {
 function ImageMarker(props) {
   const navermaps = props.navermaps;
   const icon = {
-    content: `<div onClick=\"${props.onClick}\"><img style=\"${
+    content: `<div onClick=\"${props.onClick}\"><img alt=\" \" style=\"${
       !props.url ? "border-radius:30px;border-style:solid;" : ""
     }border-color:${props.color ?? "#535353"};border-width:3px\" width=37 height=${props.url ? 48 : 37} src=${
       props.url ?? "https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"

@@ -1,7 +1,7 @@
 import { BottomHeader } from "../components/BottomHeader";
 import { BottomTabBar } from "../components/BottomTabBar";
 import { SearchBar } from "../components/Input/SearchBar";
-import { CourseList } from "../components/CourseList";
+import { CourseArea } from "../components/CourseArea";
 import { CreateBtnCourse } from "../components/Btn/CreateBtnCourse";
 import { CourseCreateModal } from "./../components/modal/CourseCreateModal";
 import { CropScreen } from "./../components/modal/CropScreen";
@@ -12,8 +12,8 @@ const CourseScreen = () => {
   return (
     <>
       <BottomHeader />
-      <SearchBar />
-      <CourseList />
+      {/* <SearchBar /> */}
+      <CourseArea />
       <CreateBtnCourse />
       <CourseProductModal />
       <CourseCreateModal />

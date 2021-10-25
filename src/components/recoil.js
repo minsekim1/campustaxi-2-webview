@@ -24,6 +24,10 @@ export const commandInputListState = atom({
   effects_UNSTABLE: [localStorageEffect("recoil/cache/commandInputList")],
 });
 
+export const loadingState = atom({
+  key: "recoil/loading",
+  default: false,
+});
 export const commandWindowState = atom({
   key: "recoil/commandWindow",
   default: { visible: false, top: 0, left: 0, index: -1, height: 0 },
