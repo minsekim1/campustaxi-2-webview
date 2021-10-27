@@ -3,10 +3,12 @@ import { Textarea } from '../components/Input';
 import { BookmarkBtn } from './../components/Btn/BookmarkBtn';
 import { ProfileCard } from '../components/card/ProfileCard';
 import { CourseImage } from './../components/Input/CourseImage';
+import { BackHeader } from './../components/BackHeader';
+
 const CourseDetailScreen = () => {
   return (
     <>
-      <div>
+        <BackHeader/>
         <CourseImage placeholder={""} />
         <div style={{ padding: "0 16px 80px 16px" }}>
           <div style={{ marginTop: -40 }}>
@@ -42,7 +44,6 @@ const CourseDetailScreen = () => {
             <ProfileCard address={"캠퍼스택시"} title={"서울시 강남구"} desc={"팔로워 3,456명"} img={"img"} />
           </div>
         </div>
-      </div>
     </>
   );
 };

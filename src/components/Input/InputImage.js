@@ -63,7 +63,7 @@ export const InputImage = ({ placeholder }) => {
           }}
         />
         {/* 바탕사진 선택버튼 */}
-        <div style={{ position: "relative", top: -125 }}>
+        <div style={{ position: "relative", top: -110 }}>
           {filepath.previewURL != "" ? (
             <div style={{ display: "flex" }}>
               <div
