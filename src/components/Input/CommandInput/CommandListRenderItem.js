@@ -7,6 +7,7 @@ import {
   CreateBottomModalState,
   CourseProductModalState,
   CreateRouteBottomModalState,
+  commandInputColorState,
 } from "../../recoil";
 import { getItems } from "./dndFunc";
 import { homeTabIndexState } from "./../../recoil";
@@ -15,6 +16,7 @@ import { useHistory } from "react-router-dom";
 export const CommandListRenderItem = ({ img, title, desc }) => {
   const [commandWindow, setCommandWindow] = useRecoilState(commandWindowState);
   const [commandInputList, setCommandInputList] = useRecoilState(commandInputListState);
+  const [commandInputColor, setCommandInputColor] = useRecoilState(commandInputColorState);
   const [, setHomeTabIndex] = useRecoilState(homeTabIndexState); //homeTabIndex
   const [, setVisibleSearch] = useRecoilState(SearchPositionState); //visibleSearch
   const [, setVisibleCreate] = useRecoilState(CreateBottomModalState); //visibleCreate
@@ -90,6 +92,9 @@ export const CommandListRenderItem = ({ img, title, desc }) => {
       //   ...getItems(1, commandInputList.length, "h1"),
       //   ...commandInputList.slice(i + 1, 999),
       // ]);
+      setCommandWindow({ ...commandWindow, visible: false, index: -1 });
+    } else if (img === "red") {
+      setCommandInputColor("red")
       setCommandWindow({ ...commandWindow, visible: false, index: -1 });
     }
   };

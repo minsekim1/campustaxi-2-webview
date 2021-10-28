@@ -4,10 +4,18 @@ import { virtualize } from "react-swipeable-views-utils";
 import { mod } from "react-swipeable-views-core";
 import { Icon } from "./../common/Icon";
 import { GRAY8, GRAY4, GRAY6, SCREEN_HEIGHT } from "./../../style/index";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/swiper-bundle.min.css";
+import "swiper/swiper.min.css";
+import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
+// Import Swiper styles
+// import 'swiper/';
+// import 'swiper/css/pagination';
+// import 'swiper/css/scrollbar';
 
 export const VirtualizeSwipeableViews = virtualize(SwipeableViews);
 
-export const slideRenderer = ({ key, index }, list=[]) => {
+export const slideRenderer = ({ key, index }, list = []) => {
   return (
     <div key={key}>
       <Title
@@ -21,18 +29,36 @@ export const slideRenderer = ({ key, index }, list=[]) => {
 };
 
 const CourseList = ({ title }) => {
+  const Child = ()=>(
+    <SwiperSlide>
+        <CourseCard />
+    </SwiperSlide>
+  );
   return (
     <>
-			<SwipeableViews containerStyle={{height:250}} axis="y" resistance>
-        <CourseCard />
-        <CourseCard />
-        <CourseCard />
-        <CourseCard />
-        <CourseCard />
-        <CourseCard />
-        <CourseCard />
-        <CourseCard />
-      </SwipeableViews>
+      <Swiper slidesPerView={1} direction={"vertical"} speed={500} height={250}>
+        <SwiperSlide>
+          <CourseCard />
+        </SwiperSlide>
+        <SwiperSlide>
+          <CourseCard />
+        </SwiperSlide>
+        <SwiperSlide>
+          <CourseCard />
+        </SwiperSlide>
+        <SwiperSlide>
+          <CourseCard />
+        </SwiperSlide>
+        <SwiperSlide>
+          <CourseCard />
+        </SwiperSlide>
+        <SwiperSlide>
+          <CourseCard />
+        </SwiperSlide>
+        <SwiperSlide>
+          <CourseCard />
+        </SwiperSlide>
+      </Swiper>
     </>
   );
 };
@@ -40,8 +66,17 @@ const CourseList = ({ title }) => {
 const Title = ({ beforeTxt, text, afterTxt }) => {
   return (
     <div style={{ fontSize: 20, fontWeight: "bold", display: "flex", alignItems: "center" }}>
-      <div style={{ flex: 1, padding: "16px 0 16px 24px", display: "flex", position: "sticky", top: 0, left: 0 }}>
-        <Icon name={"faChevronLeft"} color={GRAY4} type={"light"} />
+      <div
+        style={{
+          flex: 1,
+          padding: "16px 0 16px 24px",
+          display: "flex",
+          position: "sticky",
+          top: 0,
+          left: 0,
+        }}
+      >
+        <Icon name={"faChevronLeft"} color={GRAY4} type={"light"} size={"sm"} />
         <div
           style={{
             fontSize: 13,
@@ -69,7 +104,7 @@ const Title = ({ beforeTxt, text, afterTxt }) => {
         >
           {afterTxt}
         </div>
-        <Icon name={"faChevronRight"} color={GRAY4} type={"light"} />
+        <Icon name={"faChevronRight"} color={GRAY4} type={"light"} size={"sm"} />
       </div>
     </div>
   );

@@ -18,6 +18,14 @@ import { localStorageEffect } from "./common/function/localStorageEffect";
  *
  * address_name category_group_code category_group_name category_name distance id phone place_name place_url road_address_name x y
  */
+export const commandInputColorState = atom({
+  key: "recoil/commandInputColor",
+  default: 'black',
+});
+/**
+ *
+ * address_name category_group_code category_group_name category_name distance id phone place_name place_url road_address_name x y
+ */
 export const commandInputListState = atom({
   key: "recoil/commandInputList",
   default: getItems(1),

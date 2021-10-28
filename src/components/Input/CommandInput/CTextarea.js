@@ -1,9 +1,9 @@
 import { GRAY7, SCREEN_WIDTH } from "../../../style";
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import TextareaAutosize from "react-autosize-textarea";
 import { offset } from "caret-pos";
 import { useRecoilState } from "recoil";
-import { commandInputListState, commandWindowState } from "./../../recoil";
+import { commandInputColorState, commandInputListState, commandWindowState } from "./../../recoil";
 import { getPlatform } from "../../common/function/getPlatform";
 export const platform = getPlatform();
 
@@ -13,8 +13,15 @@ export const CTextarea = ({ style, maxrows, index }) => {
   const [beforeInput, setBeforeInput] = useState("");
   const [commandWindow, setCommandWindow] = useRecoilState(commandWindowState);
   const [commandInputList, setCommandInputList] = useRecoilState(commandInputListState);
+  const [commandInputColor] = useRecoilState(commandInputColorState); //setCommandInputColor
 
   const ref = useRef();
+  const rootRef = useRef();
+
+  useEffect(() => {
+    console.log(rootRef);
+   },[])
+
   const onChangeInput = useCallback(
     (e) => {
       //#region #누르면 명령어창 보여줌 || 안드로이드 설정(한번에 여러개들어옴)
@@ -73,30 +80,36 @@ export const CTextarea = ({ style, maxrows, index }) => {
     setPlaceHolder('명령어 사용시 "#"을 입력하세요.');
   };
   return (
-    <TextareaAutosize
-      ref={ref}
-      // rows={rows ?? 1}
-      onFocus={onFocus}
-      onChange={onChangeInput}
-      placeholder={placeholder}
-      maxRows={maxrows}
-      onBlur={onBlur}
-      value={commandInputList[index].content}
-      style={
-        style
-          ? style
-          : {
-              width: SCREEN_WIDTH - 60,
-              height: "20px",
-              border: "none",
-              fontSize: 15,
-              color: GRAY7,
-              resize: "none",
-              fontFamily: "AppleSDGothic",
-              overflow: "hidden",
-              outline: "none",
-            }
-      }
-    />
+    <>
+      <TextareaAutosize
+        ref={ref}
+        // rows={rows ?? 1}
+        onFocus={onFocus}
+        onChange={onChangeInput}
+        placeholder={placeholder}
+        maxRows={maxrows}
+        onBlur={onBlur}
+        value={commandInputList[index].content}
+        style={
+          style
+            ? style
+            : {
+                width: SCREEN_WIDTH - 60,
+                height: "20px",
+                border: "none",
+                fontSize: 15,
+                color: GRAY7,
+                resize: "none",
+                fontFamily: "AppleSDGothic",
+                overflow: "hidden",
+                outline: "none",
+              }
+        }
+      ></TextareaAutosize>
+      {/* <div>
+        <span contentEditable={"true"} style={{ color: "black" }} suppressContentEditableWarning>asd</span>
+        <span contentEditable={"true"} style={{ color: "red" }}/>
+      </div> */}
+    </>
   );
 };
