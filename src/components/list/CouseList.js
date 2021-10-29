@@ -29,11 +29,6 @@ export const slideRenderer = ({ key, index }, list = []) => {
 };
 
 const CourseList = ({ title }) => {
-  const Child = ()=>(
-    <SwiperSlide>
-        <CourseCard />
-    </SwiperSlide>
-  );
   return (
     <>
       <Swiper slidesPerView={1} direction={"vertical"} speed={500} height={250}>

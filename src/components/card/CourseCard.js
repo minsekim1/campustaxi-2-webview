@@ -23,7 +23,7 @@ export const TagBlack = ({ title }) => {
 export const CourseCard = ({courseId}) => {
   const history = useHistory();
   return (
-    <div style={{ margin: SCREEN_WIDTH > 340 ? "16px 24px" : "16px 12px" }}>
+    <div style={{ margin: SCREEN_WIDTH > 340 ? "16px 24px" : "8px 16px 0 16px" }}>
       <div
         onClick={() => history.push(`/course/detail?id=${courseId}`)}
         style={{

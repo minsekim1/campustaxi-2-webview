@@ -7,7 +7,7 @@ import { commandInputColorState, commandInputListState, commandWindowState } fro
 import { getPlatform } from "../../common/function/getPlatform";
 export const platform = getPlatform();
 
-export const CTextarea = ({ style, maxrows, index }) => {
+export const CTextareaColor = ({ style, maxrows, index }) => {
   const [placeholder, setPlaceHolder] = useState("");
   const [rowIndex, setRowIndex] = useState({ height: 0, index: 0 });
   const [beforeInput, setBeforeInput] = useState("");
@@ -81,36 +81,11 @@ export const CTextarea = ({ style, maxrows, index }) => {
   };
   return (
     <>
-      <TextareaAutosize
-        ref={ref}
-        // rows={rows ?? 1}
-        onFocus={onFocus}
-        onChange={onChangeInput}
-        placeholder={placeholder}
-        maxRows={maxrows}
-        onBlur={onBlur}
-        value={commandInputList[index].content}
-        style={
-          style
-            ? style
-            : {
-                width: SCREEN_WIDTH - 60,
-                height: "20px",
-                border: "none",
-                fontSize: 15,
-                color: GRAY7,
-                resize: "none",
-                fontFamily: "AppleSDGothic",
-                overflow: "hidden",
-                outline: "none",
-              }
-        }
-      ></TextareaAutosize>
-      {/* <div onInputCapture={(e)=>onChangeInput(e.target.innerText)} contentEditable suppressHydrationWarning style={{width:SCREEN_WIDTH - 60, outline:'none'}}>
+      <div onInputCapture={(e)=>onChangeInput(e.target.innerText)} contentEditable suppressHydrationWarning style={{width:SCREEN_WIDTH - 60, outline:'none'}}>
         <span style={{ color: "black" }} >asd</span>
         <span style={{ color: "red" }}>asd</span>
         {commandInputList[index].content}
-      </div> */}
+      </div>
     </>
   );
 };

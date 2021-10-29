@@ -3,7 +3,7 @@
 export const getItems = (count, offset = 0, type = "text", content = "") =>
   Array.from({ length: count }, (v, k) => k).map((k) => ({
     id: `item-${k + offset + new Date().getTime()}`,
-    content: type==="text" ? ()=><span contentEditable={"true"} suppressContentEditableWarning>여기</span>  : content,
+    content: content,
     type: type,
   }));
 // a little function to help us with reordering the result

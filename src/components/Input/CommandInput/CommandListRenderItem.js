@@ -30,7 +30,7 @@ export const CommandListRenderItem = ({ img, title, desc }) => {
     if (img === "text") {
       setCommandInputList([
         ...commandInputList.slice(0, i + 1),
-        ...getItems(1, commandInputList.length),
+        ...getItems(1, commandInputList.length,'textcolor'),
         ...commandInputList.slice(i + 1, 999),
       ]);
       setCommandWindow({ ...commandWindow, visible: false, index: -1 });
