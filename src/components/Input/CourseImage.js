@@ -1,14 +1,13 @@
 import { SCREEN_WIDTH } from "../../style";
-import { useState, useEffect } from "react";
-import { CropInit, CropState, FilePathInit, FilePathState } from "../recoil";
+import { useState } from "react";
+import { CropState, FilePathInit, FilePathState } from "../recoil";
 import { useRecoilState } from "recoil";
 import { Icon } from "../common/Icon";
-import { loadXHR } from "./CommandInput/CImage";
 
-export const CourseImage = ({ placeholder }) => {
-  const [crop, setCrop] = useRecoilState(CropState);
+export const CourseImage = () => {
+  // const [crop, setCrop] = useRecoilState(CropState);
   const [filepath, setFilepath] = useRecoilState(FilePathState);
-  const [isCrop, setIsCrop] = useState(false);
+  // const [isCrop, setIsCrop] = useState(false);
 
   return (
     <div>

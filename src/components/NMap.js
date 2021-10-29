@@ -48,7 +48,7 @@ function NaverMapAPI() {
   const [visibleCreate, setVisibleCreate] = useRecoilState(CreateBottomModalState);
   const [visible, setVisible] = useRecoilState(BottomModalState);
 
-  const [myPos, setMyPos] = useRecoilState(MyPosState);
+  const [myPos] = useRecoilState(MyPosState); //setMyPos
   const [startPos, setStartPos] = useRecoilState(startPosState);
   const [endPos, setEndPos] = useRecoilState(endPosState);
   const [path, setPath] = useRecoilState(pathState);

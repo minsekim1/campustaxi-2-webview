@@ -3,11 +3,10 @@ import SwipeableViews from "react-swipeable-views";
 import { virtualize } from "react-swipeable-views-utils";
 import { mod } from "react-swipeable-views-core";
 import { Icon } from "./../common/Icon";
-import { GRAY8, GRAY4, GRAY6, SCREEN_HEIGHT } from "./../../style/index";
+import { GRAY4, GRAY6 } from "./../../style/index";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.min.css";
 import "swiper/swiper.min.css";
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 // Import Swiper styles
 // import 'swiper/';
 // import 'swiper/css/pagination';

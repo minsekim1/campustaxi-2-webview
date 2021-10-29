@@ -1,5 +1,5 @@
 import { VirtualizeSwipeableViews, slideRenderer } from "./list/CouseList";
-import { useEffect, useRef, useState } from "react";
+import { useEffect,  useState } from "react";
 
 const favorite = {
   enterCount: { 이벤트: 3, 데이트: 2, 여행: 1, 힐링: 10, 문화: 20, 놀이: 10 },

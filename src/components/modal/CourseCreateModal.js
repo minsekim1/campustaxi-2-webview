@@ -10,7 +10,7 @@ import {
   FilePathInit,
   loadingState,
 } from "../recoil";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Textarea } from "../Input/index";
 import { InputImage } from "../Input/InputImage";
 import { BookmarkBtn } from "../Btn/BookmarkBtn";
@@ -18,7 +18,6 @@ import { ProfileCard } from "../card/ProfileCard";
 import { CommandArea } from "../Input/CommandArea";
 import { FilePathState } from "./../recoil";
 import { ORANGE } from "./../../style/index";
-import { postfetch } from "../common";
 import { getItems } from "./../Input/CommandInput/dndFunc";
 
 export const CourseCreateModal = () => {
@@ -55,7 +54,7 @@ export const CourseCreateModal = () => {
         setCloseData({ text: "생성", BtnColor: GRAY6, type: 2 });
       else setCloseData({ text: "생성", BtnColor: ORANGE, type: 3 });
     } else if (CloseData.type !== 0) setCloseData({ text: "닫기", BtnColor: GRAY6, type: 0 });
-  }, [filepath.file, commandInputList[0].content, commandInputList[0].type]);
+  }, [filepath.file, CloseData.type, commandInputList, filepath.type]);
 
   const onClickClose = () => {
     switch (CloseData.type) {

@@ -1,6 +1,6 @@
 import { BottomHeader } from "../components/BottomHeader";
 import { BottomTabBar } from "../components/BottomTabBar";
-import { SearchBar } from "../components/Input/SearchBar";
+// import { SearchBar } from "../components/Input/SearchBar";
 import { CourseArea } from "../components/CourseArea";
 import { CreateBtnCourse } from "../components/Btn/CreateBtnCourse";
 import { CourseCreateModal } from "./../components/modal/CourseCreateModal";

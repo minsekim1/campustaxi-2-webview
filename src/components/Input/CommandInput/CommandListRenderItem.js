@@ -16,7 +16,7 @@ import { useHistory } from "react-router-dom";
 export const CommandListRenderItem = ({ img, title, desc }) => {
   const [commandWindow, setCommandWindow] = useRecoilState(commandWindowState);
   const [commandInputList, setCommandInputList] = useRecoilState(commandInputListState);
-  const [commandInputColor, setCommandInputColor] = useRecoilState(commandInputColorState);
+  const [setCommandInputColor] = useRecoilState(commandInputColorState); //commandInputColor
   const [, setHomeTabIndex] = useRecoilState(homeTabIndexState); //homeTabIndex
   const [, setVisibleSearch] = useRecoilState(SearchPositionState); //visibleSearch
   const [, setVisibleCreate] = useRecoilState(CreateBottomModalState); //visibleCreate
@@ -30,7 +30,7 @@ export const CommandListRenderItem = ({ img, title, desc }) => {
     if (img === "text") {
       setCommandInputList([
         ...commandInputList.slice(0, i + 1),
-        ...getItems(1, commandInputList.length,'textcolor'),
+        ...getItems(1, commandInputList.length, "textcolor"),
         ...commandInputList.slice(i + 1, 999),
       ]);
       setCommandWindow({ ...commandWindow, visible: false, index: -1 });
@@ -75,7 +75,7 @@ export const CommandListRenderItem = ({ img, title, desc }) => {
     } else if (img === "tag") {
       setCommandInputList([
         ...commandInputList.slice(0, i + 1),
-        ...getItems(1, commandInputList.length+1, "tag", { tagList: [], inputValue: "" }),
+        ...getItems(1, commandInputList.length + 1, "tag", { tagList: [], inputValue: "" }),
         ...commandInputList.slice(i + 1, 999),
       ]);
       setCommandWindow({ ...commandWindow, visible: false, index: -1 });
@@ -94,13 +94,13 @@ export const CommandListRenderItem = ({ img, title, desc }) => {
       // ]);
       setCommandWindow({ ...commandWindow, visible: false, index: -1 });
     } else if (img === "red") {
-      setCommandInputColor("red")
+      setCommandInputColor("red");
       setCommandWindow({ ...commandWindow, visible: false, index: -1 });
     }
   };
   return (
     <div style={{ display: "flex", marginBottom: 6 }} onClick={onClick}>
-      <img alt={' '} src={`./images/CommandInput/asset/${img}.png`} height={SCREEN_HEIGHT * 0.045} />
+      <img alt={" "} src={`./images/CommandInput/asset/${img}.png`} height={SCREEN_HEIGHT * 0.045} />
       <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", marginLeft: 8 }}>
         <div style={{ color: GRAY8, fontSize: 13 }}>{title}</div>
         <div style={{ color: GRAY6, fontSize: 11 }}>{desc}</div>

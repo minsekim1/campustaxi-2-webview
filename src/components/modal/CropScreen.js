@@ -26,7 +26,7 @@ export const CropScreen = () => {
     } catch (e) {
       console.error(e);
     }
-  }, [croppedAreaPixels, rotation]);
+  }, [croppedAreaPixels, rotation, crop.previewURL, setCrop]);
 
   return (
     <div>

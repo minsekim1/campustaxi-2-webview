@@ -1,4 +1,5 @@
 // 로컬 시간을 감안하여 toJSON으로 변환.
+// eslint-disable-next-line
 Date.prototype.toJSON = function () {
   var timezoneOffsetInHours = -(this.getTimezoneOffset() / 60); //UTC minus local time
   var sign = timezoneOffsetInHours >= 0 ? "+" : "-";

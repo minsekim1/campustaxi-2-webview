@@ -13,6 +13,8 @@ import { Button } from "@mui/material/Button";
 import { CircularProgress, Collapse, LinearProgress } from "@mui/material";
 import { loadingState } from "./components/recoil";
 
+/* eslint-disable */
+
 resetServerContext();
 
 const App = () => {

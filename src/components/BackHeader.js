@@ -2,7 +2,7 @@ import { Icon } from "./common/Icon";
 import { GRAY8 } from "./../style/index";
 import { useHistory } from "react-router-dom";
 
-export const BackHeader = ({}) => {
+export const BackHeader = () => {
   const history = useHistory();
   const goBack = () => history.goBack();
 
