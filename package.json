@@ -2,6 +2,7 @@
   "name": "campustaxi-2-webview",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://minsekim1.github.io/campustaxi-2-webview",
   "dependencies": {
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
@@ -45,7 +46,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "push": "sh push.sh",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
