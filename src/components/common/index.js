@@ -1,4 +1,5 @@
-export const API_URL = "http://www.campus-taxi.com:81";
+export const API_URL =
+  window.location.protocol === "https:" ? "https://www.campus-taxi.com:444" : "http://www.campus-taxi.com:81";
 
 /**
  * Example
