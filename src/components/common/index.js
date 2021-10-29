@@ -1,4 +1,4 @@
-export const API_URL = "https://www.campus-taxi.com";
+export const API_URL = "http://www.campus-taxi.com:81";
 
 /**
  * Example
