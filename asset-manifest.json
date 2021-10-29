@@ -1,26 +1,26 @@
 {
   "files": {
-    "main.css": "/static/css/main.446a6ba1.chunk.css",
-    "main.js": "/static/js/main.76839864.chunk.js",
-    "main.js.map": "/static/js/main.76839864.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.8e2d956a.js",
-    "runtime-main.js.map": "/static/js/runtime-main.8e2d956a.js.map",
-    "static/css/2.c3fba282.chunk.css": "/static/css/2.c3fba282.chunk.css",
-    "static/js/2.e50a7efa.chunk.js": "/static/js/2.e50a7efa.chunk.js",
-    "static/js/2.e50a7efa.chunk.js.map": "/static/js/2.e50a7efa.chunk.js.map",
-    "static/js/3.a32a0a6e.chunk.js": "/static/js/3.a32a0a6e.chunk.js",
-    "static/js/3.a32a0a6e.chunk.js.map": "/static/js/3.a32a0a6e.chunk.js.map",
-    "index.html": "/index.html",
-    "static/css/2.c3fba282.chunk.css.map": "/static/css/2.c3fba282.chunk.css.map",
-    "static/css/main.446a6ba1.chunk.css.map": "/static/css/main.446a6ba1.chunk.css.map",
-    "static/js/2.e50a7efa.chunk.js.LICENSE.txt": "/static/js/2.e50a7efa.chunk.js.LICENSE.txt",
-    "static/media/index.css": "/static/media/AppleSDGothicNeoR00.d159b4d4.ttf"
+    "main.css": "/campustaxi-2-webview/static/css/main.d10a6022.chunk.css",
+    "main.js": "/campustaxi-2-webview/static/js/main.76839864.chunk.js",
+    "main.js.map": "/campustaxi-2-webview/static/js/main.76839864.chunk.js.map",
+    "runtime-main.js": "/campustaxi-2-webview/static/js/runtime-main.bb68b770.js",
+    "runtime-main.js.map": "/campustaxi-2-webview/static/js/runtime-main.bb68b770.js.map",
+    "static/css/2.c3fba282.chunk.css": "/campustaxi-2-webview/static/css/2.c3fba282.chunk.css",
+    "static/js/2.e50a7efa.chunk.js": "/campustaxi-2-webview/static/js/2.e50a7efa.chunk.js",
+    "static/js/2.e50a7efa.chunk.js.map": "/campustaxi-2-webview/static/js/2.e50a7efa.chunk.js.map",
+    "static/js/3.a32a0a6e.chunk.js": "/campustaxi-2-webview/static/js/3.a32a0a6e.chunk.js",
+    "static/js/3.a32a0a6e.chunk.js.map": "/campustaxi-2-webview/static/js/3.a32a0a6e.chunk.js.map",
+    "index.html": "/campustaxi-2-webview/index.html",
+    "static/css/2.c3fba282.chunk.css.map": "/campustaxi-2-webview/static/css/2.c3fba282.chunk.css.map",
+    "static/css/main.d10a6022.chunk.css.map": "/campustaxi-2-webview/static/css/main.d10a6022.chunk.css.map",
+    "static/js/2.e50a7efa.chunk.js.LICENSE.txt": "/campustaxi-2-webview/static/js/2.e50a7efa.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/campustaxi-2-webview/static/media/AppleSDGothicNeoR00.d159b4d4.ttf"
   },
   "entrypoints": [
-    "static/js/runtime-main.8e2d956a.js",
+    "static/js/runtime-main.bb68b770.js",
     "static/css/2.c3fba282.chunk.css",
     "static/js/2.e50a7efa.chunk.js",
-    "static/css/main.446a6ba1.chunk.css",
+    "static/css/main.d10a6022.chunk.css",
     "static/js/main.76839864.chunk.js"
   ]
 }
