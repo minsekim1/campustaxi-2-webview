@@ -4,7 +4,7 @@ import SwipeableViews from "react-swipeable-views";
 import { virtualize } from "react-swipeable-views-utils";
 import { mod } from "react-swipeable-views-core";
 import { Icon } from "./../common/Icon";
-import { GRAY4, GRAY6 } from "./../../style/index";
+import { GRAY4, GRAY6, SCREEN_WIDTH } from "./../../style/index";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.min.css";
 import "swiper/swiper.min.css";
@@ -62,7 +62,7 @@ const MCourseList = memo(CourseList, CourseListisEqual);
 
 const Title = ({ beforeTxt, text, afterTxt }) => {
   return (
-    <div style={{ fontSize: 20, fontWeight: "bold", display: "flex", alignItems: "center" }}>
+    <div style={{ display: "flex", alignItems: "center" }}>
       <div
         style={{
           flex: 1,
@@ -87,7 +87,10 @@ const Title = ({ beforeTxt, text, afterTxt }) => {
           {beforeTxt}
         </div>
       </div>
-      <div style={{ flex: 1, display: "flex", justifyContent: "center" }}>{text}</div>
+
+      <div style={{ flex: 2, display: "flex", justifyContent: "center", fontSize: SCREEN_WIDTH < 375 ? 18 : 20, fontWeight: "bold" }}>
+        {text}
+      </div>
       <div style={{ flex: 1, padding: "16px 24px 16px 0", display: "flex", justifyContent: "flex-end" }}>
         <div
           style={{

@@ -4,8 +4,8 @@ import { CropState, FilePathInit, FilePathState } from "../recoil";
 import { useRecoilState } from "recoil";
 import { Icon } from "../common/Icon";
 
-export const CourseImage = () => {
-  // const [crop, setCrop] = useRecoilState(CropState);
+export const CourseImage = ({ isEdit = false }) => {
+  const [crop, setCrop] = useRecoilState(CropState);
   const [filepath, setFilepath] = useRecoilState(FilePathState);
   // const [isCrop, setIsCrop] = useState(false);
 
@@ -16,32 +16,35 @@ export const CourseImage = () => {
         <div
           style={{
             width: SCREEN_WIDTH,
-            backgroundImage:
-              filepath.previewURL != ""
-                ? `linear-gradient(to bottom,rgba(0,0,0,0),rgba(255,255,255, 1)),url(${filepath.previewURL})`
-                : `linear-gradient(to bottom,rgba(200,200,200,1),rgba(200,200,200, 1),rgba(200,200,200, 1),rgba(255,255,255, 0.2))`,
+            backgroundImage: !isEdit
+              ? `linear-gradient(to bottom,rgba(0,0,0,0),rgba(255,255,255, 0),rgba(255,255,255, 0),rgba(255,255,255, 0),rgba(255,255,255, 0),rgba(255,255,255, 1)),url(${filepath.previewURL})`
+              : filepath.previewURL != ""
+              ? `linear-gradient(to bottom,rgba(0,0,0,0),rgba(255,255,255, 1)),url(${filepath.previewURL})`
+              : `linear-gradient(to bottom,rgba(200,200,200,1),rgba(200,200,200, 1),rgba(200,200,200, 1),rgba(255,255,255, 0.2))`,
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
-            height: (SCREEN_WIDTH * 200) / 415,
+            height: (SCREEN_WIDTH * 200) / 200,
           }}
         />
         {/* 바탕사진 */}
-        <div style={{ position: "relative", top: -125 }}>
-          {filepath.previewURL != "" ? (
-            <div style={{ display: "flex" }}>
-              <div
-                style={inputFileCSSNone}
-              >
-                <Icon name={"faEdit"} size={"lg"} color={"rgba(73,80,87,0.5)"} />
+        {isEdit ? (
+          <div style={{ position: "relative", top: -125 }}>
+            {filepath.previewURL != "" ? (
+              <div style={{ display: "flex" }}>
+                <div style={inputFileCSSNone}>
+                  <Icon name={"faEdit"} size={"lg"} color={"rgba(73,80,87,0.5)"} />
+                </div>
+                <div style={{ ...inputFileCSSNone, marginLeft: 5 }} onClick={() => setFilepath(FilePathInit)}>
+                  <Icon name={"faTrash"} size={"lg"} color={"rgba(73,80,87,0.5)"} />
+                </div>
               </div>
-              <div style={{ ...inputFileCSSNone, marginLeft: 5 }} onClick={() => setFilepath(FilePathInit)}>
-                <Icon name={"faTrash"} size={"lg"} color={"rgba(73,80,87,0.5)"} />
-              </div>
-            </div>
-          ) : (
-            <label style={inputFileCSS} />
-          )}
-        </div>
+            ) : (
+              <label style={inputFileCSS} />
+            )}
+          </div>
+        ) : (
+          false
+        )}
       </div>
     </div>
   );

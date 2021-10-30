@@ -134,7 +134,7 @@ export const CourseCreateModal = () => {
         <div>
           <InputImage placeholder={"배경 사진을 선택해주세요!"} />
           <div style={{ padding: "0 16px 80px 16px" }}>
-            <div style={{ marginTop: -30 }}>
+            <div >
               <Textarea
                 ref={titleRef}
                 placeholder={"코스 제목을 입력해주세요."}

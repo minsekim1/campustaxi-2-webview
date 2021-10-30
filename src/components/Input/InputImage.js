@@ -59,11 +59,11 @@ export const InputImage = ({ placeholder }) => {
                 : `linear-gradient(to bottom,rgba(200,200,200,1),rgba(200,200,200, 1),rgba(200,200,200, 1),rgba(255,255,255, 0.2))`,
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
-            height: (SCREEN_WIDTH * 200) / 415,
+            height: (SCREEN_WIDTH * 200) / 200,
           }}
         />
         {/* 바탕사진 선택버튼 */}
-        <div style={{ position: "relative", top: -110 }}>
+        <div style={{ position: "relative", top: -225 }}>
           {filepath.previewURL != "" ? (
             <div style={{ display: "flex" }}>
               <div

@@ -65,7 +65,7 @@ export const CropScreen = () => {
             image={crop.previewURL}
             crop={cropXY}
             zoom={zoom}
-            aspect={415 / 200}
+            aspect={200 / 200}
             onCropChange={setCropXY}
             onCropComplete={onCropComplete}
             onZoomChange={setZoom}
