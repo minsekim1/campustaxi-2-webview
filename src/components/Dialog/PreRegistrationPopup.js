@@ -27,7 +27,8 @@ export const PreRegistrationPopup = () => {
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
               1월 말에 정식 배포예정이며 <br />
-              사전 신청 유저 대상으로 앱 로그인 시 "얼리어답터" 뱃지를 드립니다! <br />
+              사전 신청 유저 대상으로 앱 로그인 시 <br />
+              "얼리어답터" 뱃지를 드립니다! <br />
               많은 신청 부탁드립니다!
             </DialogContentText>
           </DialogContent>
