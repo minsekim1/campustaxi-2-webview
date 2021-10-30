@@ -21,27 +21,35 @@ export const BottomHeader = () => {
       <div style={inlineStyle.flex}></div>
       <div style={inlineStyle.barFlexInner}>
         <div style={inlineStyle.flexL}>
-          <button
-            style={homeTabIndex === 0 ? inlineStyle.noStyleBtnActive : inlineStyle.noStyleBtn}
+          <div
+            style={
+              homeTabIndex === 0
+                ? {
+                    ...inlineStyle.noStyleBtnActive,
+                    display: "flex",
+                    justifyContent: "right",
+                  }
+                : { ...inlineStyle.noStyleBtn, display: "flex", justifyContent: "right" }
+            }
             onClick={() => onClick(0)}
           >
             코스
-          </button>
+          </div>
         </div>
-        <div style={inlineStyle.flexL}>&nbsp;|&nbsp;</div>
+        <div style={{ margin: "0 12px", alignSelf: "flex-start" }}>|</div>
         <div style={inlineStyle.flexL}>
-          <button
+          <div
             style={homeTabIndex === 1 ? inlineStyle.noStyleBtnActive : inlineStyle.noStyleBtn}
             onClick={() => onClick(1)}
           >
             지도
-          </button>
+          </div>
         </div>
       </div>
       <div style={inlineStyle.flex}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "end", marginRight: SCREEN_WIDTH * 0.05 }}>
-          <button
-            onClick={goToUser}
+          <div
+            // onClick={goToUser}
             style={{
               ...inlineStyle.noStyleBtn,
               border: `3px solid #F1F3F5`,
@@ -55,13 +63,13 @@ export const BottomHeader = () => {
             }}
           >
             <img
-              alt={' '}
+              alt={" "}
               width={32}
               height={32}
               style={{ borderRadius: 200 }}
               src={"https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"}
             ></img>
-          </button>
+          </div>
         </div>
       </div>
     </div>
@@ -69,11 +77,11 @@ export const BottomHeader = () => {
 };
 
 const inlineStyle = {
-  barInner: { height: HEADER_HEIGHT, width: SCREEN_WIDTH, display: "flex", alignItems: "center" },
+  barInner: { height: HEADER_HEIGHT, width: SCREEN_WIDTH, display: "flex", alignItems: "center", paddingTop:8 },
   barFlexInner: { flex: 1, display: "flex", justifyContent: "center", alignItems: "baseline" },
   flex: { flex: 1 },
   flexL: { float: "left" },
-  noStyleBtnActive: { backgroundColor: "transparent", border: "none", fontSize: 17, fontWeight: "bold", width: "3em" },
-  noStyleBtn: { backgroundColor: "transparent", border: "none", fontSize: 15, fontWeight: "normal", width: "3em" },
+  noStyleBtnActive: { backgroundColor: "transparent", border: "none", fontSize: 17, fontWeight: "bold", width: "4em" },
+  noStyleBtn: { backgroundColor: "transparent", border: "none", fontSize: 15, fontWeight: "normal", width: "4em" },
   BtnProfile: {},
 };

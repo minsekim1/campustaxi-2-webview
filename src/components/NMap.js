@@ -125,6 +125,7 @@ function NaverMapAPI() {
       style={{
         width: SCREEN_WIDTH, // 네이버지도 가로 길이
         height: SCREEN_HEIGHT - HEADER_HEIGHT, // 네이버지도 세로 길이
+        marginTop:8
       }}
       defaultCenter={myPos} // 지도 초기 위치
       // onDrag={onDrag} // TEST CODE

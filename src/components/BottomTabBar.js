@@ -29,21 +29,20 @@ export const BottomTabBar = () => {
     }
   };
   return (
-    
     <div style={inlineStyle.barInner}>
       <div style={inlineStyle.barFlexInner}>
         <div style={inlineStyle.barTxt}>
-          <button style={inlineStyle.noStyleBtn} onClick={() => onClick(0)}>
+          <div style={inlineStyle.noStyleBtn} onClick={() => onClick(0)}>
             <FontAwesomeIcon
               icon={bottomTabIndex === 0 ? far.faHome : fal.faHome}
               size={"lg"}
               opacity={bottomTabIndex === 0 ? 1 : 0.3}
               color={GRAY9}
             />
-          </button>
+          </div>
         </div>
         <div style={inlineStyle.barTxt}>
-          <button style={inlineStyle.noStyleBtn} onClick={() => onClick(1)}>
+          <div style={inlineStyle.noStyleBtn} onClick={() => onClick(1)}>
             <FontAwesomeIcon
               icon={
                 homeTabIndex === 1
@@ -58,27 +57,27 @@ export const BottomTabBar = () => {
               opacity={bottomTabIndex === 1 ? 1 : 0.3}
               color={GRAY9}
             />
-          </button>
+          </div>
         </div>
         <div style={inlineStyle.barTxt}>
-          <button style={inlineStyle.noStyleBtn} onClick={() => onClick(2)}>
+          <div style={inlineStyle.noStyleBtn} onClick={() => onClick(2)}>
             <FontAwesomeIcon
               icon={bottomTabIndex === 2 ? far.faShoppingBag : fal.faShoppingBag}
               size={"lg"}
               opacity={bottomTabIndex === 2 ? 1 : 0.3}
               color={GRAY9}
             />
-          </button>
+          </div>
         </div>
         <div style={inlineStyle.barTxt}>
-          <button style={inlineStyle.noStyleBtn} onClick={() => onClick(3)}>
+          <div style={inlineStyle.noStyleBtn} onClick={() => onClick(3)}>
             <FontAwesomeIcon
               icon={bottomTabIndex === 3 ? far.faEnvelope : fal.faEnvelope}
               size={"lg"}
               opacity={bottomTabIndex === 3 ? 1 : 0.3}
               color={GRAY9}
             />
-          </button>
+          </div>
         </div>
       </div>
     </div>

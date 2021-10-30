@@ -1,3 +1,4 @@
+import React, { memo } from "react";
 import { CourseCard } from "../card/CourseCard";
 import SwipeableViews from "react-swipeable-views";
 import { virtualize } from "react-swipeable-views-utils";
@@ -14,20 +15,20 @@ import "swiper/swiper.min.css";
 
 export const VirtualizeSwipeableViews = virtualize(SwipeableViews);
 
-export const slideRenderer = ({ key, index }, list = []) => {
+export const slideRenderer = ({ index, key }, list = []) => {
   return (
     <div key={key}>
-      <Title
+      <MTitle
         beforeTxt={mod(index, list.length) === 0 ? list[list.length - 1] : list[mod(index, list.length) - 1]}
         text={`${list[mod(index, list.length)]} 코스`}
         afterTxt={mod(index, list.length) === list.length - 1 ? list[0] : list[mod(index, list.length) + 1]}
       />
-      <CourseList />
+      <MCourseList />
     </div>
   );
 };
 
-const CourseList = ({ title }) => {
+const CourseList = ({ list = [] }) => {
   return (
     <>
       <Swiper slidesPerView={1} direction={"vertical"} speed={500} height={250}>
@@ -56,6 +57,8 @@ const CourseList = ({ title }) => {
     </>
   );
 };
+const CourseListisEqual = (prevProps, nextProps) => prevProps.list === nextProps.list;
+const MCourseList = memo(CourseList, CourseListisEqual);
 
 const Title = ({ beforeTxt, text, afterTxt }) => {
   return (
@@ -103,3 +106,5 @@ const Title = ({ beforeTxt, text, afterTxt }) => {
     </div>
   );
 };
+const TitleisEqual = (prevProps, nextProps) => prevProps.text === nextProps.text;
+const MTitle = memo(Title, TitleisEqual);
