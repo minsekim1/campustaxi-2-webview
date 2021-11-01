@@ -92,7 +92,6 @@ export const CourseCreateModal = () => {
           //   content: JSON.stringify(commandInputList),
           // })
           //   .then((d) => {
-          //     console.log(d);
           //   })
           //   .finally(() => setLoading(false));
         }
