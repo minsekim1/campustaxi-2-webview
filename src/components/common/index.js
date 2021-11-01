@@ -1,6 +1,6 @@
 
 export const isHttp = window.location.protocol !== "https:";
-export const API_URL = !isHttp ? "https://www.campus-taxi.com:444" : "http://www.campus-taxi.com:81";
+export const API_URL = !isHttp ? "https://campus-taxi.com:444" : "http://campus-taxi.com:81";
 export const ProxyURL = "https://circlin-web-react-proxy.herokuapp.com/";
 /**
  * Example
