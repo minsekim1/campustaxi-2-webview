@@ -38,7 +38,7 @@ export const CourseCreateModal = () => {
   // };
   const onScrollCapture = (e) => {
     // 명령어창이 아닌 추천코스 생성창 스크롤 시 명령어창 닫기
-    if (e.nativeEvent.target.outerText[0] !== "#") setCommandWindow({ ...commandWindow, visible: false, index: -1 });
+    if (e.nativeEvent.target.outerText[0] === "배") setCommandWindow({ ...commandWindow, visible: false, index: -1 });
   };
 
   //#region 닫기 or 생성

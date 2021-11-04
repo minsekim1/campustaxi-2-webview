@@ -18,7 +18,6 @@ export const CTextarea = ({ style, maxrows, index }) => {
   // 텍스트 변한 위치 찾기
   const beforeInput = useRef("");
   //#region 컬러선택시 특정위치에 컬러넣기
-  //index -> -1 필요
   let codes = "";
   useEffect(() => {
     if (!!commandWindow.color && commandWindow.index === index) {
@@ -151,28 +150,6 @@ export const CTextarea = ({ style, maxrows, index }) => {
   };
   return (
     <>
-      {/* <TextareaAutosize
-        // rows={rows ?? 1}
-        placeholder={placeholder}
-        maxRows={maxrows}
-        // value={commandInputList[index].content}
-        style={
-          style
-            ? style
-            : {
-                width: SCREEN_WIDTH - 60,
-                height: "20px",
-                border: "none",
-                fontSize: 15,
-                color: GRAY7,
-                resize: "none",
-                fontFamily: "AppleSDGothic",
-                overflow: "hidden",
-                outline: "none",
-              }
-        }
-      ></TextareaAutosize> */}
-
       <div
         ref={ref}
         onFocus={onFocus}
