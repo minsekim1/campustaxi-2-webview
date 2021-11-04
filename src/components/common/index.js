@@ -1,7 +1,9 @@
 
 export const isHttp = window.location.protocol !== "https:";
-export const API_URL = !isHttp ? "https://campus-taxi.com:444" : "http://campus-taxi.com:81";
-export const ProxyURL = "https://circlin-web-react-proxy.herokuapp.com/";
+export const ProxyURL = !isHttp
+  ? "http://circlin-web-react-proxy.herokuapp.com/"
+  : "https://circlin-web-react-proxy.herokuapp.com/";
+export const API_URL = (isHttp ? ProxyURL : "") + "https://campus-taxi.com:444"
 /**
  * Example
  * await fetchWithTimeout('/games', {timeout:6000})

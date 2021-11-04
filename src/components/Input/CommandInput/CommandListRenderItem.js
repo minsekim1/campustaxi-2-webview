@@ -91,7 +91,7 @@ export const CommandListRenderItem = ({ img, title, desc }) => {
       //   ...commandInputList.slice(i + 1, 999),
       // ]);
       setCommandWindow({ ...commandWindow, visible: false, index: -1 });
-    } else if (["red", "blue", "brown", "purple", "yellow","orange","gray"].includes(img)) {
+    } else if (["red", "blue", "brown", "purple", "yellow", "orange", "gray"].includes(img)) {
       setCommandWindow({ ...commandWindow, visible: false, color: img });
     }
   };
