@@ -10,12 +10,33 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import SwipeableViews from "react-swipeable-views";
 
+const styles = {
+  tabs: {
+    background: "#fff",
+    width: "100%",
+  },
+  slide: {
+    padding: 15,
+    minHeight: 700,
+    color: "black",
+  },
+  slide1: {
+    // backgroundColor: "#FEA900",
+  },
+  slide2: {
+    // backgroundColor: "#B3DC4A",
+  },
+  slide3: {
+    // backgroundColor: "#6AC0FF",
+  },
+};
+
 const SearchScreen = () => {
   return (
     <>
       <TitleHeader title="찾기" />
-      <SearchBar/>
-      <ResultTabs/>
+      <SearchBar />
+      <ResultTabs />
       <BottomTabBar />
     </>
   );
@@ -45,42 +66,33 @@ const SearchBar = () => {
   };
   //#endregion
   return (
-    <div style={{width:SCREEN_WIDTH, display:'flex', justifyContent:'center'}}>
+    <div style={{ width: SCREEN_WIDTH, display: "flex", justifyContent: "center" }}>
       <InputSearch
         value={filterSearchTxt}
-        placeholder={"검색어를 입력해주세요. 유저닉네임/채팅방이름/코스이름 등"}
+        placeholder={"닉네임/출발지,도착지/코스를 검색해보세요."}
         onChange={onChangeFilterSearchTxt}
       />
     </div>
   );
 };
-const tabList = [
-  { text: "tab 1", index: 0 },
-  { text: "tab 2", index: 1 },
-  { text: "tab 3", index: 2 },
-];
+
 const ResultTabs = () => {
   const [index, setIndex] = useState(0);
-  const handleChange = (e) => {
-    console.log(tabList.filter((d) => d.text === e.target.innerHTML));
-    // setIndex(tabList.filter(d=>d.text === e.target.innerHTML)[0].index);
-  };
-  const handleChangeIndex = (i) => {
-    setIndex(i)
-  };
+  const handleChange = (e, i) => setIndex(i);
+  const handleChangeIndex = (i) => setIndex(i);
   return (
     <>
-      <Tabs value={index} >
-        {tabList.map((d) => (
-          <Tab label={d.text} onClick={handleChange} style={{width:"100%", height:"100%"}} key={d.index.toString()} />
-        ))}
+      <Tabs value={index} fullWidth onChange={handleChange} style={styles.tabs}>
+        <Tab label="사람" style={{ width: "33%", fontSize: 15 }} />
+        <Tab label="채팅방" style={{ width: "34%", fontSize: 15 }} />
+        <Tab label="코스" style={{ width: "33%", fontSize: 15 }} />
       </Tabs>
       <SwipeableViews index={index} onChangeIndex={handleChangeIndex}>
-        <div>slide n°1</div>
-        <div>slide n°2</div>
-        <div>slide n°3</div>
+        <div style={Object.assign({}, styles.slide, styles.slide1)}>slide n°1</div>
+        <div style={Object.assign({}, styles.slide, styles.slide2)}>slide n°2</div>
+        <div style={Object.assign({}, styles.slide, styles.slide3)}>slide n°3</div>
       </SwipeableViews>
     </>
   );
-}
+};
 export default SearchScreen;

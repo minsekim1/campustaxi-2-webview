@@ -1,6 +1,6 @@
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
-import { GRAY7 } from "../../style";
+import { GRAY7, SCREEN_HEIGHT } from "../../style";
 import { GRAY6 } from "../../style/index";
 import { useRecoilState } from "recoil";
 import {
@@ -19,9 +19,11 @@ import { CommandArea } from "../Input/CommandArea";
 import { FilePathState } from "./../recoil";
 import { ORANGE } from "./../../style/index";
 import { getItems } from "./../Input/CommandInput/dndFunc";
+import { API_URL, postfetch } from "../common";
+import axios from "axios";
 
 export const CourseCreateModal = () => {
-  const [, setLoading] = useRecoilState(loadingState); //loading
+  const [loading, setLoading] = useRecoilState(loadingState);
   const [visibleRoute, setVisibleRoute] = useRecoilState(CreateRouteBottomModalState);
   const [commandWindow, setCommandWindow] = useRecoilState(commandWindowState);
   const [filepath, setFilepath] = useRecoilState(FilePathState);
@@ -31,17 +33,7 @@ export const CourseCreateModal = () => {
   const titleRef = useRef("");
   const descRef = useRef("");
 
-  // const onClick = (e) => {
-  //   // 명령어창이 아닌 추천코스 생성창 터치 시 명령어창 닫기
-  //   console.debug("outer", e.nativeEvent.target.outerText, e.nativeEvent.target.outerText[0]);
-  //   if (e.nativeEvent.target.outerText[0] != "#") setCommandWindow({ ...commandWindow, visible: false, index: -1 });
-  // };
-  const onScrollCapture = (e) => {
-    // 명령어창이 아닌 추천코스 생성창 스크롤 시 명령어창 닫기
-    if (e.nativeEvent.target.outerText[0] === "배") setCommandWindow({ ...commandWindow, visible: false, index: -1 });
-  };
-
-  //#region 닫기 or 생성
+  //#region 닫기 / 생성 버튼 색이랑 문구 변경
   useEffect(() => {
     // 배경 사진이 있거나 내용이 있을경우("text" and content) or others 회색 "생성" 버튼으로
     if (
@@ -55,8 +47,14 @@ export const CourseCreateModal = () => {
       else setCloseData({ text: "생성", BtnColor: ORANGE, type: 3 });
     } else if (CloseData.type !== 0) setCloseData({ text: "닫기", BtnColor: GRAY6, type: 0 });
   }, [filepath.file, CloseData.type, commandInputList, filepath.type]);
-
-  const onClickClose = () => {
+  //#endregion
+  //#region 명령어창이 아닌 추천코스 생성창 스크롤 시 명령어창 닫기
+  const onScrollCapture = (e) => {
+    if (e.nativeEvent.target.outerText[0] === "배") setCommandWindow({ ...commandWindow, visible: false, index: -1 });
+  };
+  //#endregion
+  //#region 코스생성 닫기 or 생성하기 onPress
+  const onClickClose = async () => {
     switch (CloseData.type) {
       case 0:
         setVisibleRoute(false);
@@ -74,26 +72,72 @@ export const CourseCreateModal = () => {
         } else if (descRef.current.value === "") {
           alert("간단한 소개를 입력해주세요.");
           break;
+        } else if (loading) {
+          alert("업로드 진행 중입니다. 잠시만 기다려주세요.");
+          break;
         } else {
           setLoading(true);
-          setTimeout(() => {
-            setLoading(false);
-            titleRef.current.value = "";
-            descRef.current.value = "";
-            setFilepath(FilePathInit);
-            setCommandInputList(getItems(1));
-            alert("생성완료~!")
-          }, 1000);
-          // postfetch("/course", {
-          //   title: titleRef.current.value,
-          //   description: descRef.current.value,
-          //   creator_id: "0",
-          //   image: filepath.file,
-          //   content: JSON.stringify(commandInputList),
-          // })
-          //   .then((d) => {
-          //   })
-          //   .finally(() => setLoading(false));
+          //#region 태그 생성 및 반환 아이디 가져오기.
+          const tagCommand = commandInputList.filter((t) => t.type === "tag");
+          const tagList = _.flatten(tagCommand.map((t) => t.content.tagList));
+          async function postTagList() {
+            if (tagCommand.length > 0) {
+              let tagIdList = [];
+              return new Promise((resolve) => {
+                let count = 0;
+                tagList.map((v, i) => {
+                  axios.get(`${API_URL}/tags?name=${v.text}`).then((d) => {
+                    // 없으면 태그 생성 후 id 가져오기
+                    if (d.data.length === 0) {
+                      axios.post(`${API_URL}/tags`, { name: v.text }).then((d) => {
+                        tagIdList.push(Number(d.data.id));
+                        count++;
+                        if (count === tagList.length) resolve(tagIdList);
+                      });
+                      // 있으면 태그 id 가져오기
+                    } else {
+                      tagIdList.push(Number(d.data[0].id));
+                      count++;
+                      if (count === tagList.length) resolve(tagIdList);
+                    }
+                  });
+                });
+              });
+            }
+          }
+          const tagIdList = await postTagList();
+          //#endregion
+          //#region 이미지넣기
+          const data = new FormData();
+          const filename = new Date().getTime().toString() + "." + filepath.type.split("/")[1];
+          data.append("files", new File([filepath.file], filename, { type: filepath.type }));
+          //#endregion
+          //#region 업로드=> 1.이미지 업로드
+          axios.post(`${API_URL}/upload`, data).then(async (d) => {
+            const imgId = d.data[0].id;
+            const dataCourse = {
+              title: titleRef.current.value,
+              description: descRef.current.value,
+              creator_id: 1,
+              images: [imgId],
+              content: JSON.stringify(commandInputList),
+              tags: tagIdList,
+            };
+            // 2. 코스 업로드
+            postfetch("/courses", JSON.stringify(dataCourse), true)
+              .then((d) => {
+                setLoading(false);
+                titleRef.current.value = "";
+                descRef.current.value = "";
+                setFilepath(FilePathInit);
+                setCommandInputList(getItems(1));
+              })
+              .catch((e) => {
+                setLoading(false);
+                setVisibleRoute(false);
+              });
+          });
+          //#endregion
         }
         break;
     }
@@ -133,7 +177,7 @@ export const CourseCreateModal = () => {
         <div>
           <InputImage placeholder={"배경 사진을 선택해주세요!"} />
           <div style={{ padding: "0 16px 80px 16px" }}>
-            <div >
+            <div>
               <Textarea
                 ref={titleRef}
                 placeholder={"코스 제목을 입력해주세요."}

@@ -1,15 +1,14 @@
-
 export const isHttp = window.location.protocol !== "https:";
 export const ProxyURL = !isHttp
   ? "http://circlin-web-react-proxy.herokuapp.com/"
   : "https://circlin-web-react-proxy.herokuapp.com/";
-export const API_URL = (isHttp ? ProxyURL : "") + "https://campus-taxi.com:444"
+export const API_URL = (isHttp ? ProxyURL : "") + "https://campus-taxi.com:444";
 /**
  * Example
  * await fetchWithTimeout('/games', {timeout:6000})
- * @param {string} resource 
- * @param {object} options 
- * @returns 
+ * @param {string} resource
+ * @param {object} options
+ * @returns
  */
 export const fetchWithTimeout = async ({ resource, options = {} }) => {
   const { timeout = 8000 } = options;
@@ -23,27 +22,43 @@ export const fetchWithTimeout = async ({ resource, options = {} }) => {
   return response;
 };
 
-export const postfetch = (url, params) => {
-  let formBody = [];
-  for (let property in params) {
-    let encodedKey = encodeURIComponent(property);
-    let encodedValue = encodeURIComponent(params[property]);
-    formBody.push(encodedKey + "=" + encodedValue);
-  }
-  formBody = formBody.join("&");
+export const postfetch = (url, params, isCustom = false) => {
+  if (isCustom) {
+    return new Promise((resolve, reject) => {
+      fetch(`${API_URL}${url}`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: params,
+      })
+        .then((d) => d.json())
+        .then((d) => resolve(d))
+        .catch((e) => reject(e));
+    });
+  } else {
+    let formBody = [];
+    for (let property in params) {
+      let encodedKey = encodeURIComponent(property);
+      let encodedValue = encodeURIComponent(params[property]);
+      formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
 
-  return new Promise((resolve, reject) => {
-    fetch(`${API_URL}${url}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-      },
-      body: formBody,
-    })
-      .then((d) => d.json())
-      .then((d) => resolve(d))
-      .catch((e) => reject(e));
-  });
+    return new Promise((resolve, reject) => {
+      fetch(`${API_URL}${url}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        },
+        body: formBody,
+      })
+        .then((d) => d.json())
+        .then((d) => resolve(d))
+        .catch((e) => reject(e));
+    });
+  }
 };
 
 export const getfetch = (url, params) => {

@@ -58,5 +58,6 @@ export async function getCroppedImg(imageSrc, pixelCrop, rotation = 0) {
     canvas.toBlob((file) => {
       resolve(URL.createObjectURL(file));
     }, "image/jpeg");
+    
   });
 }

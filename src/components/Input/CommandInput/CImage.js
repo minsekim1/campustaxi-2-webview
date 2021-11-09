@@ -57,9 +57,10 @@ export const CImage = ({ index }) => {
   //#region 편집 후 가져오기
   useEffect(() => {
     if (!crop.visible && isCrop) {
+      console.log(crop, '!!!')
       setCommandInputList([
         ...commandInputList.slice(0, index),
-        { ...commandInputList[index], content: { file: crop.file, previewURL: crop.previewURL } },
+        { ...commandInputList[index], content: { file: crop.file, previewURL: crop.previewURL, type:crop.type } },
         ...commandInputList.slice(index + 1, 999),
       ]);
       // setFilepath({ file: crop.file, previewURL: crop.previewURL });
@@ -83,7 +84,7 @@ export const CImage = ({ index }) => {
       let file = e.target.files[0];
       reader.onloadend = () => {
         setIsCrop(true);
-        setCrop({ visible: true, file: file, previewURL: reader.result });
+        setCrop({ visible: true, file: file, previewURL: reader.result, type: file.type });
       };
       reader.readAsDataURL(file);
     } catch (e) {

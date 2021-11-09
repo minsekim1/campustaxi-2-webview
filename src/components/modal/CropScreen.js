@@ -22,7 +22,7 @@ export const CropScreen = () => {
     try {
       const croppedImage = await getCroppedImg(crop.previewURL, croppedAreaPixels, rotation);
       setCroppedImage(croppedImage);
-      setCrop({ visible: false, file: croppedImage, previewURL: croppedImage });
+      setCrop({ visible: false, file: croppedImage, previewURL: croppedImage, type:crop.type });
     } catch (e) {
       console.error(e);
     }

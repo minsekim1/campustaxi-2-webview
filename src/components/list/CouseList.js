@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo,useCallback, useEffect } from "react";
 import { CourseCard } from "../card/CourseCard";
 import SwipeableViews from "react-swipeable-views";
 import { virtualize } from "react-swipeable-views-utils";
@@ -16,12 +16,15 @@ import "swiper/swiper.min.css";
 export const VirtualizeSwipeableViews = virtualize(SwipeableViews);
 
 export const slideRenderer = ({ index, key }, list = []) => {
+  const indexMod = mod(index, list.length);
+  
+
   return (
     <div key={key}>
       <MTitle
-        beforeTxt={mod(index, list.length) === 0 ? list[list.length - 1] : list[mod(index, list.length) - 1]}
-        text={`${list[mod(index, list.length)]} 코스`}
-        afterTxt={mod(index, list.length) === list.length - 1 ? list[0] : list[mod(index, list.length) + 1]}
+        beforeTxt={indexMod === 0 ? list[list.length - 1] : list[indexMod - 1]}
+        text={`${list[indexMod]} 코스`}
+        afterTxt={indexMod === list.length - 1 ? list[0] : list[indexMod + 1]}
       />
       <MCourseList />
     </div>

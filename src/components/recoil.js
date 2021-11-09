@@ -3,6 +3,7 @@ import { atom } from "recoil";
 import { ChatRoomInit, posInit } from "./common";
 import { getItems } from "./Input/CommandInput/dndFunc";
 import { localStorageEffect } from "./common/function/localStorageEffect";
+import { tagInitList } from "./CourseArea";
 //#region userData token
 /**
  * 유저 데이터 Badge, user 포함
@@ -18,9 +19,23 @@ import { localStorageEffect } from "./common/function/localStorageEffect";
  *
  * address_name category_group_code category_group_name category_name distance id phone place_name place_url road_address_name x y
  */
+
+const tagInitListItem = tagInitList[Math.floor(Math.random() * tagInitList.length)];
 export const commandInputListState = atom({
   key: "recoil/commandInputList",
-  default: getItems(1),
+  default: [
+    ...getItems(1),
+    ...getItems(1, 1, "contour"),
+    ...getItems(1, 2, "tag", {
+      inputValue: "",
+      tagList: [
+        {
+          id: tagInitListItem,
+          text: tagInitListItem,
+        },
+      ],
+    }),
+  ],
   effects_UNSTABLE: [localStorageEffect("recoil/cache/commandInputList")],
 });
 
@@ -160,7 +175,7 @@ export const SearchPositionState = atom({
 });
 //#region bttomTabIndex
 
-export const FilePathInit = { file: "", previewURL: "", type: "" };
+export const FilePathInit = { file: "", previewURL: "", type: "", name: "" };
 /**
  * type : "" | "CourseCreateMainImg"
  */
@@ -172,7 +187,7 @@ export const FilePathState = atom({
 /**
  *  이미지 수정 crop
  */
-export const CropInit = { visible: false, file: "", previewURL: "" };
+export const CropInit = { visible: false, file: new File([null], null), previewURL: "", type: "" };
 export const CropState = atom({
   key: "recoil/crop",
   default: CropInit,

@@ -151,7 +151,6 @@ export const CreateBottomModal = () => {
     if (!postCondition) {
       alert("출발지/도착지/출발시간을 확인해주세요.");
     } else {
-      // getfetch("/users").then((d) => console.debug(d));
       const response = await postfetch("/chat-rooms", {
         title: title,
         gender: genderLimit ? "M" : "None",

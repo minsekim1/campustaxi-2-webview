@@ -103,8 +103,8 @@ export const InputSearch = ({ value, placeholder, onChange, autoFocus=false }) =
           height: "100%",
           backgroundColor: GRAY2,
           border: "none",
-          width: SCREEN_WIDTH - 100,
-          fontSize: 15,
+          width: SCREEN_WIDTH*0.7,
+          fontSize: SCREEN_WIDTH < 400 ? 13 : 14,
           color: GRAY9,
           outline: "none",
         }}

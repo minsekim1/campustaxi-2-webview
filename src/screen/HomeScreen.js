@@ -11,7 +11,7 @@ import { BottomModal, CreateBottomModal } from './../components/BottomModal';
 const HomeScreen = () => {
   return (
     <>
-      <PreRegistrationPopup/>
+      {/* <PreRegistrationPopup/> */}
       <BottomHeader />
       <SearchPosition/>
       <NMAP />

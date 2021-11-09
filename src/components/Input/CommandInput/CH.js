@@ -1,10 +1,10 @@
 import { GRAY6, GRAY7, GRAY8, SCREEN_WIDTH } from "../../../style";
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef, useEffect, useMemo } from "react";
 import TextareaAutosize from "react-autosize-textarea";
 import { offset, position } from "caret-pos";
 import { useRecoilState } from "recoil";
 import { commandInputListState, commandWindowState } from "../../recoil";
-import { platform } from './CTextarea';
+import { platform } from "./CTextarea";
 
 export const CH = ({ index, type = "h1" }) => {
   const [placeholder, setPlaceHolder] = useState("");
@@ -69,9 +69,9 @@ export const CH = ({ index, type = "h1" }) => {
       //#region #누르면 명령어창 보여줌 || 안드로이드 설정(한번에 여러개들어옴)
       if (
         e.nativeEvent.data == "#" ||
-        (platform === "android" && !!e.nativeEvent.data && e.nativeEvent.data.includes("#"))
+        (platform === "android" && !!e.nativeEvent.data && e.nativeEvent.data[e.nativeEvent.data.length - 1] === "#")
       ) {
-        let { left, top, height } = position(ref.current);
+        let { left, top, height } = offset(ref.current);
         //#region 가로이동 제한 & height 화면 안 넘어가게 제한
         // 가로제한
         if (left + 260 > SCREEN_WIDTH && left < 260) {
@@ -87,7 +87,7 @@ export const CH = ({ index, type = "h1" }) => {
         //#endregion
         setCommandWindow({
           visible: true,
-          top: top,
+          top: top - 25,
           left: left,
           index: index,
           height: heightCommand,
@@ -111,35 +111,23 @@ export const CH = ({ index, type = "h1" }) => {
   const onBlur = () => {
     setPlaceHolder("");
   };
-  const onFocus = () => {
-    let { left, top, pos, height } = position(ref.current);
-    //#region 가로이동 제한 & height 화면 안 넘어가게 제한
-    // 가로제한
-    if (left + 260 > SCREEN_WIDTH && left < 260) {
-      left = commandWindow.left;
-    } else if (SCREEN_WIDTH - left < 260 && left > 260) left -= 280;
-    // 세로제한
-    let heightCommand = 448;
-    top -= heightCommand;
-    if (top < 0) {
-      heightCommand += top - height;
-      top = 0;
-    }
-    //#endregion
+  const onFocus = (e) => {
     setCommandWindow({
       visible: false,
-      top: top,
-      left: left,
+      top: 0,
+      left: 0,
       index: index,
-      height: heightCommand,
-      pos: pos,
+      height: 0,
+      pos: 0,
     });
 
     if (ref.current.innerHTML === "") setPlaceHolder('명령어 사용시 "#"을 입력하세요.');
   };
 
-  const style =
-    type == "h1" ? { fontSize: 21, fontWeight: "bold" } : type == "h2" ? { fontSize: 18 } : { fontSize: 16 };
+  const style = useMemo(() =>
+    type == "h1" ? { fontSize: 21, fontWeight: "bold" } : type == "h2" ? { fontSize: 18 } : { fontSize: 16 }
+  ,[]);
+
   return (
     <>
       <div

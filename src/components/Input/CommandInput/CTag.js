@@ -18,14 +18,20 @@ export const CTag = ({ index, type = "h1" }) => {
   const [commandInputList, setCommandInputList] = useRecoilState(commandInputListState);
   const tagList = commandInputList[index].content.tagList;
   const inputValue = commandInputList[index].content.inputValue;
-  const [suggestionList] = useState([
-    //setSuggestionList
-    { id: "캠퍼스택시", text: "캠퍼스택시" },
-    { id: "Campustaxi", text: "Campustaxi" },
-  ]);
+  // const [suggestionList] = useState([
+  //   //setSuggestionList
+  //   { id: "0", text: "캠퍼스택시" },
+  //   { id: "1", text: "Campustaxi" },
+  //   { id: "2", text: "문화" },
+  //   { id: "3", text: "힐링" },
+  //   { id: "4", text: "놀이" },
+  //   { id: "5", text: "데이트" },
+  //   { id: "6", text: "여행" },
+  // ]);
 
   //#region 태그기본함수
   // 태그삭제
+  console.log(commandInputList);
   const handleDelete = (i) => {
     setCommandInputList([
       ...commandInputList.slice(0, index),
@@ -61,15 +67,16 @@ export const CTag = ({ index, type = "h1" }) => {
         allowDeleteFromEmptyInput={false}
         inline
         tags={tagList}
-        inputValue={inputValue}
-        suggestions={suggestionList}
+        // inputValue={inputValue}
+        // suggestions={suggestionList}
         handleDelete={handleDelete}
         handleAddition={handleAddition}
-        handleInputChange={handleInputChange}
+        // handleInputChange={handleInputChange}
         delimiters={delimiters}
         renderSuggestion={({ text }, query) => (
-          <div style={{ fontSize: 13 }}>
-            {text} ({query})
+          <div style={{ fontSize: 11 }}>
+            {text}
+            {/* ({query}) */}
           </div>
         )}
       />

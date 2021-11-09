@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { CropInit, CropState, FilePathInit, FilePathState } from "../recoil";
 import { useRecoilState } from "recoil";
 import { Icon } from "../common/Icon";
-import { loadXHR } from './CommandInput/CImage';
+import { loadXHR } from "./CommandInput/CImage";
 
 export const InputImage = ({ placeholder }) => {
   const [crop, setCrop] = useRecoilState(CropState);
@@ -25,7 +25,7 @@ export const InputImage = ({ placeholder }) => {
   //#region 편집 후 가져오기
   useEffect(() => {
     if (!crop.visible && isCrop) {
-      setFilepath({ file: crop.file, previewURL: crop.previewURL, type: "CourseCreateMainImg" });
+      setFilepath({ file: crop.file, previewURL: crop.previewURL, type: crop.type });
       setIsCrop(false);
       setCrop(CropInit);
     }
@@ -38,7 +38,7 @@ export const InputImage = ({ placeholder }) => {
       let file = e.target.files[0];
       reader.onloadend = () => {
         setIsCrop(true);
-        setCrop({ visible: true, file: file, previewURL: reader.result });
+        setCrop({ visible: true, file: file, previewURL: reader.result, type: file.type });
       };
       reader.readAsDataURL(file);
     } catch (e) {
