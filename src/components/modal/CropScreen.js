@@ -17,7 +17,7 @@ export const CropScreen = () => {
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
-
+  
   const showCroppedImage = useCallback(async () => {
     try {
       const croppedImage = await getCroppedImg(crop.previewURL, croppedAreaPixels, rotation);

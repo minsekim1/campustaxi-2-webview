@@ -31,7 +31,6 @@ export const CTag = ({ index, type = "h1" }) => {
 
   //#region 태그기본함수
   // 태그삭제
-  console.log(commandInputList);
   const handleDelete = (i) => {
     setCommandInputList([
       ...commandInputList.slice(0, index),

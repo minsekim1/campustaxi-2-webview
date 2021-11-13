@@ -22,6 +22,22 @@ import { getItems } from "./../Input/CommandInput/dndFunc";
 import { API_URL, postfetch } from "../common";
 import axios from "axios";
 
+//#region 파일업로드시 Blob to File
+const dataURLtoFile = (dataurl, fileName) => {
+  var arr = dataurl.split(","),
+    mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[1]),
+    n = bstr.length,
+    u8arr = new Uint8Array(n);
+
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+
+  return new File([u8arr], fileName, { type: mime });
+};
+//#endregion
+
 export const CourseCreateModal = () => {
   const [loading, setLoading] = useRecoilState(loadingState);
   const [visibleRoute, setVisibleRoute] = useRecoilState(CreateRouteBottomModalState);
@@ -76,7 +92,7 @@ export const CourseCreateModal = () => {
           alert("업로드 진행 중입니다. 잠시만 기다려주세요.");
           break;
         } else {
-          setLoading(true);
+          // setLoading(true);
           //#region 태그 생성 및 반환 아이디 가져오기.
           const tagCommand = commandInputList.filter((t) => t.type === "tag");
           const tagList = _.flatten(tagCommand.map((t) => t.content.tagList));
@@ -108,9 +124,17 @@ export const CourseCreateModal = () => {
           const tagIdList = await postTagList();
           //#endregion
           //#region 이미지넣기
+
           const data = new FormData();
+
+          // 메인사진
           const filename = new Date().getTime().toString() + "." + filepath.type.split("/")[1];
-          data.append("files", new File([filepath.file], filename, { type: filepath.type }));
+          data.append("files", dataURLtoFile(filepath.file, filename));
+
+          // 코스첨부사진들
+          await commandInputList.filter(item => item.type === "image").map((item,i) => {
+            data.append("files", dataURLtoFile(item.content.file, filename + i));
+          })
           //#endregion
           //#region 업로드=> 1.이미지 업로드
           axios.post(`${API_URL}/upload`, data).then(async (d) => {
@@ -127,10 +151,10 @@ export const CourseCreateModal = () => {
             postfetch("/courses", JSON.stringify(dataCourse), true)
               .then((d) => {
                 setLoading(false);
-                titleRef.current.value = "";
-                descRef.current.value = "";
-                setFilepath(FilePathInit);
-                setCommandInputList(getItems(1));
+                // titleRef.current.value = "";
+                // descRef.current.value = "";
+                // setFilepath(FilePathInit);
+                // setCommandInputList(getItems(1));
               })
               .catch((e) => {
                 setLoading(false);

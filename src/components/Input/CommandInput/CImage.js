@@ -57,7 +57,6 @@ export const CImage = ({ index }) => {
   //#region 편집 후 가져오기
   useEffect(() => {
     if (!crop.visible && isCrop) {
-      console.log(crop, '!!!')
       setCommandInputList([
         ...commandInputList.slice(0, index),
         { ...commandInputList[index], content: { file: crop.file, previewURL: crop.previewURL, type:crop.type } },
