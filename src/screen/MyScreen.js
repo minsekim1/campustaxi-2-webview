@@ -14,6 +14,8 @@ var points = 0,
 var address = "서울시 강남구",
   name = "캠퍼스택시";
 
+var points = 0, following = 0, follower = 0, courseNum = 0;
+var address="서울시 강남구", name="캠퍼스택시"
 const MyScreen = () => {
   const history = useHistory(); 
   	const onClickBack = () => {
