@@ -14,3 +14,5 @@ return <>
 
 
 						git log로 확인가능
+
+						git pull origin main

@@ -7,6 +7,10 @@ import { useState } from "react";
 import { Tab, Tabs } from "@mui/material";
 import SwipeableViews from "react-swipeable-views";
 import { BackHeader } from "../components/BackHeader";
+import { CourseCard } from "../components/card/CourseCard";
+import { Swiper, SwiperSlide } from "swiper/react";
+import useWindowDimensions from "../hook/useWindowDimensions";
+import { CourseTypeInit } from "../types/CourseArea.d";
 
 var points = 0,
   following = 0,
@@ -20,9 +24,6 @@ var address = "서울시 강남구",
   name = "캠퍼스택시"; //서울시 강남구
 const MyScreen = () => {
   const history = useHistory(); 
-  	const onClickBack = () => {
-      history.goBack(); //<-- 뒤로가기
-    };
   return (
     <>
       <div style={{height:56}}>
@@ -50,13 +51,14 @@ const MyScreen = () => {
             팔로잉 {following} 팔로워 {follower} 코스제작 {courseNum}
           </p>
         </div>
-      </div>
-      <div className="myScreenBottom">
+        </div>
+        
+      {/* <div className="myScreenBottom">
         <div className="buttons">
           <button>이용 내역</button>
           <button>경로 제작</button>
         </div>
-      </div>
+      </div> */}
     </header>
       <ResultTabs />
     </>
@@ -74,13 +76,56 @@ const ResultTabs = () => {
         <Tab label="경로 제작" style={{ width: "50%", fontSize: 15 }} />
       </Tabs>
       <SwipeableViews index={index} onChangeIndex={handleChangeIndex}>
-        <div>이용 내역</div>
-        <div>경로 제작</div>
+        <div>
+          <LogList />
+        </div>
+        <div>
+          <CourseList />
+        </div>
       </SwipeableViews>
     </>
   );
 };
 
+const LogList = () => {
+    const [courseList, setCourseList] = useState([1, 2, 3, 4]);
+    const { height, width } = useWindowDimensions();
+    //  useRecoilState < CourseType[] > (CouseListState);
+    const list = courseList;
+    //.filter(item => item.tags.filter((item) => item.name === tag).length > 0)
+
+    return (
+      <>
+        <Swiper slidesPerView={1} direction={"vertical"} speed={500} height={100}>
+          {list.map((course, i) => (
+            <SwiperSlide key={i.toString()}>
+              {/* 의서님작업할거 */}
+              <div>asd</div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </>
+    );
+}
+
+const CourseList = () => {
+  const [courseList, setCourseList] = useState([1,2,3,4]);
+  const { height, width } = useWindowDimensions();
+  //  useRecoilState < CourseType[] > (CouseListState);
+  const list = courseList
+    //.filter(item => item.tags.filter((item) => item.name === tag).length > 0)
+  
+  return (
+    <>
+      <Swiper slidesPerView={1} direction={"vertical"} speed={500} height={260}>
+        {list.map((course,i) =>
+          <SwiperSlide key={i.toString()}>
+            <CourseCard width={width} course={course}/>
+          </SwiperSlide>)}
+      </Swiper>
+    </>
+  );
+}
 export default MyScreen;
 
 /* 
