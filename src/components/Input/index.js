@@ -1,39 +1,89 @@
-import { GRAY2, GRAY6, GRAY9, SCREEN_WIDTH } from "../../style";
-import { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import * as fal from "@fortawesome/pro-light-svg-icons";
-import * as fas from "@fortawesome/free-solid-svg-icons";
-import * as far from "@fortawesome/pro-regular-svg-icons";
+import { GRAY2, GRAY7, GRAY9,  } from "../../style";
+import { forwardRef, useState, useCallback } from "react";
 import { CreateBottomModalState, SearchPositionState } from "../recoil";
 import { useRecoilState } from "recoil";
 import { Icon } from "../common/Icon";
+import TextareaAutosize from "react-autosize-textarea";
+import useWindowDimensions from "../../hook/useWindowDimensions";
 
-export const Input = ({ value, placeholder, inputMode, type, readOnly, disabled }) => {
-  const onChangeInput = (e) => {
-    value.current = e.target.value;
+export const Input = forwardRef(({ onChange, placeholder, inputMode, type, readOnly, disabled, defaultValue, }, ref) => {
+  const onChangeInupt = (e) => {
+    if (onChange) onChange(e.target.value);
   };
+  const { height, width } = useWindowDimensions();
   return (
     <input
-      onChange={onChangeInput}
+      ref={ref}
+      defaultValue={defaultValue}
+      onChange={onChangeInupt}
       readOnly={readOnly ?? false}
       inputMode={inputMode ?? "text"}
       placeholder={placeholder}
       type={type ?? ""}
       disabled={disabled ?? false}
       style={{
-        width: SCREEN_WIDTH - 60,
+        width: width - 60,
         backgroundColor: GRAY2,
         border: "none",
         padding: 10,
         borderRadius: 10,
         fontSize: 15,
-        color: GRAY9,
+        color: GRAY7,
+        outline: "none",
       }}
     />
   );
-};
+});
 
-export const InputSearch = ({ value, placeholder, inputMode, type, readOnly, disabled, onChange }) => {
+export const Textarea = forwardRef(({ placeholder, style, maxrows },ref) => {
+  const [rowIndex, setRowIndex] = useState({ height: 0, index: 0 });
+  const { height, width } = useWindowDimensions();
+  const onChangeInput = useCallback(
+    (e) => {
+      // if (!!onChange) onChange(e.target.value);
+      if (!!maxrows) {
+        if (rowIndex.index < maxrows && rowIndex.height < e.target.scrollHeight)
+          setRowIndex({ index: rowIndex.index + 1, height: e.target.scrollHeight });
+        else if (rowIndex.height < e.target.scrollHeight) e.target.value = e.target.value.slice(0, -1);
+        e.target.style.maxHeight = rowIndex.height - 4 + "px";
+        e.target.style.height = rowIndex.height - 4 + "px";
+      }
+    },
+    [rowIndex, maxrows]
+  );
+  return (
+    <TextareaAutosize
+      ref={ref}
+      // rows={rows ?? 1}
+      onChange={onChangeInput}
+      placeholder={placeholder}
+      maxRows={maxrows}
+      // onResize={onResizeInput}
+      // defaultValue={defaultValue}
+      style={
+        style
+          ? style
+          : {
+              width: width - 60,
+              height: "20px",
+              backgroundColor: GRAY2,
+              border: "none",
+              padding: 10,
+              borderRadius: 10,
+              fontSize: 15,
+              color: GRAY7,
+              resize: "none",
+              fontFamily: "AppleSDGothic",
+              overflow: "hidden",
+              outline: "none",
+            }
+      }
+    />
+  );
+});
+
+export const InputSearch = ({ value, placeholder, onChange, autoFocus = false }) => {
+  const { height, width } = useWindowDimensions();
   const onChangeInput = (e) => {
     value.current = e.target.value;
     onChange(e.target.value);
@@ -41,7 +91,7 @@ export const InputSearch = ({ value, placeholder, inputMode, type, readOnly, dis
   return (
     <div
       style={{
-        width: SCREEN_WIDTH - 60,
+        width: width - 60,
         backgroundColor: GRAY2,
         border: "none",
         padding: 10,
@@ -50,15 +100,17 @@ export const InputSearch = ({ value, placeholder, inputMode, type, readOnly, dis
     >
       <Icon type={"regular"} name={"faSearch"} size={"lg"} />
       <input
+        autoFocus={autoFocus}
         onChange={onChangeInput}
         style={{
           marginLeft: 6,
           height: "100%",
           backgroundColor: GRAY2,
           border: "none",
-          width: SCREEN_WIDTH - 100,
-          fontSize: 15,
-          color:GRAY9
+          width: width * 0.7,
+          fontSize: width < 400 ? 13 : 14,
+          color: GRAY9,
+          outline: "none",
         }}
         placeholder={placeholder}
       ></input>
@@ -66,13 +118,14 @@ export const InputSearch = ({ value, placeholder, inputMode, type, readOnly, dis
   );
 };
 
-export const InputMap = ({ value, placeholder }) => {
+export const InputMap = ({ placeholder, position }) => {
   const [, setVisible] = useRecoilState(CreateBottomModalState);
-  const [, setVisibleSearch] = useRecoilState(SearchPositionState);
+  const [, setVisibleSearch] = useRecoilState(SearchPositionState); //visibleSearch
+  const { height, width } = useWindowDimensions();
   return (
     <div
       style={{
-        width: SCREEN_WIDTH - 60,
+        width: width - 60,
         backgroundColor: GRAY2,
         border: "none",
         padding: 10,
@@ -80,7 +133,7 @@ export const InputMap = ({ value, placeholder }) => {
       }}
       onClick={() => {
         setVisible(false);
-        setVisibleSearch(true);
+        setVisibleSearch({ visible: true, position: position });
       }}
     >
       <div style={{ float: "left", justifyContent: "center", alignItems: "center", display: "flex", marginRight: 6 }}>

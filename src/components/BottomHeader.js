@@ -1,9 +1,11 @@
 import { homeTabIndexState } from "../components/recoil";
-import { SCREEN_WIDTH } from "./../style/index";
+import { HEADER_HEIGHT } from "./../style/index";
 import { useRecoilState } from "recoil";
 import { useHistory } from "react-router";
+import useWindowDimensions from "../hook/useWindowDimensions";
 
 export const BottomHeader = () => {
+  const { height, width } = useWindowDimensions();
   const history = useHistory();
   const [homeTabIndex, setHomeTabIndex] = useRecoilState(homeTabIndexState);
   const onClick = (index) => {
@@ -17,30 +19,38 @@ export const BottomHeader = () => {
     history.push("/my");
   };
   return (
-    <div style={inlineStyle.barInner}>
+    <div style={{ height: HEADER_HEIGHT, width: width, display: "flex", alignItems: "center", paddingTop: 8 }}>
       <div style={inlineStyle.flex}></div>
       <div style={inlineStyle.barFlexInner}>
         <div style={inlineStyle.flexL}>
-          <button
-            style={homeTabIndex === 0 ? inlineStyle.noStyleBtnActive : inlineStyle.noStyleBtn}
+          <div
+            style={
+              homeTabIndex === 0
+                ? {
+                    ...inlineStyle.noStyleBtnActive,
+                    display: "flex",
+                    justifyContent: "right",
+                  }
+                : { ...inlineStyle.noStyleBtn, display: "flex", justifyContent: "right" }
+            }
             onClick={() => onClick(0)}
           >
             코스
-          </button>
+          </div>
         </div>
-        <div style={inlineStyle.flexL}>&nbsp;|&nbsp;</div>
+        <div style={{ margin: "0 12px", alignSelf: "flex-start" }}>|</div>
         <div style={inlineStyle.flexL}>
-          <button
+          <div
             style={homeTabIndex === 1 ? inlineStyle.noStyleBtnActive : inlineStyle.noStyleBtn}
             onClick={() => onClick(1)}
           >
             지도
-          </button>
+          </div>
         </div>
       </div>
       <div style={inlineStyle.flex}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "end", marginRight: SCREEN_WIDTH * 0.05 }}>
-          <button
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "end", marginRight: width * 0.05 }}>
+          <div
             onClick={goToUser}
             style={{
               ...inlineStyle.noStyleBtn,
@@ -50,17 +60,18 @@ export const BottomHeader = () => {
               alignItems: "center",
               justifyContent: "center",
               display: "flex",
-              width: 48,
-              height: 48,
+              width: 44,
+              height: 44,
             }}
           >
             <img
+              alt={" "}
               width={32}
               height={32}
               style={{ borderRadius: 200 }}
               src={"https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"}
             ></img>
-          </button>
+          </div>
         </div>
       </div>
     </div>
@@ -68,11 +79,11 @@ export const BottomHeader = () => {
 };
 
 const inlineStyle = {
-  barInner: { height: 96, width: SCREEN_WIDTH, display: "flex", alignItems: "center" },
+  
   barFlexInner: { flex: 1, display: "flex", justifyContent: "center", alignItems: "baseline" },
   flex: { flex: 1 },
   flexL: { float: "left" },
-  noStyleBtnActive: { backgroundColor: "transparent", border: "none", fontSize: 19, fontWeight: "bold" },
-  noStyleBtn: { backgroundColor: "transparent", border: "none", fontSize: 17, fontWeight: "normal" },
+  noStyleBtnActive: { backgroundColor: "transparent", border: "none", fontSize: 17, fontWeight: "bold", width: "4em" },
+  noStyleBtn: { backgroundColor: "transparent", border: "none", fontSize: 15, fontWeight: "normal", width: "4em" },
   BtnProfile: {},
 };

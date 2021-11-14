@@ -1,0 +1,11 @@
+{
+  "overrides": [
+    {
+      "files": ["src/**/*.js"],
+      "rules": {
+        "no-use-before-define": ["off"],
+        "max-lines-per-function": ["off"]
+      }
+    }
+  ]
+}

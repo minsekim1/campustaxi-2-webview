@@ -1,11 +1,24 @@
 import { BottomTabBar } from "../components/BottomTabBar";
-import { NMAP } from '../components/NMap';
 import { BottomModal } from './../components/BottomModal';
 import "./ShopScreen.css"
 import { FaFilter, FaSearch } from "react-icons/fa";
 
 var counts = 0;
 const ShopScreen = () => {
+  // const [data, setData] = useState([]);
+  
+  // // useEffect(()=>{},[]) 샵 들어올때 1번 실행
+  // useEffect(() => {
+  //   // 데이터 가져오기
+  //   getfetch("/users").then((d) => setData(d));
+  //   // getfetch("/chat-rooms").then((d) => setData(d));
+
+  //   //데이터 저장하기
+  //   // postfetch("/chat-rooms", {저장할 값들})
+  //   // alert(data);
+  // }, []);
+
+  // // alert('re-render!')
   return (
     <body>
       <div className="shopScreenTop">
@@ -43,3 +56,4 @@ const ShopScreen = () => {
 
 
 export default ShopScreen;
+

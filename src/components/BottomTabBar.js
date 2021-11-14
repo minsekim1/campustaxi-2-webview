@@ -1,19 +1,20 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as fal from "@fortawesome/pro-light-svg-icons";
-import * as fas from "@fortawesome/free-solid-svg-icons";
 import * as  far from "@fortawesome/pro-regular-svg-icons";
 
 import { useRecoilState } from "recoil";
 import { BottomModalState, bottomTabIndexState, homeTabIndexState } from "./recoil";
-import { GRAY9, SCREEN_HEIGHT } from "../style";
-import { SCREEN_WIDTH } from "./../style/index";
-import { Link, useHistory } from "react-router-dom";
+import { GRAY9 } from "../style";
+import { useHistory } from "react-router-dom";
+import useWindowDimensions from "../hook/useWindowDimensions";
 
 export const BottomTabBar = () => {
   const history = useHistory();
+  const { height, width } = useWindowDimensions();
   const [homeTabIndex] = useRecoilState(homeTabIndexState);
   const [, setVisible] = useRecoilState(BottomModalState);
   const [bottomTabIndex, setBottomTabIndex] = useRecoilState(bottomTabIndexState);
+  
   const onClick = (index) => {
     if (bottomTabIndex !== index) {
       if (homeTabIndex === 1 && index === 1) {
@@ -29,20 +30,31 @@ export const BottomTabBar = () => {
     }
   };
   return (
-    <div style={inlineStyle.barInner}>
+    <div
+      style={{
+          position: "fixed",
+          bottom: 48,
+          height: 42,
+          boxShadow: "0.2px 0.2px 0 0 gray",
+          borderRadius: 10,
+          width: width * 0.8,
+          marginLeft: width * 0.1,
+          backgroundColor: "white",
+      }}
+    >
       <div style={inlineStyle.barFlexInner}>
         <div style={inlineStyle.barTxt}>
-          <button style={inlineStyle.noStyleBtn} onClick={() => onClick(0)}>
+          <div style={inlineStyle.noStyleBtn} onClick={() => onClick(0)}>
             <FontAwesomeIcon
               icon={bottomTabIndex === 0 ? far.faHome : fal.faHome}
               size={"lg"}
               opacity={bottomTabIndex === 0 ? 1 : 0.3}
               color={GRAY9}
             />
-          </button>
+          </div>
         </div>
         <div style={inlineStyle.barTxt}>
-          <button style={inlineStyle.noStyleBtn} onClick={() => onClick(1)}>
+          <div style={inlineStyle.noStyleBtn} onClick={() => onClick(1)}>
             <FontAwesomeIcon
               icon={
                 homeTabIndex === 1
@@ -57,27 +69,27 @@ export const BottomTabBar = () => {
               opacity={bottomTabIndex === 1 ? 1 : 0.3}
               color={GRAY9}
             />
-          </button>
+          </div>
         </div>
         <div style={inlineStyle.barTxt}>
-          <button style={inlineStyle.noStyleBtn} onClick={() => onClick(2)}>
+          <div style={inlineStyle.noStyleBtn} onClick={() => onClick(2)}>
             <FontAwesomeIcon
               icon={bottomTabIndex === 2 ? far.faShoppingBag : fal.faShoppingBag}
               size={"lg"}
               opacity={bottomTabIndex === 2 ? 1 : 0.3}
               color={GRAY9}
             />
-          </button>
+          </div>
         </div>
         <div style={inlineStyle.barTxt}>
-          <button style={inlineStyle.noStyleBtn} onClick={() => onClick(3)}>
+          <div style={inlineStyle.noStyleBtn} onClick={() => onClick(3)}>
             <FontAwesomeIcon
               icon={bottomTabIndex === 3 ? far.faEnvelope : fal.faEnvelope}
               size={"lg"}
               opacity={bottomTabIndex === 3 ? 1 : 0.3}
               color={GRAY9}
             />
-          </button>
+          </div>
         </div>
       </div>
     </div>
@@ -85,16 +97,7 @@ export const BottomTabBar = () => {
 };
 
 const inlineStyle = {
-  barInner: {
-    position: "absolute",
-    bottom: 48,
-    height: 42,
-    boxShadow: "0.2px 0.2px 0 0 gray",
-    borderRadius: 10,
-    width: SCREEN_WIDTH * 0.8,
-    marginLeft: SCREEN_WIDTH * 0.1,
-    backgroundColor: "white",
-  },
+
   barFlexInner: {
     display: "flex",
     height: 42,

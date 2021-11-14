@@ -1,33 +1,31 @@
 import { useState } from "react";
+import { GRAY2 } from "../../style";
 
-export const Radio = ({ value, title, initIndex }) => {
-  const [clicked, setClicked] = useState(initIndex);
+export const Radio = ({ data, title, defaultIndex, onClick }) => {
+  const [clicked, setClicked] = useState(defaultIndex);
   const onChangeInput = (i) => {
-    value.current = i;
     setClicked(i);
+    if (onClick) onClick(i);
   };
-	return (
+  return (
     <div style={{ flex: 1, display: "flex", justifyContent: "space-evenly" }}>
-      {value.map((item, i) => (
+      {data.map((item, i) => (
         <div key={i.toString()}>
-          <input
-            name="name"
-            type="radio"
-            checked={clicked == i}
-            readOnly
-						onClick={() => onChangeInput(i)}
-						style={{marginRight:6}}
-          />
-          {item}
+          <div
+            onClick={() => onChangeInput(i)}
+            style={{
+              backgroundColor: clicked === i ? "white" : GRAY2,
+              borderStyle: "solid",
+              borderColor: clicked === i ? GRAY2 : "white",
+              padding: "12px 16px",
+              borderRadius: 10,
+              textAlign: "center",
+            }}
+          >
+            {item}
+          </div>
         </div>
       ))}
     </div>
-    // <div>
-    //   <label className="switch">
-    //     <input type="checkbox" checked={clicked} readOnly onClick={onChangeInput} />
-    //     <span className="slider round"></span>
-    //   </label>
-    //   {title}
-    // </div>
   );
 };
