@@ -26,12 +26,11 @@ export const FACEBOOK_BG = "#4469B0";
 export const BLUE01 = "#2f8ded";
 export const RED01 = "#eb5757";
 export const SCREEN_HEIGHT = window.innerHeight;
-export const SCREEN_WIDTH = window.innerWidth;
 export const HEADER_HEIGHT = 56;
 export const textOverflowHidden = {
   overflow: "hidden",
   textOverflow: "ellipsis",
   display: "-webkit-box",
   WebkitLineClamp: 1, //줄수
-  WebkitBoxOrient: "vertical",
+  // WebkitBoxOrient: "vertical",
 };

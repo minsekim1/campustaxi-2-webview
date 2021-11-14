@@ -9,7 +9,6 @@ import {
 } from "react-naver-maps";
 
 import { HEADER_HEIGHT, SCREEN_HEIGHT } from "./../style";
-import { SCREEN_WIDTH } from "./../style/index";
 import { useRecoilState } from "recoil";
 import {
   BottomModalState,
@@ -29,6 +28,7 @@ import { getfetch } from "./common/index";
 import { getPath } from "./common/function/getPath";
 import { PathInfo } from "./PathInfo";
 import _ from "lodash";
+import useWindowDimensions from "../hook/useWindowDimensions";
 
 export const NMAP = () => {
   return (
@@ -43,6 +43,7 @@ export const NMAP = () => {
 };
 function NaverMapAPI() {
   //#region 방생성 state
+  const { height, width } = useWindowDimensions();
   const [visibleSearch, setVisibleSearch] = useRecoilState(SearchPositionState);
   const [searchResult, setSearchResult] = useRecoilState(SearchPosResultState);
   const [visibleCreate, setVisibleCreate] = useRecoilState(CreateBottomModalState);
@@ -123,10 +124,10 @@ function NaverMapAPI() {
       ref={naverMapRef}
       mapDivId={"maps-getting-started-uncontrolled"} // default: react-naver-map
       style={{
-        width: SCREEN_WIDTH, // 네이버지도 가로 길이
+        width: width, // 네이버지도 가로 길이
         height: SCREEN_HEIGHT - HEADER_HEIGHT - 16, // 네이버지도 세로 길이
         marginTop: 8,
-        outline: 'none'
+        outline: "none",
       }}
       defaultCenter={myPos} // 지도 초기 위치
       // onDrag={onDrag} // TEST CODE

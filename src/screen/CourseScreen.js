@@ -12,7 +12,6 @@ const CourseScreen = () => {
   return (
     <>
       <BottomHeader />
-      {/* <SearchBar /> */}
       <CourseArea />
       <CreateBtnCourse />
       <CourseProductModal />

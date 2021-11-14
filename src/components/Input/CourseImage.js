@@ -1,12 +1,13 @@
-import { SCREEN_WIDTH } from "../../style";
 import { useState } from "react";
 import { CropState, FilePathInit, FilePathState } from "../recoil";
 import { useRecoilState } from "recoil";
 import { Icon } from "../common/Icon";
+import useWindowDimensions from "../../hook/useWindowDimensions";
 
 export const CourseImage = ({ isEdit = false }) => {
   const [crop, setCrop] = useRecoilState(CropState);
   const [filepath, setFilepath] = useRecoilState(FilePathState);
+  const { height, width } = useWindowDimensions();
   // const [isCrop, setIsCrop] = useState(false);
 
   return (
@@ -15,7 +16,7 @@ export const CourseImage = ({ isEdit = false }) => {
         {/* 바탕사진 및 바탕 임시 회색 */}
         <div
           style={{
-            width: SCREEN_WIDTH,
+            width: width,
             backgroundImage: !isEdit
               ? `linear-gradient(to bottom,rgba(0,0,0,0),rgba(255,255,255, 0),rgba(255,255,255, 0),rgba(255,255,255, 0),rgba(255,255,255, 0),rgba(255,255,255, 1)),url(${filepath.previewURL})`
               : filepath.previewURL != ""
@@ -23,7 +24,7 @@ export const CourseImage = ({ isEdit = false }) => {
               : `linear-gradient(to bottom,rgba(200,200,200,1),rgba(200,200,200, 1),rgba(200,200,200, 1),rgba(255,255,255, 0.2))`,
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
-            height: (SCREEN_WIDTH * 200) / 200,
+            height: (width * 200) / 200,
           }}
         />
         {/* 바탕사진 */}

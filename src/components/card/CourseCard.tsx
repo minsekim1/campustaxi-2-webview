@@ -1,35 +1,61 @@
-import { GRAY2, GRAY7, SCREEN_WIDTH, textOverflowHidden } from "../../style";
+import { GRAY2, GRAY3, GRAY4, GRAY6, GRAY7, textOverflowHidden } from "../../style";
 import { Icon } from "../common/Icon";
-import { ProfileIcon } from './../Icon/ProfileIcon';
+import { ProfileIcon } from '../Icon/ProfileIcon';
 import { useHistory } from 'react-router-dom';
-
-export const TagBlack = ({ title }) => {
+import useWindowDimensions from "../../hook/useWindowDimensions";
+import { CourseType } from "../../types/CourseArea.d";
+import _ from 'lodash'
+export const TagBlack = ({ title }: { title: string }) => {
   return (
     <div
       style={{
         ...textOverflowHidden,
-        padding: "6px 12px",
+        padding: "4px 12px",
         backgroundColor: GRAY7,
         color: "white",
-        fontSize: 10,
+        fontSize: 11,
         borderRadius: 20,
         fontWeight: "bold",
+        marginRight: 4
       }}
     >
       {title}
     </div>
   );
 };
-export const CourseCard = ({courseId}) => {
+type CourseCardType = {
+  course: CourseType;
+  width: number;
+};
+type ContentType = {
+  content: string;//"문화"
+  id: string;//"item-1636275004918"
+  type: string;//"text"
+}
+export const CourseCard = ({ course, width }: CourseCardType) => {
   const history = useHistory();
+  const content = _.join(JSON.parse(course.content).filter((item: ContentType) => item.type === 'text').map((item: ContentType) => item.content), ' ');
+  let image = null;
+  if (course.images.length > 0)
+    if (course.images[0].url.includes('218'))
+      image = course.images[0].url
+  const imageCSS = image ? {
+    backgroundImage: `url('${image}')`,
+    backgroundRepeat: 'no-repeat',
+    backgroundBlendMode: 'darken',
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundColor: GRAY2,
+  } : { backgroundColor: GRAY4, }
   return (
-    <div style={{ margin: SCREEN_WIDTH > 340 ? "16px 24px" : "8px 16px 0 16px" }}>
+    <div style={{ margin: width > 340 ? "16px 24px" : "8px 16px 0 16px" }}>
       <div
-        onClick={() => history.push(`/course/detail?id=${courseId}`)}
+        onClick={() => history.push(`/course/detail?id=${course.id}`)}
         style={{
           width: "100%",
-          backgroundColor: GRAY2,
           borderRadius: 10,
+           height:240,
+          ...imageCSS,
         }}
       >
         <div style={{ padding: 16 }}>
@@ -37,44 +63,50 @@ export const CourseCard = ({courseId}) => {
             {/* 좌우 태그 */}
             <div style={{ display: "flex", flexDirection: "row" }}>
               <div style={{ flex: 3, display: "flex", flexDirection: "row" }}>
-                <TagBlack title={"EVENT"} />
+                {/* 왼쪽 태그 */}
+                {course.tags.map(((tag, i: number) =>
+                  <TagBlack key={i.toString()} title={tag.name === "이벤트" ? "EVENT" : tag.name} />
+                ))}
               </div>
               <div style={{ flex: 1, minWidth: 120, display: "flex", justifyContent: "flex-end" }}>
-                <TagBlack title={"매주 커피 3잔!"} />
+                {/* 오른쪽 태그 */}
+                {/* <TagBlack title={"매주 커피 3잔!"} /> */}
               </div>
             </div>
             {/* 타이틀/상세내용 */}
-            <div style={{ fontSize: 18, marginTop: 12, fontWeight: "bold", color: GRAY7 }}>서울 한강 공원 명소</div>
+            <div style={{ fontSize: 18, marginTop: 12, fontWeight: "bold", color: 'white', textShadow: '2px 2px 2px gray' }}>{course.title}</div>
             <div
               style={{
                 ...textOverflowHidden,
                 WebkitLineClamp: 3,
                 padding: 6,
                 marginTop: 6,
-                color: GRAY7,
+                color: 'white',
                 fontSize: 13,
                 maxHeight: 48,
+                textShadow: '2px 2px 2px gray'
               }}
             >
-              서울에 있는 한강 공원의 명소로 택시를 타고 이동해요. 주변에 ㅇㅇ맛집, ㅁㅁ식당 등이 있고, 주문 배달할 때는
-              02-0000-0000로 전화하...
+              {content}
             </div>
             {/* 유저사진, 댓글, 북마크수 */}
             <div style={{ display: "flex", flexDirection: "row", marginTop: 12, alignItems: "flex-end" }}>
               <div style={{ flex: 1, display: "flex", flexDirection: "row", alignItems: "baseline" }}>
-                <ProfileIcon icon={"faCrown"} />
-                <div style={{ marginLeft: 3 }}>
+                <ProfileIcon icon={"faCrown"} img={course.creator_id.profile_image ?? undefined} />
+                {/* 두번째 유저 */}
+                {/* <div style={{ marginLeft: 3 }}>
                   <ProfileIcon size={"sm"} />
-                </div>
-                {SCREEN_WIDTH > 340 ? (
+                </div> */}
+                {/* 세번째유저 */}
+                {/* {width > 340 ? (
                   <div style={{ marginLeft: 3 }}>
                     <ProfileIcon size={"sm"} />
                   </div>
                 ) : (
                   false
-                )}
+                )} */}
               </div>
-              <div
+              {/* <div
                 style={{
                   backgroundColor: "white",
                   padding: "6px 12px",
@@ -100,11 +132,11 @@ export const CourseCard = ({courseId}) => {
                     <div style={{ marginLeft: 6, color: GRAY7, fontSize: 11 }}>244565</div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };

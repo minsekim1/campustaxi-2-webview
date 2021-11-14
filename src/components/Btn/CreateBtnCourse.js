@@ -1,12 +1,14 @@
 import React from "react";
 import { useRecoilState } from "recoil";
-import { GRAY7, SCREEN_WIDTH } from "../../style";
+import { GRAY7 } from "../../style";
 import { CreateRouteBottomModalState } from "../recoil";
 import { Icon } from './../common/Icon';
 import { GRAY8 } from './../../style/index';
+import useWindowDimensions from "../../hook/useWindowDimensions";
 
 export const CreateBtnCourse = () => {
   const [, setVisibleRoute] = useRecoilState(CreateRouteBottomModalState); //visibleRoute
+  const { height, width } = useWindowDimensions();
   const onClick = () => {
     setVisibleRoute(true);
   };
@@ -19,7 +21,7 @@ export const CreateBtnCourse = () => {
         borderRadius: 200,
         backgroundColor: "white",
         bottom: 96 + 18,
-        right: SCREEN_WIDTH * 0.125,
+        right: width * 0.125,
         boxShadow: "0.2px 0.2px 0 0 gray",
         display: "flex",
         alignItems: "center",

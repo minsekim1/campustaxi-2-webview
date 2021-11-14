@@ -4,6 +4,7 @@ import { ChatRoomInit, posInit } from "./common";
 import { getItems } from "./Input/CommandInput/dndFunc";
 import { localStorageEffect } from "./common/function/localStorageEffect";
 import { tagInitList } from "./CourseArea";
+import { CourseType } from "../types/CourseArea.d";
 //#region userData token
 /**
  * 유저 데이터 Badge, user 포함
@@ -99,7 +100,7 @@ export const pathState = atom({
  *  AlertDialog 띄우기
  *  { visible: false, text: "" }
  */
-export const alertDialogInit = { visible: false, title: "", text: "", handleConfirm: () => {} };
+export const alertDialogInit = { visible: false, title: "", text: "", handleConfirm: () => { } };
 export const alertDialogState = atom({
   key: "recoil/alertDialog",
   default: alertDialogInit,
@@ -187,7 +188,7 @@ export const FilePathState = atom({
 /**
  *  이미지 수정 crop
  */
-export const CropInit = { visible: false, file: new File([null], null), previewURL: "", type: "" };
+export const CropInit = { visible: false, file: new File([], ''), previewURL: "", type: "" };
 export const CropState = atom({
   key: "recoil/crop",
   default: CropInit,
@@ -243,5 +244,12 @@ export const homeTabIndexState = atom({
 export const bottomTabIndexState = atom({
   key: "recoil/bottomTabIndex",
   default: 0,
+});
+//#endregion
+
+//#region /course
+export const CouseListState = atom<CourseType[]>({
+  key: "recoil/CouseListState",
+  default: [],
 });
 //#endregion

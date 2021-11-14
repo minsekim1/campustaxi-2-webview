@@ -1,12 +1,14 @@
 import { useRecoilState } from "recoil";
 import { CropState } from "./../recoil";
 import { useState, useCallback } from "react";
-import { GRAY6, ORANGE, SCREEN_HEIGHT, SCREEN_WIDTH } from "./../../style/index";
+import { GRAY6, ORANGE, SCREEN_HEIGHT,  } from "./../../style/index";
 import Cropper from "react-easy-crop";
 import { getCroppedImg } from "../common/function/getCroppedImg";
+import useWindowDimensions from "../../hook/useWindowDimensions";
 
 export const CropScreen = () => {
   const [crop, setCrop] = useRecoilState(CropState);
+  const { height, width } = useWindowDimensions();
 
   const [cropXY, setCropXY] = useState({ x: 0, y: 0 });
   const [rotation] = useState(0); //setRotation
@@ -36,7 +38,7 @@ export const CropScreen = () => {
           style={{
             position: "absolute",
             top: 0,
-            width: SCREEN_WIDTH,
+            width: width,
             height: SCREEN_HEIGHT,
             zIndex: 4,
             backgroundColor: "white",

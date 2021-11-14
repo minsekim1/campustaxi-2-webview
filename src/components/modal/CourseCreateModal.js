@@ -92,7 +92,7 @@ export const CourseCreateModal = () => {
           alert("업로드 진행 중입니다. 잠시만 기다려주세요.");
           break;
         } else {
-          // setLoading(true);
+          setLoading(true);
           //#region 태그 생성 및 반환 아이디 가져오기.
           const tagCommand = commandInputList.filter((t) => t.type === "tag");
           const tagList = _.flatten(tagCommand.map((t) => t.content.tagList));
@@ -151,10 +151,10 @@ export const CourseCreateModal = () => {
             postfetch("/courses", JSON.stringify(dataCourse), true)
               .then((d) => {
                 setLoading(false);
-                // titleRef.current.value = "";
-                // descRef.current.value = "";
-                // setFilepath(FilePathInit);
-                // setCommandInputList(getItems(1));
+                titleRef.current.value = "";
+                descRef.current.value = "";
+                setFilepath(FilePathInit);
+                setCommandInputList(getItems(1));
               })
               .catch((e) => {
                 setLoading(false);

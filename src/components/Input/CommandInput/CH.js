@@ -1,12 +1,14 @@
-import { GRAY6, GRAY7, GRAY8, SCREEN_WIDTH } from "../../../style";
+import { GRAY6, GRAY7, GRAY8 } from "../../../style";
 import { useState, useCallback, useRef, useEffect, useMemo } from "react";
 import TextareaAutosize from "react-autosize-textarea";
 import { offset, position } from "caret-pos";
 import { useRecoilState } from "recoil";
 import { commandInputListState, commandWindowState } from "../../recoil";
 import { platform } from "./CTextarea";
+import useWindowDimensions from "../../../hook/useWindowDimensions";
 
 export const CH = ({ index, type = "h1" }) => {
+  const { height, width } = useWindowDimensions();
   const [placeholder, setPlaceHolder] = useState("");
   const [rowIndex, setRowIndex] = useState({ height: 0, index: 0 });
   const [commandWindow, setCommandWindow] = useRecoilState(commandWindowState);
@@ -74,9 +76,9 @@ export const CH = ({ index, type = "h1" }) => {
         let { left, top, height } = offset(ref.current);
         //#region 가로이동 제한 & height 화면 안 넘어가게 제한
         // 가로제한
-        if (left + 260 > SCREEN_WIDTH && left < 260) {
+        if (left + 260 > width && left < 260) {
           left = commandWindow.left;
-        } else if (SCREEN_WIDTH - left < 260 && left > 260) left -= 280;
+        } else if (width - left < 260 && left > 260) left -= 280;
         // 세로제한
         let heightCommand = 448;
         top -= heightCommand;
@@ -138,28 +140,9 @@ export const CH = ({ index, type = "h1" }) => {
         dangerouslySetInnerHTML={{ __html: codes }}
         contentEditable
         suppressContentEditableWarning
-        style={{ width: SCREEN_WIDTH - 60, color: GRAY7, outline: "none", ...style }}
+        style={{ width: SCREwidthEN_WIDTH - 60, color: GRAY7, outline: "none", ...style }}
       />
       <div style={{ color: GRAY6, fontSize: 15, position: "relative", height: 0, top: "-1.4em" }}>{placeholder}</div>
     </>
-    // <TextareaAutosize
-    //   ref={ref}
-    //   onFocus={onFocus}
-    //   onChange={onChangeInput}
-    //   placeholder={placeholder}
-    //   onBlur={onBlur}
-    //   defaultValue={commandInputList[index].content}
-    //   style={{
-    //     ...style,
-    //     width: SCREEN_WIDTH - 60,
-    //     height: "20px",
-    //     border: "none",
-    //     color: GRAY7,
-    //     resize: "none",
-    //     fontFamily: "AppleSDGothic",
-    //     overflow: "hidden",
-    //     outline: "none",
-    //   }}
-    // />
   );
 };

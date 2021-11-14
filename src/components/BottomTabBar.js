@@ -5,11 +5,12 @@ import * as  far from "@fortawesome/pro-regular-svg-icons";
 import { useRecoilState } from "recoil";
 import { BottomModalState, bottomTabIndexState, homeTabIndexState } from "./recoil";
 import { GRAY9 } from "../style";
-import { SCREEN_WIDTH } from "./../style/index";
 import { useHistory } from "react-router-dom";
+import useWindowDimensions from "../hook/useWindowDimensions";
 
 export const BottomTabBar = () => {
   const history = useHistory();
+  const { height, width } = useWindowDimensions();
   const [homeTabIndex] = useRecoilState(homeTabIndexState);
   const [, setVisible] = useRecoilState(BottomModalState);
   const [bottomTabIndex, setBottomTabIndex] = useRecoilState(bottomTabIndexState);
@@ -29,7 +30,18 @@ export const BottomTabBar = () => {
     }
   };
   return (
-    <div style={inlineStyle.barInner}>
+    <div
+      style={{
+          position: "fixed",
+          bottom: 48,
+          height: 42,
+          boxShadow: "0.2px 0.2px 0 0 gray",
+          borderRadius: 10,
+          width: width * 0.8,
+          marginLeft: width * 0.1,
+          backgroundColor: "white",
+      }}
+    >
       <div style={inlineStyle.barFlexInner}>
         <div style={inlineStyle.barTxt}>
           <div style={inlineStyle.noStyleBtn} onClick={() => onClick(0)}>
@@ -85,16 +97,7 @@ export const BottomTabBar = () => {
 };
 
 const inlineStyle = {
-  barInner: {
-    position: "fixed",
-    bottom: 48,
-    height: 42,
-    boxShadow: "0.2px 0.2px 0 0 gray",
-    borderRadius: 10,
-    width: SCREEN_WIDTH * 0.8,
-    marginLeft: SCREEN_WIDTH * 0.1,
-    backgroundColor: "white",
-  },
+
   barFlexInner: {
     display: "flex",
     height: 42,

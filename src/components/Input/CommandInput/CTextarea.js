@@ -1,4 +1,4 @@
-import { GRAY6, GRAY7, GRAY8, SCREEN_WIDTH } from "../../../style";
+import { GRAY6, GRAY7, GRAY8 } from "../../../style";
 import { useState, useCallback, useRef, useEffect } from "react";
 import TextareaAutosize from "react-autosize-textarea";
 import { offset, position } from "caret-pos";
@@ -6,6 +6,7 @@ import { useRecoilState } from "recoil";
 import { commandInputListState, commandWindowState } from "./../../recoil";
 import { getPlatform } from "../../common/function/getPlatform";
 import _ from "lodash";
+import useWindowDimensions from "../../../hook/useWindowDimensions";
 export const platform = getPlatform();
 
 export const CTextarea = ({ style, maxrows, index }) => {
@@ -13,7 +14,7 @@ export const CTextarea = ({ style, maxrows, index }) => {
   const [rowIndex, setRowIndex] = useState({ height: 0, index: 0 });
   const [commandWindow, setCommandWindow] = useRecoilState(commandWindowState);
   const [commandInputList, setCommandInputList] = useRecoilState(commandInputListState);
-
+const { height, width } = useWindowDimensions();
   const ref = useRef();
   // 텍스트 변한 위치 찾기
   const beforeInput = useRef("");
@@ -75,9 +76,9 @@ export const CTextarea = ({ style, maxrows, index }) => {
       let { left, top, height } = offset(ref.current);
       //#region 가로이동 제한 & height 화면 안 넘어가게 제한
       // 가로제한
-      if (left + 260 > SCREEN_WIDTH && left < 260) {
+      if (left + 260 > width && left < 260) {
         left = commandWindow.left;
-      } else if (SCREEN_WIDTH - left < 260 && left > 260) left -= 280;
+      } else if (width - left < 260 && left > 260) left -= 280;
       // 세로제한
       let heightCommand = 448;
       top -= heightCommand;
@@ -141,7 +142,7 @@ export const CTextarea = ({ style, maxrows, index }) => {
         dangerouslySetInnerHTML={{ __html: codes }}
         contentEditable
         suppressContentEditableWarning
-        style={{ width: SCREEN_WIDTH - 60, color: GRAY7, outline: "none" }}
+        style={{ width: width - 60, color: GRAY7, outline: "none" }}
       />
       <div style={{ color: GRAY6, fontSize: 15, position: "relative", height: 0, top: "-1.4em" }}>{placeholder}</div>
     </>

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { SCREEN_WIDTH } from "./../../../style/index";
 import { commandInputListState, CropInit, CropState } from "./../../recoil";
 import { useRecoilState } from "recoil";
 import { Icon } from "./../../common/Icon";
+import useWindowDimensions from "../../../hook/useWindowDimensions";
 
 export const loadXHR = (url)=>{
   return new Promise((resolve, reject) => {
@@ -36,7 +36,7 @@ export const CImage = ({ index }) => {
   // const [filepath, setFilepath] = useState({ file: "", previewURL: "" });
   const [isCrop, setIsCrop] = useState(false);
   const filepath = commandInputList[index].content;
-
+const { height, width } = useWindowDimensions();
   //#region 앱껏다 키고 캐쉬 초기화 시 이미지 아닌게 들어깄으면 삭제
   useEffect(() => {
     loadXHR(filepath.file)
@@ -108,8 +108,8 @@ export const CImage = ({ index }) => {
         <div
           style={{
             ...style,
-            height: ((SCREEN_WIDTH - 64) * 200) / 415,
-            width: SCREEN_WIDTH - 64,
+            height: ((width - 64) * 200) / 415,
+            width: width - 64,
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
           }}
@@ -119,8 +119,8 @@ export const CImage = ({ index }) => {
           style={{
             position: "relative",
             height: 0,
-            left: filepath.previewURL == "" ? (SCREEN_WIDTH - 175 - 64) / 2 : (SCREEN_WIDTH - 100 - 64) / 2,
-            top: -(((SCREEN_WIDTH - 64) * 200) / 415 / 2 + 15),
+            left: filepath.previewURL == "" ? (width - 175 - 64) / 2 : (width - 100 - 64) / 2,
+            top: -(((width - 64) * 200) / 415 / 2 + 15),
           }}
         >
           {filepath.previewURL !== "" ? (

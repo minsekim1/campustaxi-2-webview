@@ -1,9 +1,11 @@
 import { homeTabIndexState } from "../components/recoil";
-import { HEADER_HEIGHT, SCREEN_WIDTH } from "./../style/index";
+import { HEADER_HEIGHT } from "./../style/index";
 import { useRecoilState } from "recoil";
 import { useHistory } from "react-router";
+import useWindowDimensions from "../hook/useWindowDimensions";
 
 export const BottomHeader = () => {
+  const { height, width } = useWindowDimensions();
   const history = useHistory();
   const [homeTabIndex, setHomeTabIndex] = useRecoilState(homeTabIndexState);
   const onClick = (index) => {
@@ -17,7 +19,7 @@ export const BottomHeader = () => {
     history.push("/my");
   };
   return (
-    <div style={inlineStyle.barInner}>
+    <div style={{ height: HEADER_HEIGHT, width: width, display: "flex", alignItems: "center", paddingTop: 8 }}>
       <div style={inlineStyle.flex}></div>
       <div style={inlineStyle.barFlexInner}>
         <div style={inlineStyle.flexL}>
@@ -47,9 +49,9 @@ export const BottomHeader = () => {
         </div>
       </div>
       <div style={inlineStyle.flex}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "end", marginRight: SCREEN_WIDTH * 0.05 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "end", marginRight: width * 0.05 }}>
           <div
-            // onClick={goToUser}
+            onClick={goToUser}
             style={{
               ...inlineStyle.noStyleBtn,
               border: `3px solid #F1F3F5`,
@@ -77,7 +79,7 @@ export const BottomHeader = () => {
 };
 
 const inlineStyle = {
-  barInner: { height: HEADER_HEIGHT, width: SCREEN_WIDTH, display: "flex", alignItems: "center", paddingTop:8 },
+  
   barFlexInner: { flex: 1, display: "flex", justifyContent: "center", alignItems: "baseline" },
   flex: { flex: 1 },
   flexL: { float: "left" },

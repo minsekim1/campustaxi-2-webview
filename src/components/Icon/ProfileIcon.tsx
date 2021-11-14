@@ -1,6 +1,6 @@
-import { Icon } from "./../common/Icon";
+import { Icon } from "../common/Icon";
 
-export const ProfileIcon = ({ size, icon }) => (
+export const ProfileIcon = ({ size = 12, icon, img = "https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg" }: { size?: number | string, icon?: string, img?:string}) => (
   <div style={{ height: size == "sm" ? 50 : 58 }}>
     <div
       onClick={() => {}}
@@ -21,7 +21,7 @@ export const ProfileIcon = ({ size, icon }) => (
         width={size === "sm" ? 40 : 48}
         height={size === "sm" ? 40 : 48}
         style={{ borderRadius: 200 }}
-        src={"https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"}
+        src={img}
       ></img>
     </div>
     {icon ? (
@@ -52,5 +52,5 @@ export const ProfileIcon = ({ size, icon }) => (
   </div>
 );
 const inlineStyle = {
-  noStyleBtn: { backgroundColor: "transparent", border: "none", fontSize: 15, fontWeight: "normal", width: "3em" },
+  noStyleBtn: { backgroundColor: "transparent", border: "none", fontSize: 15, fontWeight: 400, width: "3em" },
 };

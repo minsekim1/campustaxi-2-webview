@@ -2,13 +2,13 @@ import React, { useRef, useState } from "react";
 import { BottomTabBar } from "../components/BottomTabBar";
 import { InputSearch } from "../components/Input";
 import { TitleHeader } from "../components/TitleHeader";
-import { SCREEN_WIDTH } from "../style";
+
 
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
 import SwipeableViews from "react-swipeable-views";
+import useWindowDimensions from "../hook/useWindowDimensions";
+import { getfetch } from "../components/common";
 
 const styles = {
   tabs: {
@@ -43,6 +43,7 @@ const SearchScreen = () => {
 };
 
 const SearchBar = () => {
+  const { height, width } = useWindowDimensions();
   const filterSearchTxt = useRef();
 
   //#region 네이버 상품검색
@@ -51,6 +52,7 @@ const SearchBar = () => {
       // setProcductInfo(procductInfoInit);
     } else {
       console.log("검색!");
+      getfetch("/users").then((d) =>console.log(d))
       // fetch(`/v1/search/shop.json?query=${t}&display=${procductInfoInit.display}`, {
       //   method: "GET",
       //   headers: {
@@ -66,7 +68,7 @@ const SearchBar = () => {
   };
   //#endregion
   return (
-    <div style={{ width: SCREEN_WIDTH, display: "flex", justifyContent: "center" }}>
+    <div style={{ width: width, display: "flex", justifyContent: "center" }}>
       <InputSearch
         value={filterSearchTxt}
         placeholder={"닉네임/출발지,도착지/코스를 검색해보세요."}
