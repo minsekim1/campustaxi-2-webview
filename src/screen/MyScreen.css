@@ -64,10 +64,10 @@ button {
     margin-top: 10px;
 }
 
-button:focus {
-    border: 2px solid black;
+/* button:focus {
+    border: 2px solid blue;
     border-width: 0 0 2px 0;
-}
+} */
 
 .photo {
     margin-left: 20px;
