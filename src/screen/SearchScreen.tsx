@@ -9,6 +9,9 @@ import SwipeableViews from "react-swipeable-views";
 import useWindowDimensions from "../hook/useWindowDimensions";
 import { API_URL, getfetch } from "../components/common";
 import axios from "axios";
+import { UserType } from "../types/User";
+import { ChatRoomType } from "../types/ChatRoom";
+import { CourseType } from "../types/Course";
 
 const styles = {
   tabs: {
@@ -42,62 +45,53 @@ const SearchScreen = () => {
   );
 };
 
-const CancelToken = axios.CancelToken;
-const source = CancelToken.source();
-
 const SearchBar = () => {
   const { height, width } = useWindowDimensions();
   const filterSearchTxt = useRef();
+  const [list, setList] = useState<{ users: UserType[]; rooms: ChatRoomType[]; course: CourseType[] }>({
+    users: [],
+    rooms: [],
+    course: [],
+  });
 
   //#region 유저 / 채팅방 / 코스 검색
-  const onChangeFilterSearchTxt = async (t) => {
-    // 검색시 이전꺼 멈춤
-    try {
-      if (source.cancel) source.cancel();
-    } catch (e) {
-      
-    } 
-
-    if (t.length === 0) {
-    } else {
-      console.log("검색!");
+  let cancelToken = axios.CancelToken.source(); //<- 1: 선언
+  const onChangeFilterSearchTxt = async (t: string) => {
+    if (t.length !== 0) {
+      // 검색시 이전꺼 멈춤
+      cancelToken.cancel(); //<- 2: 이미 있으면 axios 중지
+      cancelToken = axios.CancelToken.source(); //<- 3: 새로 토큰 생성
+      //#region 검색 API
+      let list: { users: UserType[]; rooms: ChatRoomType[]; course: CourseType[] } = {
+        users: [],
+        rooms: [],
+        course: [],
+      };
+      let checkCount = 0;
+      const checkList = () => {
+        if (checkCount === 2) setList(list);
+        else checkCount++;
+      };
       // 유저 닉네임 검색
-      axios.get(`${API_URL}/users?_q=${t}`, { cancelToken: source.token }).then(d=>console.log(d));
-      // fetch(`${API_URL}/users?_q=${t}`, {
-      //   method: "GET",
-      //   headers: {
-      //     "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-      //   },
-      // });
-      // 챗방 출/도 검색
-      // fetch(`${API_URL}/chat-rooms?_q=${t}`, {
-      //   method: "GET",
-      //   headers: {
-      //     "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-      //   },
-      // });
-      // // 코스 title 검색
-      // fetch(`${API_URL}/courses?_q=${t}`, {
-      //   method: "GET",
-      //   headers: {
-      //     "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-      //   },
-      // });
-
-      // fetch(`/v1/search/shop.json?query=${t}&display=${procductInfoInit.display}`, {
-      //   method: "GET",
-      //   headers: {
-      //     Accept: "application/json",
-      //     "Content-Type": "application/json",
-      //     "X-Naver-Client-Id": "yeoXdUtxPpcjkxR4G932",
-      //     "X-Naver-Client-Secret": "TChrYL1rxH",
-      //   },
-      // })
-      //   .then((d) => d.json())
-      //   .then((d) => setProcductInfo(d));
+      axios.get(`${API_URL}/users?_q=${t}`, { cancelToken: cancelToken.token }).then((d) => {
+        list.users = d.data;
+        checkList();
+      });
+      // 챗방 출/도 검색 => TEST 현재 타이틀만 검색 가능함! 출/도 검색 추가필요함!
+      axios.get(`${API_URL}/chat-rooms?_q=${t}`, { cancelToken: cancelToken.token }).then((d) => {
+        list.rooms = d.data;
+        checkList();
+      });
+      // 코스 title 검색 => content 내용 검색
+      axios.get(`${API_URL}/courses?_q=${t}`, { cancelToken: cancelToken.token }).then((d) => {
+        list.course = d.data;
+        checkList();
+      });
+      //#endregion
     }
   };
   //#endregion
+  
   return (
     <div style={{ width: width, display: "flex", justifyContent: "center" }}>
       <InputSearch
@@ -111,11 +105,11 @@ const SearchBar = () => {
 
 const ResultTabs = () => {
   const [index, setIndex] = useState(0);
-  const handleChange = (e, i) => setIndex(i);
-  const handleChangeIndex = (i) => setIndex(i);
+  const handleChange = (e: any, i: number) => setIndex(i);
+  const handleChangeIndex = (i: number) => setIndex(i);
   return (
     <>
-      <Tabs value={index} fullWidth onChange={handleChange} style={styles.tabs}>
+      <Tabs value={index} onChange={handleChange} style={styles.tabs}>
         <Tab label="사람" style={{ width: "33%", fontSize: 15 }} />
         <Tab label="채팅방" style={{ width: "34%", fontSize: 15 }} />
         <Tab label="코스" style={{ width: "33%", fontSize: 15 }} />

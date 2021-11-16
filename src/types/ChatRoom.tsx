@@ -1,0 +1,51 @@
+import { CreatorType } from "./Course";
+
+export type ChatRoomType = {
+  id: number;
+  deleted_at: string |null;
+  taxiFare: number//17700;
+  course_id: string |null;
+  distance: number//14.4;
+  departureTime: string//"2021-11-06T16:45:49.000Z";
+  person_limit: number//2;
+  start_at: string//"2021-11-06T16:45:24.000Z";
+  disable_at: string |null;
+  gender: string//"M";
+  creator_id: CreatorType;
+  title: string//"채팅방이름";
+  path: string// "126.9854806,37.5510271,126.985411 ...";
+  duration: 55;
+  published_at: string//"2021-11-06T07:46:01.000Z";
+  created_at: string//"2021-11-06T07:46:01.000Z";
+  updated_at: string//"2021-11-06T07:46:01.000Z";
+  start_route: {
+    id: number//;
+    x: number//126.988533821602;
+    y: number//37.5518816389714;
+    address_code: string | null;
+    road_address_name: string//"";
+    place_url: string//"http://place.map.kakao.com/17561501";
+    place_name: string//"남산공원 1주차장";
+    phone: string//"";
+    naver_id: string//"17561501";
+    category_name: string//"교통,수송 > 교통시설 > 주차장";
+    category_group_name: string//"주차장";
+    category_group_code: string//"PK6";
+    address_name: string//"서울 중구 예장동 8-1";
+  };
+  end_route: {
+    id: number//2;
+    x: number//127.075405300578;
+    y: number//37.618459513199;
+    address_code:string | null;
+    road_address_name: string//"서울 노원구 동일로 지하 992-1";
+    place_url: string//"http://place.map.kakao.com/17754628";
+    place_name: string//"태릉입구역 7호선";
+    phone: string//"02-6311-7171";
+    naver_id: string//"17754628";
+    category_name: string//"교통,수송 > 지하철,전철 > 수도권7호선";
+    category_group_name: string//"지하철역";
+    category_group_code: string// "SW8";
+    address_name: string//"서울 노원구 공릉동 616-4";
+  };
+};
