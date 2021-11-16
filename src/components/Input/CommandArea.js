@@ -191,7 +191,7 @@ const DeleteBlock = ({}) => {
       }}
       onClick={() => setDeleteMode({ visible: !deleteMode.visible, index: -1 })}
     >
-      <Button style={{ textTransform: "none" }} variant={deleteMode.visible ? "contained" : "outlined"} color="error">
+      <Button style={{ textTransform: "none", width:110 }} variant={deleteMode.visible ? "contained" : "outlined"} color="error">
         <Icon name={"faTrash"} color={deleteMode.visible ? "white" : "#d32f2f"} />
         <div style={{ marginLeft: 6, fontFamily: "roboto" }}>삭제모드</div>
       </Button>

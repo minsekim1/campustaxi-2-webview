@@ -14,7 +14,7 @@ const KeyCodes = {
 const delimiters = [...KeyCodes.enter, KeyCodes.comma, KeyCodes.space];
 
 // tagList:[], inputValue:""
-export const CTag = ({ index, type = "h1" }) => {
+export const CTag = ({ index }) => {
   const [commandInputList, setCommandInputList] = useRecoilState(commandInputListState);
   const tagList = commandInputList[index].content.tagList;
   const inputValue = commandInputList[index].content.inputValue;
@@ -72,12 +72,12 @@ export const CTag = ({ index, type = "h1" }) => {
         handleAddition={handleAddition}
         // handleInputChange={handleInputChange}
         delimiters={delimiters}
-        renderSuggestion={({ text }, query) => (
-          <div style={{ fontSize: 11 }}>
-            {text}
-            {/* ({query}) */}
-          </div>
-        )}
+        // renderSuggestion={({ text }, query) => (
+        //   <div style={{ fontSize: 11 }}>
+        //     {text}
+        //     {/* ({query}) */}
+        //   </div>
+        // )}
       />
     </>
   );
