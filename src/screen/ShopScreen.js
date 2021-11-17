@@ -35,9 +35,9 @@ const ShopCard = () => {
         onClick={() => open("https://smartstore.naver.com/campustaxi/products/5976589929")}
       >
         <Card sx={{ borderRadius: 12, marginBottom: 8 }}>
-          <CardActionArea sx={{ width: 345, height: 600 }}>
-            <CardMedia component="img" height="440" image="/images/shopItem.png" alt="green iguana" />
-            <CardContent>
+          <CardActionArea sx={{ width: 345, height: 600, display: "flex", flexDirection:'column' }}>
+            <CardMedia  component="img" height="440" image="/images/shopItem.png" alt="green iguana" />
+            <CardContent >
               <Typography gutterBottom variant="h5" component="div">
                 <span style={{ fontSize: 21 }}>진공 스테인리스 LED 온도표시 스마트 터치 텀블러</span>
               </Typography>

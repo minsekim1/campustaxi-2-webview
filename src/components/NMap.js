@@ -79,6 +79,7 @@ function NaverMapAPI() {
     );
   }, []);
 
+  console.log(chatRoomList);
   useEffect(() => {
     if (endPos.place_name && startPos.place_name) {
       let x1 = Number(startPos.x);
@@ -119,6 +120,7 @@ function NaverMapAPI() {
     setVisibleSearch({ visible: false, position: "" });
   };
   //#endregion
+
   return (
     <NaverMap
       ref={naverMapRef}
