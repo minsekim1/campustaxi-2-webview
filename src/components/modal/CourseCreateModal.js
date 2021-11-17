@@ -151,10 +151,10 @@ export const CourseCreateModal = () => {
             postfetch("/courses", JSON.stringify(dataCourse), true)
               .then((d) => {
                 setLoading(false);
-                titleRef.current.value = "";
-                descRef.current.value = "";
-                setFilepath(FilePathInit);
-                setCommandInputList(getItems(1));
+                // titleRef.current.value = "";
+                // descRef.current.value = "";
+                // setFilepath(FilePathInit);
+                // setCommandInputList(getItems(1));
               })
               .catch((e) => {
                 setLoading(false);

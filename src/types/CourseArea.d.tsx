@@ -16,7 +16,7 @@ export type CourseType = {
 export const CourseTypeInit = {
 	content: '',//"[{\"id\":\"item-1636275004918\",\"content\":\"힐링해요~\",\"type\":\"text\"},{\"id\":\"item-1636275051161\",\"content\":{\"inputValue\":\"\",\"tagList\":[{\"id\":\"힐링\",\"text\":\"힐링\"}]},\"type\":\"tag\"},{\"id\":\"item-1636275051196\",\"content\":\"3\",\"type\":\"text\"}]"
 	created_at: '',//"2021-11-07T11:38:10.000Z"
-	creator_id: '',
+	creator_id: {},
 	deleted_at: '',
 	description: '',//"힐링2"
 	id: 0,

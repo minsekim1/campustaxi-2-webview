@@ -1,15 +1,26 @@
 import { GRAY6, GRAY7, SUB_BLUE, textOverflowHidden } from "../../style";
 import { Icon } from "../common/Icon";
-import { GRAY4 } from "./../../style/index";
-import { ProfileIcon } from './../Icon/ProfileIcon';
+import { GRAY4 } from "../../style/index";
+import { ProfileIcon } from "../Icon/ProfileIcon";
 
-export const togglerFollow = (my_user_id, your_user_id) => {
-  alert('팔로우!')
+export const togglerFollow = (my_user_id: number, your_user_id: number) => {
+  alert("팔로우!");
   // postfetch('/follow')
-}
-export const ProfileCard = ({ title, desc, address, url, img, onClick, onClickDelete,disable}) => {
+};
+
+type Props = {
+  title?: string;
+  desc?: string;
+  address?: string;
+  url?: string;
+  img?: string;
+  onClick?: ()=>void;
+  onClickDelete?: ()=>void;
+  disable?: boolean;
+};
+export const ProfileCard = ({ title, desc, address, url, img, onClick, onClickDelete, disable }: Props) => {
   return (
-    <div style={{height:80}}>
+    <div style={{ height: 80 }}>
       <div
         style={{ padding: "16px 16px 0 16px", display: "flex", alignItems: "center" }}
         onClick={onClick ? onClick : () => {}}
@@ -46,14 +57,16 @@ export const ProfileCard = ({ title, desc, address, url, img, onClick, onClickDe
             padding: "3px 20px",
             height: 22,
           }}
-          onClick={togglerFollow}
+          onClick={() => togglerFollow(1, 2)}
         >
           팔로우
         </div>
       </div>
       {/* 덮개 */}
       {disable ? (
-        <div style={{ position: "relative", width: "100%", height: 70, background: "rgba(255,255,255,0.6", top:-70 }} />
+        <div
+          style={{ position: "relative", width: "100%", height: 70, background: "rgba(255,255,255,0.6", top: -70 }}
+        />
       ) : (
         false
       )}

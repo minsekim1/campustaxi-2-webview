@@ -253,3 +253,14 @@ export const CouseListState = atom<CourseType[]>({
   default: [],
 });
 //#endregion
+
+//#region /search
+/**
+ *  사용자 / 채팅방 / 코스 검색
+ */
+// { users: any[]; rooms: any[]; course: any[] }
+export const searchState = atom({
+  key: "recoil/searchState",
+  default: { rooms: [1, 2, 3, 1, 2, 3,], users: [1, 2, 3, 1, 2, 3, 1, 2, 3], courses: [1, 2, 3, 1, 2, 3]},
+});
+//#endregion
