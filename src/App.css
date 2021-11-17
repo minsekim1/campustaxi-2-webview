@@ -52,8 +52,9 @@ html, body {margin: 0; height: 100%; overflow: hidden}
   margin-left: 6px;
   margin-bottom: 6px;
   display: inline-flex;
+  justify-content: center;
   align-items: center;
-  font-size: 13px;
+  font-size: 12px;
   height: 2em;
 }
 
@@ -66,8 +67,9 @@ html, body {margin: 0; height: 100%; overflow: hidden}
   margin-left: 6px;
   color: white;
   border-width: 0px;
-  height: 18px;
-  margin-bottom: 8px;
+  height: 16px;
+  width: 16px;
+  margin-bottom: 10px;
 
 }
 .ReactTags__tagInputField{
