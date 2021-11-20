@@ -24,13 +24,22 @@ export const MessageChatCard = ({
 	}
 };
 
-export const myNickname = "minseki";
+export const myNickname = "nickname2";
 const DefaultChat = ({ data, mref, isLast = false }: { data: MessageChatType; mref?: any; isLast?: boolean }) => {
 
 	const { height, width } = useWindowDimensions();
 	const [lastMessageMarginBottom] = useRecoilState(lastMessageMarginBottomState); //setLastMessageMarginBottom
-	const isMy = data.user_id  ? data.user_id.nickname === myNickname : true;
+	const isMy = data.user_id ? data.user_id.nickname === myNickname : true;
 
+	const year = data.created_at ? Number(data.created_at.slice(0, 4)) : "";
+	const month = data.created_at ? Number(data.created_at.slice(5, 7))+1 : "";
+	const day = data.created_at ? Number(data.created_at.slice(8, 10)) : "";
+	const date = data.created_at ? `${year}년 ${month}월 ${day}일` : ""
+
+	const hour = data.created_at ? Number(data.created_at.slice(11, 13)) : 0;
+	const min = data.created_at ? data.created_at.slice(13, 16) : "";
+	const AMPM = hour < 12;
+	const time = AMPM ? `오전 ${hour}${min}` : `오후 ${hour === 12 ? 12 : hour - 12}${min}`;
 	return (
 		<div
 			style={{
@@ -66,7 +75,7 @@ const DefaultChat = ({ data, mref, isLast = false }: { data: MessageChatType; mr
 							paddingBottom: isLast ? lastMessageMarginBottom : 0,
 						}}
 					>
-						{data.created_at}
+						{date+" "+time}
 					</div>
 				) : (
 					<div

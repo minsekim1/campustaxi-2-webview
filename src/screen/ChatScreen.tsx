@@ -28,27 +28,26 @@ import { ChatRoomType } from "../types/ChatRoom";
 const myNickname = "minsekim";
 let msgloading = false;
 
-export const ChatScreen = ({}) => {
+export const ChatScreen = ({ }) => {
   const history = useHistory();
   const textareaRef = useRef("");
   const isInit = useRef(true);
-  const [previousHeight, setPreviousHeight] = useState(0);
-	const messageareaRef = useRef<HTMLDivElement>(null);
-	
-	//#region 스크롤 열기
+  const messageareaRef = useRef<HTMLDivElement>(null);
+
+  //#region 스크롤 열기
   const body = document.getElementsByTagName('body')[0];
-	useEffect(() => {
-		body.setAttribute("style", "overflow: scroll;");
-		return () => {
-			body.setAttribute("style", "overflow: hidden;");
-			setLoading(false);
-		}
-	}, [])
+  useEffect(() => {
+    body.setAttribute("style", "overflow: scroll;");
+    return () => {
+      body.setAttribute("style", "overflow: hidden;");
+      setLoading(false);
+    }
+  }, [])
   //#endregion
   //#region 데이터관리
   const { id }: { id: string | undefined } = useParams();
   const [loading, setLoading] = useRecoilState(loadingState);
-  const { data, error, mutate } = useSWR(`${API_URL}/chats?chat_room_id=${id}`, fetcher);
+  const { data, error, mutate } = useSWR(`${API_URL}/chats?chat_room_id=${id}`, fetcher, { refreshInterval: 1000 });
   const { data: dataU, error: errorU } = useSWR(`${API_URL}/users?id=${1}`, fetcher);
   if ((error || !data || errorU || !dataU) && !loading) setLoading(true);
   useEffect(() => {
@@ -93,7 +92,7 @@ const MessageArea = ({
   messageareaRef?: any;
 }) => {
   return (
-    <div ref={messageareaRef} style={{ display: "flex", flexDirection: "column-reverse" }}>
+    <div ref={messageareaRef} className={"MessageArea"} style={{ display: "flex", flexDirection: "column-reverse" }}>
       <MessageList list={list} isInit={isInit} />
     </div>
   );
@@ -114,25 +113,34 @@ const MessageList = ({ list, isInit }: { list: MessageChatType[]; isInit: any })
     }
   }, [lastMessageMarginBottom]);
   //#endregion
-  //#region 처음 채팅방 들어오고 데이터 받아오면 최하단으로 이동
+  //#region 처음 채팅방 들어오고 데이터 받아오면 최하단으로 이동 / 맨 아래보고 있을 때 채팅 들어오면 최하단으로 이동.
   useEffect(() => {
-    if (ref && ref.current && isInit.current && isLast) {
-      ref.current.scrollIntoView();
+    const MessageArea = document.getElementsByClassName('MessageArea')[0];
+    if (ref && ref.current && isInit.current && isLast && list.length > 0) {
+      setTimeout(() => {
+        window.scroll(0, 9999999);
+      }, 100);
       isInit.current = false;
-    }
-  }, [list]);
+    } else if (Math.abs(window.scrollY + 375 + 375 - MessageArea.scrollHeight) < 100) {
+      setTimeout(() => {
+        window.scroll(0, 9999999);
+      }, 100);
+    } 
+  }, [list.length]);
+
+
   //#endregion
 
   return (
     <div ref={parentRef} style={{ display: "flex", flexDirection: "column" }}>
       {list && list.length > 0
         ? list.map((m, i) =>
-            isLast && i === list.length -1 ? (
-              <MessageChatCard mref={ref} isLast data={m} key={i.toString()} />
-            ) : (
-              <MessageChatCard data={m} key={i.toString()} />
-            )
+          isLast && i === list.length - 1 ? (
+            <MessageChatCard mref={ref} isLast data={m} key={i.toString()} />
+          ) : (
+            <MessageChatCard data={m} key={i.toString()} />
           )
+        )
         : false}
     </div>
   );
@@ -164,12 +172,14 @@ const Input = forwardRef(({ mutate, list }: { mutate: any; list: MessageChatType
   };
   const onClickSend = async () => {
     if (text === "") return;
-    window.scroll(0, 9999999);
     setText("");
     setIsConfirm(false);
     //#region 메세지 local mutation
-		mutate([...list, MessageChatInit(text, myNickname)], false);
+    mutate([...list, MessageChatInit(text)], false);
     //#endregion
+    setTimeout(() => {
+      window.scroll(0, 9999999);
+    }, 30);
     await postfetch("/chats", JSON.stringify({ message: text, chat_room_id: 22, user_id: 2 }), true);
     mutate();
   };
@@ -227,7 +237,7 @@ const Input = forwardRef(({ mutate, list }: { mutate: any; list: MessageChatType
   );
 });
 //#region Types
-export const MessageChatInit = (message: string, myNickname: string) => {
+export const MessageChatInit = (message: string) => {
   return {
     id: -1,
     chat_room_id: null, //start_route => id 로 감.

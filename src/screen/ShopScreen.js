@@ -30,13 +30,11 @@ const ShopCard = () => {
       <div
         style={{
           backgroundColor: GRAY1,
-          height: height,
+          height: height - 56,
           width: width,
           justifyContent: "center",
           alignItems: "center",
           display: "flex",
-          position: 'relative',
-          top:-30
         }}
         onClick={() =>
           open(
@@ -46,7 +44,7 @@ const ShopCard = () => {
         // onClick={() => open("https://smartstore.naver.com/campustaxi/products/5976589929")}
       >
         <Card sx={{ borderRadius: 12, marginBottom: 8 }}>
-          <CardActionArea sx={{ width: 345, height: 600, display: "flex", flexDirection: "column" }}>
+          <CardActionArea sx={{ width: 300, height: 540, display: "flex", flexDirection: "column" }}>
             <CardMedia component="img" height="440" image="/images/shopItem.png" alt="green iguana" />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">

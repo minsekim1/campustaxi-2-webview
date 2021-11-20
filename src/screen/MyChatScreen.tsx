@@ -64,7 +64,7 @@ const ChatRoomArea = ({ chatRooms }: { chatRooms: ChatRoomType[] }) => {
   return (
     <div style={{ padding:"0 16px 96px 16px"}}>
       {chatRooms.map((room, i: number) => (
-        <RoomCard room={room} noClick />
+        <RoomCard key={i.toString()}room={room} noClick />
       ))}
     </div>
   );
