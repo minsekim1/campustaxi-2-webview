@@ -7,10 +7,13 @@ import { CourseCreateModal } from "./../components/modal/CourseCreateModal";
 import { CropScreen } from "./../components/modal/CropScreen";
 import { CourseProductModal } from "../components/modal/CourseProductModal";
 import { AlertDialog } from "./../components/Dialog/AlertDialog";
-
-import "../style/bodyScrollBlock.css";
+import { useEffect } from "react";
 
 const CourseScreen = () => {
+  useEffect(() => {
+    // const body = document.getElementById('body');
+    // body.setAttribute('style')
+   },[])
   return (
     <>
       <BottomHeader />
