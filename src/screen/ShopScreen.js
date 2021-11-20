@@ -15,7 +15,7 @@ var counts = 0;
 const ShopScreen = () => {
   return (
     <>
-      <div style={{position:'sticky', top:0, background:GRAY2}}>
+      <div style={{position:'sticky', height:56 , top:0, background:GRAY2, zIndex:2}}>
         <TitleHeader title="SHOP" />
       </div>
       <ShopCard />
@@ -35,6 +35,8 @@ const ShopCard = () => {
           justifyContent: "center",
           alignItems: "center",
           display: "flex",
+          position: 'relative',
+          top:-30
         }}
         onClick={() =>
           open(

@@ -303,3 +303,10 @@ export const searchState = atom<{ users: UserType[]; rooms: ChatRoomType[]; cour
   default: { rooms: [], users: [], courses: [] },
 });
 //#endregion
+
+//#region  /chat 채팅방
+export const lastMessageMarginBottomState = atom<number>({
+  key: "recoil/lastMessageMarginBottomState",
+  default: 0,
+});
+//#endregion

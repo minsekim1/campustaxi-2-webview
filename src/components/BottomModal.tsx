@@ -77,6 +77,7 @@ export const BottomModal = () => {
           maxHeight * 0.7,
           maxHeight * 0.9,
         ]}
+        style={{zIndex:9999999999999}}
         defaultSnap={({ lastSnap, snapPoints }) => SCREEN_HEIGHT * 0.4}
         header={
           <div>
@@ -93,7 +94,7 @@ export const BottomModal = () => {
         }
         expandOnContentDrag={false}
       >
-        <div style={{ padding: "0 10px 80px 10px" }}>
+        <div style={{ padding: "0 10px 80px 10px",  }}>
           <div style={{ display: "flex", justifyContent: "center", marginTop: 16 }}>
             <InputSearch
               value={filterSearchTxt}

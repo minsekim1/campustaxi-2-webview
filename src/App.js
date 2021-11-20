@@ -12,6 +12,7 @@ import { resetServerContext } from "react-beautiful-dnd";
 import { Button } from "@mui/material/Button";
 import { CircularProgress, Collapse, LinearProgress } from "@mui/material";
 import { loadingState } from "./components/recoil";
+import ChatScreen from "./screen/ChatScreen";
 
 /* eslint-disable */
 
@@ -45,6 +46,9 @@ const App = () => {
           {/* seo */}
           <Route exact path="/mychat">
             <MyChatScreen />
+          </Route>
+          <Route exact path="/chat/:id">
+            <ChatScreen />
           </Route>
           <Route exact path="/my">
             <MyScreen />

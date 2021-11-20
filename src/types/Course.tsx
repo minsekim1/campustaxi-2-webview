@@ -29,6 +29,7 @@ export const CourseTypeInit = {
   updated_at: "", // "2021-11-07T11:38:10.000Z"
 };
 
+
 export type CreatorType = {
   id: number;
   username: string; // "minsekim",
@@ -63,7 +64,9 @@ export type CreatorType = {
   badge_my: string | null;
   created_at: string; //"2021-11-20T04:00:22.000Z",
   updated_at: string; //"2021-11-20T04:00:22.000Z"
+  follower: number;
 };
+
 type ImageType = {
   id: number;
   name: string; // "1637385960108.jpeg",

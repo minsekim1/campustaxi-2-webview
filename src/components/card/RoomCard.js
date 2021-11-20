@@ -6,8 +6,9 @@ import { ChatRoomSeletedState } from "../recoil";
 import { prettyDate } from "../common/prettyDate";
 import { ChatRoomInit } from "../common";
 import { useHistory } from "react-router";
+import useWindowDimensions from "../../hook/useWindowDimensions";
 
-export const RoomCard = ({ room, onClick = () => {}, noClick=false }) => {
+export const RoomCard = ({ room, onClick = () => { }, noClick = false }) => {
   const [chatRoomSeleted, setChatRoomSeleted] = useRecoilState(ChatRoomSeletedState);
 
   const enterTag = room ? (room.chat_user ? room.chat_user.length : 0) + "/" + (room.person_limit + 2) : "";

@@ -10,50 +10,63 @@ import { API_URL } from "../components/common";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { RoomCard } from "../components/card/RoomCard";
 import { TitleHeader } from "../components/TitleHeader";
+import useWindowDimensions from "../hook/useWindowDimensions";
+import { styleCenter } from "../style";
 
 const MyChatScreen = () => {
   const [loading, setLoading] = useRecoilState(loadingState);
-  // const { id }: { id: string | undefined } = useParams();
+
+  // #region 스크롤 닫기
+  const body = document.getElementsByTagName("body")[0];
+  useEffect(() => {
+    body.removeAttribute("style");
+  }, [body]);
+  // #endregion
+  //#region 데이터 관리
   const { data, error } = useSWR(`${API_URL}/chat-rooms`, fetcher);
   if ((error || !data) && !loading) setLoading(true);
-  if (error) return <div>failed to load</div>;
+  if (error)
+    return (
+      <div>
+        <div style={{ position: "sticky", top: 0, zIndex: 2, height: 56, backgroundColor: "white" }}>
+          <TitleHeader title="내 채팅" />
+        </div>
+        failed to load <BottomTabBar />
+      </div>
+    );
   if (!data)
     return (
       <div>
+        <div style={{ position: "sticky", top: 0, zIndex: 2, height: 56, backgroundColor: "white" }}>
+          <TitleHeader title="내 채팅" />
+        </div>
         loading...
         <BottomTabBar />
       </div>
     );
   if (loading) setLoading(false);
+  //#endregion
 
   const chatRooms: ChatRoomType[] = data;
 
   return (
     <>
-      <TitleHeader title="내 채팅" />
-      <ChatRoomArea chatRooms={chatRooms} />
-      <div style={{ position: 'absolute', zIndex: 1 }}>
-        <BottomTabBar />
+      <div style={{ position: "sticky", top: 0, backgroundColor: "white", zIndex: 3 }}>
+        <TitleHeader title="내 채팅" />
       </div>
+      <ChatRoomArea chatRooms={chatRooms} />
+      <BottomTabBar />
     </>
   );
 };
 
 const ChatRoomArea = ({ chatRooms }: { chatRooms: ChatRoomType[] }) => {
   return (
-    <>
-      {chatRooms.length > 0 ? (
-        <Swiper slidesPerView={1} direction={"vertical"} speed={500} height={253} style={{ padding: "0px 64px" }}>
-          {chatRooms.map((room, i: number) => (
-            <SwiperSlide key={i.toString()}>
-              <RoomCard room={room} noClick />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      ) : (
-        false
-      )}
-    </>
+    <div style={{ padding:"0 16px 96px 16px"}}>
+      {chatRooms.map((room, i: number) => (
+        <RoomCard room={room} noClick />
+      ))}
+    </div>
   );
 };
 

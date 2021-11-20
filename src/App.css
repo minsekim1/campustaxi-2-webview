@@ -11,7 +11,7 @@
 .PrivateTabIndicator-colorSecondary-3{
   background-color:black !important
 }
-html, body {margin: 0; height: 100%; overflow: hidden}
+/* html, body {margin: 0; height: 100%; overflow: hidden} */
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
