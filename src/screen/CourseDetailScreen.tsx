@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Textarea } from "../components/Input";
 import { CourseActionField } from "../components/Btn/CourseActionField";
 import { ProfileCard } from "../components/card/ProfileCard";
@@ -56,9 +57,13 @@ import {
 import { CItem } from "../components/Input/CommandInput/CItem";
 //#endregion
 
-import '../style/bodyScroll.css'
 const CourseDetailScreen = () => {
   const [loading, setLoading] = useRecoilState(loadingState);
+  useEffect(() => {
+    const body = document.getElementsByTagName('body')[0];
+    body.setAttribute("style", "overflow: scroll;");
+    return () => body.setAttribute("style", "overflow: hidden;");
+  }, [])
   const { id }: { id: string | undefined } = useParams();
   const { data, error } = useSWR(`${API_URL}/courses?id=${id}`, fetcher);
   if ((error || !data) && !loading) setLoading(true);
