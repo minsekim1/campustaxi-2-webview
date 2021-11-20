@@ -2,19 +2,23 @@ import { BottomTabBar } from "../components/BottomTabBar";
 import { BottomModal } from './../components/BottomModal';
 import { FaFilter, FaSearch } from "react-icons/fa";
 import useWindowDimensions from "../hook/useWindowDimensions";
-import { GRAY1, GRAY8, GRAY9 } from "../style";
+import { GRAY1, GRAY2, GRAY8, GRAY9 } from "../style";
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
+import { TitleHeader } from "../components/TitleHeader";
 
 var counts = 0;
 const ShopScreen = () => {
   return (
     <>
-      <ShopCard/>
+      <div style={{position:'sticky', top:0, background:GRAY2}}>
+        <TitleHeader title="SHOP" />
+      </div>
+      <ShopCard />
       <BottomTabBar />
     </>
   );

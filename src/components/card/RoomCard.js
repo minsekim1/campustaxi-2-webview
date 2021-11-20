@@ -5,22 +5,28 @@ import { useRecoilState } from "recoil";
 import { ChatRoomSeletedState } from "../recoil";
 import { prettyDate } from "../common/prettyDate";
 import { ChatRoomInit } from "../common";
+import { useHistory } from "react-router";
 
-export const RoomCard = ({ room, onClick = () => { } }) => {
+export const RoomCard = ({ room, onClick = () => {}, noClick=false }) => {
   const [chatRoomSeleted, setChatRoomSeleted] = useRecoilState(ChatRoomSeletedState);
 
   const enterTag = room ? (room.chat_user ? room.chat_user.length : 0) + "/" + (room.person_limit + 2) : "";
-  const genderTag = room ? room.gender !== "None" ? (room.gender === "M" ? "남자만" : "여자만") : "무관" : "";
+  const genderTag = room ? (room.gender !== "None" ? (room.gender === "M" ? "남자만" : "여자만") : "무관") : "";
   // const dtmTag = new Date(room.start_at).toLocaleString() + "에 출발";
   const dtmTag = room ? prettyDate(room.start_at) + "에 출발" : "";
-  
+
   const tags = [genderTag, enterTag, dtmTag];
+  const history = useHistory()
 
   const isSeleted = room ? chatRoomSeleted.id === room.id : 0;
   const onClickRoom = (room) => {
-    onClick();
-    if (isSeleted) setChatRoomSeleted(ChatRoomInit);
-    else setChatRoomSeleted(room);
+    if (noClick) {
+      history.push(`chat/${room.id}`);
+    } else {
+      onClick();
+      if (isSeleted) setChatRoomSeleted(ChatRoomInit);
+      else setChatRoomSeleted(room);
+    } 
   };
   return (
     <div

@@ -43,7 +43,7 @@ const App = () => {
             <ShopScreen />
           </Route>
           {/* seo */}
-          <Route exact path="/chat/my">
+          <Route exact path="/mychat">
             <MyChatScreen />
           </Route>
           <Route exact path="/my">

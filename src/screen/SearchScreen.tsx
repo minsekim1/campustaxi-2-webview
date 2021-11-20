@@ -36,7 +36,7 @@ const styles = {
 const SearchScreen = () => {
   return (
     <>
-      <TitleHeader title="찾기" />
+      <TitleHeader title="탐색" />
       <SearchBar />
       <ResultTabs />
       <BottomTabBar />
@@ -155,10 +155,10 @@ const ResultTabs = () => {
         </div>
         <div>
           {list.rooms.length > 0 ? (
-            <Swiper slidesPerView={1} direction={"vertical"} speed={500} height={260} >
+            <Swiper slidesPerView={1} direction={"vertical"} speed={500} height={253} style={{padding:"0px 16px"}} >
               {list.rooms.map((room, i: number) => (
                 <SwiperSlide key={i.toString()}>
-                  <RoomCard room={room} />
+                  <RoomCard room={room} noClick />
                 </SwiperSlide>
               ))}
             </Swiper>
@@ -168,7 +168,7 @@ const ResultTabs = () => {
         </div>
         <div>
           {list.courses.length > 0 ? (
-            <Swiper slidesPerView={1} direction={"vertical"} speed={500} height={260}>
+            <Swiper slidesPerView={1} direction={"vertical"} speed={500} height={256}>
               {list.courses.map((course, i: number) => (
                 <SwiperSlide key={i.toString()}>
                   <CourseCard course={course} width={300} />
