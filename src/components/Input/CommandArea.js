@@ -12,7 +12,7 @@ import { deleteModePosState } from "./../recoil";
 import Button from "@mui/material/Button";
 import { Rowdot } from "./../Icon/Rowdot";
 
-export const CommandArea = ({}) => {
+export const CommandArea = ({ }) => {
   const [deleteMode, setDeleteMode] = useRecoilState(deleteModePosState);
   const [commandInputList, setCommandInputList] = useRecoilState(commandInputListState);
   const [alertDialogInfo, setAlertDialogInfo] = useRecoilState(alertDialogState);
@@ -62,21 +62,9 @@ export const CommandArea = ({}) => {
           <CommandListRenderItem img={"blue"} title={"파란색 글씨"} desc={"파란색으로 글을 작성하세요."} />
           <CommandListRenderItem img={"brown"} title={"갈색 글씨"} desc={"갈색으로 글을 작성하세요."} />
           <CommandListRenderItem img={"purple"} title={"보라색 글씨"} desc={"보라색으로 글을 작성하세요."} />
-          <CommandListRenderItem
-            img={"yellow"}
-            title={"노란색 배경"}
-            desc={"노란색 배경으로 글을 작성하세요."}
-          />
-          <CommandListRenderItem
-            img={"orange"}
-            title={"주황색 배경"}
-            desc={"주황색 배경으로 글을 작성하세요."}
-          />
-          <CommandListRenderItem
-            img={"gray"}
-            title={"회색 배경"}
-            desc={"회색 배경으로 글을 작성하세요."}
-          />
+          <CommandListRenderItem img={"yellow"} title={"노란색 배경"} desc={"노란색 배경으로 글을 작성하세요."} />
+          <CommandListRenderItem img={"orange"} title={"주황색 배경"} desc={"주황색 배경으로 글을 작성하세요."} />
+          <CommandListRenderItem img={"gray"} title={"회색 배경"} desc={"회색 배경으로 글을 작성하세요."} />
         </div>
         {/* <div>#인용</div> */}
         {/* <div>#콜아웃</div> */}
@@ -154,11 +142,11 @@ export const CommandArea = ({}) => {
                             style={
                               alertDialogInfo.visible && deleteMode.index === index
                                 ? {
-                                    borderStyle: "solid",
-                                    borderWidth: 2,
-                                    borderRadius: 3,
-                                    borderColor: "#d32f2f",
-                                  }
+                                  borderStyle: "solid",
+                                  borderWidth: 2,
+                                  borderRadius: 3,
+                                  borderColor: "#d32f2f",
+                                }
                                 : { padding: 1.5 }
                             }
                           >
@@ -180,7 +168,7 @@ export const CommandArea = ({}) => {
   );
 };
 
-const DeleteBlock = ({}) => {
+const DeleteBlock = ({ }) => {
   const [deleteMode, setDeleteMode] = useRecoilState(deleteModePosState);
   return (
     <div
@@ -191,9 +179,15 @@ const DeleteBlock = ({}) => {
       }}
       onClick={() => setDeleteMode({ visible: !deleteMode.visible, index: -1 })}
     >
-      <Button style={{ textTransform: "none", width:110 }} variant={deleteMode.visible ? "contained" : "outlined"} color="error">
+      <Button
+        style={{ textTransform: "none", width: 110 }}
+        variant={deleteMode.visible ? "contained" : "outlined"}
+        color="error"
+      >
         <Icon name={"faTrash"} color={deleteMode.visible ? "white" : "#d32f2f"} />
-        <div style={{ marginLeft: 6, fontFamily: "roboto" }}>삭제모드</div>
+        <div style={{ marginLeft: 6, fontFamily: "roboto", color: deleteMode.visible ? "white" : "#d32f2f" }}>
+          삭제모드
+        </div>
       </Button>
     </div>
   );

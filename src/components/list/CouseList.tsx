@@ -9,9 +9,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.min.css";
 import "swiper/swiper.min.css";
 import useWindowDimensions from "../../hook/useWindowDimensions";
-import { CouseListState } from "../recoil";
+import { CourseListState } from "../recoil";
 import { useRecoilState } from "recoil";
-import { CourseType } from "../../types/CourseArea.d";
+import { CourseType } from "../../types/Course";
 // Import Swiper styles
 // import 'swiper/';
 // import 'swiper/css/pagination';
@@ -40,7 +40,7 @@ type CourseListType = {
   tag: string,
 }
 const CourseList = ({ width, tag }:CourseListType) => {
-  const [courseList, setCourseList] = useRecoilState<CourseType[]>(CouseListState);
+  const [courseList,] = useRecoilState<CourseType[]>(CourseListState);//setCourseList
   const list = courseList.filter(item => item.tags.filter((item) => item.name === tag).length > 0)
   
   return (

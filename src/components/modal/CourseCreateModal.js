@@ -13,7 +13,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { Textarea } from "../Input/index";
 import { InputImage } from "../Input/InputImage";
-import { BookmarkBtn } from "../Btn/BookmarkBtn";
+import { CourseActionField } from "../Btn/CourseActionField";
 import { ProfileCard } from "../card/ProfileCard";
 import { CommandArea } from "../Input/CommandArea";
 import { FilePathState } from "./../recoil";
@@ -151,10 +151,10 @@ export const CourseCreateModal = () => {
             postfetch("/courses", JSON.stringify(dataCourse), true)
               .then((d) => {
                 setLoading(false);
-                // titleRef.current.value = "";
-                // descRef.current.value = "";
-                // setFilepath(FilePathInit);
-                // setCommandInputList(getItems(1));
+                titleRef.current.value = "";
+                descRef.current.value = "";
+                setFilepath(FilePathInit);
+                setCommandInputList(getItems(1));
               })
               .catch((e) => {
                 setLoading(false);
@@ -236,7 +236,7 @@ export const CourseCreateModal = () => {
                   placeholder={"간단한 소개 (최대 3줄)"}
                 />
               </div>
-              <BookmarkBtn disable />
+              <CourseActionField disable />
               <ProfileCard address={"캠퍼스택시"} title={"서울시 강남구"} desc={"팔로워 3,456명"} img={"img"} disable />
               <div style={{ marginTop: 6 }}>
                 <CommandArea />

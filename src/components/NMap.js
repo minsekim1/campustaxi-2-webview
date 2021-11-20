@@ -16,6 +16,7 @@ import {
   ChatRoomSeletedState,
   CreateBottomModalState,
   endPosState,
+  loadingState,
   MyPosState,
   pathState,
   SearchPositionState,
@@ -48,6 +49,7 @@ function NaverMapAPI() {
   const [searchResult, setSearchResult] = useRecoilState(SearchPosResultState);
   const [visibleCreate, setVisibleCreate] = useRecoilState(CreateBottomModalState);
   const [visible, setVisible] = useRecoilState(BottomModalState);
+  const [, setLoading] = useRecoilState(loadingState); //loading
 
   const [myPos] = useRecoilState(MyPosState); //setMyPos
   const [startPos, setStartPos] = useRecoilState(startPosState);
@@ -70,7 +72,8 @@ function NaverMapAPI() {
 
   //# useEffect
   useEffect(() => {
-    getfetch("/chat-rooms").then((d) =>
+    getfetch("/chat-rooms").then(
+      (d) =>
       setChatRoomList(
         d.map((room) => {
           return { ...room, path: _.chunk(_.split(room.path, ","), 2) };
@@ -79,17 +82,18 @@ function NaverMapAPI() {
     );
   }, []);
 
-  console.log(chatRoomList);
-  useEffect(() => {
+  useEffect(async() => {
     if (endPos.place_name && startPos.place_name) {
       let x1 = Number(startPos.x);
       let y1 = Number(startPos.y);
       let x2 = Number(endPos.x);
       let y2 = Number(endPos.y);
       setBounds(new navermaps.LatLngBounds(new navermaps.LatLng(y1 - 0.04, x1), new navermaps.LatLng(y2 + 0.02, x2)));
-      getPath(x1, y1, x2, y2).then((d) => {
+      setLoading(true);
+      await getPath(x1, y1, x2, y2).then((d) => {
         if (typeof d.distance === "number" && d.distance > 0) setPath(d);
       });
+      setLoading(false);
     } else if (startPos.place_name.length > 0 || endPos.place_name.length > 0) {
       const Pos = startPos.place_name.length > 0 ? startPos : endPos;
       setBounds(
@@ -103,10 +107,10 @@ function NaverMapAPI() {
 
   useEffect(() => {
     if (chatRoomSeleted.id !== -1 && naverMapRef.current) {
-      let x1 = Number(chatRoomSeleted.start_route[0].x);
-      let y1 = Number(chatRoomSeleted.start_route[0].y);
-      let x2 = Number(chatRoomSeleted.end_route[0].x);
-      let y2 = Number(chatRoomSeleted.end_route[0].y);
+      let x1 = Number(chatRoomSeleted.start_route.x);
+      let y1 = Number(chatRoomSeleted.start_route.y);
+      let x2 = Number(chatRoomSeleted.end_route.x);
+      let y2 = Number(chatRoomSeleted.end_route.y);
       setBounds(new navermaps.LatLngBounds(new navermaps.LatLng(y1 - 0.08, x1), new navermaps.LatLng(y2 + 0.02, x2)));
     }
   }, [chatRoomSeleted]);
@@ -146,7 +150,7 @@ function NaverMapAPI() {
                 setChatRoomSeleted(room);
                 setVisible(true);
               }}
-              position={new navermaps.LatLng(Number(room.start_route[0].y), Number(room.start_route[0].x))}
+              position={new navermaps.LatLng(Number(room.start_route.y), Number(room.start_route.x))}
               navermaps={navermaps}
             />
             {/* DB 모든 도착지 */}
@@ -155,7 +159,7 @@ function NaverMapAPI() {
                 setChatRoomSeleted(room);
                 setVisible(true);
               }}
-              position={new navermaps.LatLng(Number(room.end_route[0].y), Number(room.end_route[0].x))}
+              position={new navermaps.LatLng(Number(room.end_route.y), Number(room.end_route.x))}
               navermaps={navermaps}
             />
           </div>
@@ -163,13 +167,13 @@ function NaverMapAPI() {
       {/* 출->도 직선경로 */}
       {chatRoomList.length > 0 &&
         chatRoomList
-          // .map((room) => room.end_route[0])
+          // .map((room) => room.end_route)
           .map((room, i) => (
             <Polyline
               key={i.toString()}
               path={[
-                new navermaps.LatLng(Number(room.start_route[0].y), Number(room.start_route[0].x)),
-                new navermaps.LatLng(Number(room.end_route[0].y), Number(room.end_route[0].x)),
+                new navermaps.LatLng(Number(room.start_route.y), Number(room.start_route.x)),
+                new navermaps.LatLng(Number(room.end_route.y), Number(room.end_route.x)),
               ]}
               strokeColor={"#FF6E6E"}
               strokeOpacity={0.2}

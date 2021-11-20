@@ -10,6 +10,7 @@ export const CProduct = ({ index, data }) => {
       title={noTags(product.title)}
       desc={`최저가 ${numberWithCommas(product.lprice)}원`}
       url={""}
+      imgWidth={70}
       img={product.image}
       onClick={() => {}}
     />

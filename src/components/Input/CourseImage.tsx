@@ -4,8 +4,11 @@ import { useRecoilState } from "recoil";
 import { Icon } from "../common/Icon";
 import useWindowDimensions from "../../hook/useWindowDimensions";
 
-export const CourseImage = ({ isEdit = false }) => {
-  const [crop, setCrop] = useRecoilState(CropState);
+type Props = {
+  isEdit?: boolean;
+  imgUrl?: string;
+}
+export const CourseImage = ({ isEdit = false, imgUrl }: Props) => {
   const [filepath, setFilepath] = useRecoilState(FilePathState);
   const { height, width } = useWindowDimensions();
   // const [isCrop, setIsCrop] = useState(false);
@@ -18,10 +21,11 @@ export const CourseImage = ({ isEdit = false }) => {
           style={{
             width: width,
             backgroundImage: !isEdit
-              ? `linear-gradient(to bottom,rgba(0,0,0,0),rgba(255,255,255, 0),rgba(255,255,255, 0),rgba(255,255,255, 0),rgba(255,255,255, 0),rgba(255,255,255, 1)),url(${filepath.previewURL})`
+              ? `linear-gradient(to bottom,rgba(0,0,0,0),rgba(255,255,255, 0),rgba(255,255,255, 0),rgba(255,255,255, 0),rgba(255,255,255, 0),rgba(255,255,255, 1)),url(${imgUrl ?? filepath.previewURL
+              })`
               : filepath.previewURL != ""
-              ? `linear-gradient(to bottom,rgba(0,0,0,0),rgba(255,255,255, 1)),url(${filepath.previewURL})`
-              : `linear-gradient(to bottom,rgba(200,200,200,1),rgba(200,200,200, 1),rgba(200,200,200, 1),rgba(255,255,255, 0.2))`,
+                ? `linear-gradient(to bottom,rgba(0,0,0,0),rgba(255,255,255, 1)),url(${imgUrl ?? filepath.previewURL})`
+                : `linear-gradient(to bottom,rgba(200,200,200,1),rgba(200,200,200, 1),rgba(200,200,200, 1),rgba(255,255,255, 0.2))`,
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
             height: (width * 200) / 200,

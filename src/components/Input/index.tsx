@@ -1,19 +1,38 @@
-import { GRAY2, GRAY7, GRAY9,  } from "../../style";
-import { forwardRef, useState, useCallback } from "react";
+import { GRAY2, GRAY7, GRAY9 } from "../../style";
+import { forwardRef, useState, useCallback, Ref } from "react";
 import { CreateBottomModalState, SearchPositionState } from "../recoil";
 import { useRecoilState } from "recoil";
 import { Icon } from "../common/Icon";
 import TextareaAutosize from "react-autosize-textarea";
 import useWindowDimensions from "../../hook/useWindowDimensions";
 
-export const Input = forwardRef(({ onChange, placeholder, inputMode, type, readOnly, disabled, defaultValue, }, ref) => {
-  const onChangeInupt = (e) => {
+type InputProps = {
+  onChange: (t: string) => void;
+  placeholder?: string;
+  inputMode?: "search" | "text" | "none" | "tel" | "url" | "email" | "numeric" | "decimal";
+  type?: string;
+  readOnly?: boolean;
+  disabled?: boolean;
+  defaultValue?: string;
+  inputRef?: React.LegacyRef<HTMLInputElement>;
+};
+export const Input = ({
+  onChange,
+  placeholder,
+  inputMode,
+  type,
+  readOnly = false,
+  disabled = false,
+  defaultValue,
+  inputRef,
+}: InputProps) => {
+  const onChangeInupt = (e: any) => {
     if (onChange) onChange(e.target.value);
   };
   const { height, width } = useWindowDimensions();
   return (
     <input
-      ref={ref}
+      ref={inputRef}
       defaultValue={defaultValue}
       onChange={onChangeInupt}
       readOnly={readOnly ?? false}
@@ -33,9 +52,17 @@ export const Input = forwardRef(({ onChange, placeholder, inputMode, type, readO
       }}
     />
   );
-});
+};
 
-export const Textarea = forwardRef(({ placeholder, style, maxrows },ref) => {
+type TextareaType = {
+  placeholder?: string;
+  style?: object;
+  maxrows?: number;
+  TextareaRef?: any;
+  disabled?: boolean;
+  defaultValue?: string;
+};
+export const Textarea = ({ placeholder, style, maxrows, TextareaRef, disabled = false, defaultValue }: TextareaType) => {
   const [rowIndex, setRowIndex] = useState({ height: 0, index: 0 });
   const { height, width } = useWindowDimensions();
   const onChangeInput = useCallback(
@@ -53,40 +80,48 @@ export const Textarea = forwardRef(({ placeholder, style, maxrows },ref) => {
   );
   return (
     <TextareaAutosize
-      ref={ref}
+      disabled={disabled}
+      ref={TextareaRef}
       // rows={rows ?? 1}
       onChange={onChangeInput}
       placeholder={placeholder}
       maxRows={maxrows}
       // onResize={onResizeInput}
-      // defaultValue={defaultValue}
+      defaultValue={defaultValue}
       style={
         style
           ? style
           : {
-              width: width - 60,
-              height: "20px",
-              backgroundColor: GRAY2,
-              border: "none",
-              padding: 10,
-              borderRadius: 10,
-              fontSize: 15,
-              color: GRAY7,
-              resize: "none",
-              fontFamily: "AppleSDGothic",
-              overflow: "hidden",
-              outline: "none",
-            }
+            width: width - 60,
+            height: "20px",
+            backgroundColor: GRAY2,
+            border: "none",
+            padding: 10,
+            borderRadius: 10,
+            fontSize: 15,
+            color: GRAY7,
+            resize: "none",
+            fontFamily: "AppleSDGothic",
+            overflow: "hidden",
+            outline: "none",
+            
+          }
       }
     />
   );
-});
+};
 
-export const InputSearch = ({ value, placeholder, onChange, autoFocus = false }) => {
+type SearchProps = {
+  value: any;
+  placeholder?: string;
+  onChange?: (t: string) => void;
+  autoFocus?: boolean;
+};
+export const InputSearch = ({ value, placeholder, onChange, autoFocus = false }: SearchProps) => {
   const { height, width } = useWindowDimensions();
-  const onChangeInput = (e) => {
+  const onChangeInput = (e: any) => {
     value.current = e.target.value;
-    onChange(e.target.value);
+    if (onChange) onChange(e.target.value);
   };
   return (
     <div
@@ -118,7 +153,11 @@ export const InputSearch = ({ value, placeholder, onChange, autoFocus = false })
   );
 };
 
-export const InputMap = ({ placeholder, position }) => {
+type InputMapProps = {
+  placeholder: string;
+  position: "start" | "end" | "place" | "";
+}
+export const InputMap = ({ placeholder, position }: InputMapProps) => {
   const [, setVisible] = useRecoilState(CreateBottomModalState);
   const [, setVisibleSearch] = useRecoilState(SearchPositionState); //visibleSearch
   const { height, width } = useWindowDimensions();

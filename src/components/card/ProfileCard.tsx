@@ -17,8 +17,9 @@ type Props = {
   onClick?: ()=>void;
   onClickDelete?: ()=>void;
   disable?: boolean;
+  icon?: string;
 };
-export const ProfileCard = ({ title, desc, address, url, img, onClick, onClickDelete, disable }: Props) => {
+export const ProfileCard = ({ title, desc, address, url, img, onClick, onClickDelete, disable, icon="faCrown" }: Props) => {
   return (
     <div style={{ height: 80 }}>
       <div
@@ -27,7 +28,7 @@ export const ProfileCard = ({ title, desc, address, url, img, onClick, onClickDe
       >
         {/* 유저아이콘 */}
         <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <ProfileIcon icon={"faCrown"} />
+          <ProfileIcon icon={icon ? icon : ""} />
         </div>
         {/* 상세내용 */}
         <div style={{ flex: 4, marginLeft: 16, alignSelf: "center" }}>

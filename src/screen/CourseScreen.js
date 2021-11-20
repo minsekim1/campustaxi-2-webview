@@ -8,6 +8,8 @@ import { CropScreen } from "./../components/modal/CropScreen";
 import { CourseProductModal } from "../components/modal/CourseProductModal";
 import { AlertDialog } from "./../components/Dialog/AlertDialog";
 
+import "../style/bodyScrollBlock.css";
+
 const CourseScreen = () => {
   return (
     <>

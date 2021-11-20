@@ -4,7 +4,6 @@ import { BottomModal } from './../components/BottomModal';
 const MyChatScreen = () => {
   return (
     <>
-      <BottomModal />
       <BottomTabBar />
     </>
   );

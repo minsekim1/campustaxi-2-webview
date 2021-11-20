@@ -3,7 +3,7 @@ import { Icon } from "../common/Icon";
 import { ProfileIcon } from "../Icon/ProfileIcon";
 import { useHistory } from "react-router-dom";
 import useWindowDimensions from "../../hook/useWindowDimensions";
-import { CourseType } from "../../types/CourseArea.d";
+import { CourseType } from "../../types/Course";
 import _ from "lodash";
 export const TagBlack = ({ title }: { title: string }) => {
   return (
@@ -59,7 +59,7 @@ export const CourseCard = ({ course, width }: CourseCardType) => {
   return (
     <div style={{ margin: width > 340 ? "16px 24px" : "8px 16px 0 16px" }}>
       <div
-        onClick={() => history.push(`/course/detail?id=${course && (course.id ?? "")}`)}
+        onClick={() => history.push(`/course/detail/${course && (course.id ?? "")}`)}
         style={{
           width: "100%",
           borderRadius: 10,

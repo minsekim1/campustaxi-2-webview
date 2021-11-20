@@ -29,7 +29,7 @@ const App = () => {
           <Route exact path="/">
             <HomeScreen />
           </Route>
-          <Route exact path="/course/detail">
+          <Route exact path="/course/detail/:id">
             <CourseDetailScreen />
           </Route>
           <Route exact path="/course">

@@ -10,7 +10,6 @@ export const CPlace = ({index, data}) => {
         url={data.content.place_url}
         img={"https://picsum.photos/200"}
         imgWidth={70}
-        padding={""}
         // onClick={() => onClick(data.content)}
       />
   );

@@ -6,7 +6,7 @@ import { ChatRoomSeletedState } from "../recoil";
 import { prettyDate } from "../common/prettyDate";
 import { ChatRoomInit } from "../common";
 
-export const RoomCard = ({ room = null, onClick = () => { } }) => {
+export const RoomCard = ({ room, onClick = () => { } }) => {
   const [chatRoomSeleted, setChatRoomSeleted] = useRecoilState(ChatRoomSeletedState);
 
   const enterTag = room ? (room.chat_user ? room.chat_user.length : 0) + "/" + (room.person_limit + 2) : "";
@@ -36,17 +36,17 @@ export const RoomCard = ({ room = null, onClick = () => { } }) => {
       onClick={() => onClickRoom(room)}
     >
       <PositionCard
-        address={room ? room.end_route[0].address_name : ""}
-        title={room ? room.end_route[0].place_name : ""}
-        desc={room ? room.end_route[0].category_name : ""}
-        url={room ? room.end_route[0].place_url : ""}
+        address={room ? room.end_route.address_name : ""}
+        title={room ? room.end_route.place_name : ""}
+        desc={room ? room.end_route.category_name : ""}
+        url={room ? room.end_route.place_url : ""}
         img={"https://picsum.photos/200"}
       />
       <PositionCardReverse
-        address={room ? room.start_route[0].address_name : ""}
-        title={room ? room.start_route[0].place_name : ""}
-        desc={room ? room.start_route[0].category_name : ""}
-        url={room ? room.start_route[0].place_url : ""}
+        address={room ? room.start_route.address_name : ""}
+        title={room ? room.start_route.place_name : ""}
+        desc={room ? room.start_route.category_name : ""}
+        url={room ? room.start_route.place_url : ""}
         img={"https://picsum.photos/200"}
       />
       <div style={{ display: "flex", paddingTop: 6, paddingBottom: 6, marginBottom: -17, marginLeft: 16 }}>

@@ -10,7 +10,7 @@ import { BackHeader } from "../components/BackHeader";
 import { CourseCard } from "../components/card/CourseCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import useWindowDimensions from "../hook/useWindowDimensions";
-import { CourseTypeInit } from "../types/CourseArea.d";
+import { CourseTypeInit } from "../types/Course";
 
 var points = 0,
   following = 0,
@@ -121,7 +121,6 @@ const LogList = () => {
   ];
   const [courseList, setCourseList] = useState([1, 2, 3, 4]);
   const { height, width } = useWindowDimensions();
-  //  useRecoilState < CourseType[] > (CouseListState);
   const list = courseList;
   //.filter(item => item.tags.filter((item) => item.name === tag).length > 0)
 
@@ -147,7 +146,6 @@ const LogList = () => {
 const CourseList = () => {
   const [courseList, setCourseList] = useState([1, 2, 3, 4]);
   const { height, width } = useWindowDimensions();
-  //  useRecoilState < CourseType[] > (CouseListState);
   const list = courseList;
   //.filter(item => item.tags.filter((item) => item.name === tag).length > 0)
 

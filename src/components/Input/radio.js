@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { GRAY2 } from "../../style";
 
-export const Radio = ({ data, title, defaultIndex, onClick }) => {
+export const Radio = ({ data,  defaultIndex, onClick }) => {
   const [clicked, setClicked] = useState(defaultIndex);
   const onChangeInput = (i) => {
     setClicked(i);

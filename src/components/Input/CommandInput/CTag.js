@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { commandInputListState } from "../../recoil";
 import { WithContext as ReactTags } from "react-tag-input";
@@ -14,10 +14,11 @@ const KeyCodes = {
 const delimiters = [...KeyCodes.enter, KeyCodes.comma, KeyCodes.space];
 
 // tagList:[], inputValue:""
-export const CTag = ({ index }) => {
+export const CTag = ({ index, disable }) => {
   const [commandInputList, setCommandInputList] = useRecoilState(commandInputListState);
   const tagList = commandInputList[index].content.tagList;
   const inputValue = commandInputList[index].content.inputValue;
+
   // const [suggestionList] = useState([
   //   //setSuggestionList
   //   { id: "0", text: "캠퍼스택시" },
@@ -49,23 +50,17 @@ export const CTag = ({ index }) => {
       ...commandInputList.slice(index + 1, 999),
     ]);
   };
-  // 인풋수정
-  const handleInputChange = (e) => {
-    setCommandInputList([
-      ...commandInputList.slice(0, index),
-      { ...commandInputList[index], content: { inputValue: e, tagList: tagList } },
-      ...commandInputList.slice(index + 1, 999),
-    ]);
-  };
-
+  //#endregion
   return (
     <>
       <ReactTags
+        className={disable ? "disableTag" : ""}
         placeholder={"엔터, 스페이스, 쉼표로 태그를 구분해주세요."}
         maxLength={30}
         allowDeleteFromEmptyInput={false}
         inline
         tags={tagList}
+        readOnly={disable}
         // inputValue={inputValue}
         // suggestions={suggestionList}
         handleDelete={handleDelete}

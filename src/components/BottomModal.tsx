@@ -5,13 +5,15 @@ import {
   ChatRoomListState,
   CreateBottomModalState,
   endPosState,
+  loadingState,
   pathState,
+  posInitType,
   startPosState,
-} from "../components/recoil";
+} from "./recoil";
 import "react-spring-bottom-sheet/dist/style.css";
 import "../style/switch.css";
 import { GRAY7, ORANGE, SCREEN_HEIGHT } from "../style";
-import { GRAY8, GRAY6 } from "./../style/index";
+import { GRAY8, GRAY6 } from "../style/index";
 import { createRef, useMemo, useRef, useState } from "react";
 import { getfetch, posInit, postfetch } from "./common";
 import { Input, InputMap, InputSearch } from "./Input/index";
@@ -20,6 +22,8 @@ import { Radio } from "./Input/radio";
 import { PositionCard } from "./card/PositionCard";
 import { RoomCard } from "./card/RoomCard";
 import _ from "lodash";
+import { RouteType } from "../types/Route";
+import { ChatRoomType } from "../types/ChatRoom";
 
 export const BottomModal = () => {
   const [visible, setVisible] = useRecoilState(BottomModalState);
@@ -27,33 +31,34 @@ export const BottomModal = () => {
   const [chatRoomList] = useRecoilState(ChatRoomListState); //setChatRoomList
   const [chatRoomListFilterd, setChatRoomListFilterd] = useState([]);
   const filterSearchTxt = useRef("");
-  const bottomRef = useRef();
+  const bottomRef = useRef<any>();
 
   const onClickRoom = () => {
-    bottomRef.current.snapTo(() => SCREEN_HEIGHT * 0.4 + 30, {
-      source: "custom",
-      velocity: 0,
-    });
+    if (bottomRef && bottomRef.current && bottomRef.current.snapTo)
+      bottomRef.current.snapTo(() => SCREEN_HEIGHT * 0.4 + 30, {
+        source: "custom",
+        velocity: 0,
+      });
   };
 
-  const onChangeFilterSearchTxt = async (t) => {
+  const onChangeFilterSearchTxt = async (t: string) => {
     if (t.length === 0) {
       setChatRoomListFilterd([]);
     } else {
       const list = await chatRoomList.filter(
-        (room) =>
+        (room: ChatRoomType) =>
           // 추후 방장이름도 추가
           room.title.includes(t) ||
-          room.start_route[0].road_address_name.includes(t) ||
-          room.start_route[0].place_name.includes(t) ||
-          room.start_route[0].phone.includes(t) ||
-          room.start_route[0].address_name.includes(t) ||
-          room.start_route[0].category_name.includes(t) ||
-          room.end_route[0].road_address_name.includes(t) ||
-          room.end_route[0].place_name.includes(t) ||
-          room.end_route[0].phone.includes(t) ||
-          room.end_route[0].address_name.includes(t) ||
-          room.end_route[0].category_name.includes(t)
+          room.start_route.road_address_name.includes(t) ||
+          room.start_route.place_name.includes(t) ||
+          room.start_route.phone.includes(t) ||
+          room.start_route.address_name.includes(t) ||
+          room.start_route.category_name.includes(t) ||
+          room.end_route.road_address_name.includes(t) ||
+          room.end_route.place_name.includes(t) ||
+          room.end_route.phone.includes(t) ||
+          room.end_route.address_name.includes(t) ||
+          room.end_route.category_name.includes(t)
       );
       setChatRoomListFilterd(list);
     }
@@ -72,7 +77,7 @@ export const BottomModal = () => {
           maxHeight * 0.7,
           maxHeight * 0.9,
         ]}
-        defaultSnap={({ lastSnap, snapPoints }) => [SCREEN_HEIGHT * 0.4]}
+        defaultSnap={({ lastSnap, snapPoints }) => SCREEN_HEIGHT * 0.4}
         header={
           <div>
             <div style={{ fontFamily: "roboto", fontWeight: "bold", fontSize: 15, color: GRAY7, float: "left" }}>
@@ -98,7 +103,7 @@ export const BottomModal = () => {
           </div>
           {chatRoomList.length > 0 &&
             LIST.map((room, i) => {
-              const ref = createRef();
+              const ref = createRef<any>();
               const handleClick = () => {
                 ref.current.scrollIntoView({ behavior: "smooth", block: "start" });
               };
@@ -126,6 +131,7 @@ export const BottomModal = () => {
 //2021-10-05T21:50
 const defaultValueDate = new Date().toJSON().split(".")[0];
 export const CreateBottomModal = () => {
+  const [, setLoading] = useRecoilState(loadingState); //loading
   const [visible, setVisible] = useRecoilState(CreateBottomModalState);
 
   const [title, setTitle] = useState("");
@@ -136,7 +142,7 @@ export const CreateBottomModal = () => {
   const [startPos, setStartPos] = useRecoilState(startPosState);
   const [endPos, setEndPos] = useRecoilState(endPosState);
   const [path] = useRecoilState(pathState); //setPath
-  const [, setChatRoomList] = useRecoilState(ChatRoomListState);//chatRoomList
+  const [, setChatRoomList] = useRecoilState(ChatRoomListState); //chatRoomList
 
   const closeCondition = useMemo(
     () => title !== "" || startPos.place_name !== "" || endPos.place_name !== "",
@@ -147,29 +153,46 @@ export const CreateBottomModal = () => {
     [startPos.place_name, endPos.place_name, path.distance]
   );
 
+  const getPostRoute = async (startPos: posInitType, endPos: posInitType) => {
+    return new Promise((resolve: (p: { responseStartRoute: RouteType; responseEndRoute: RouteType }) => void) => {
+      let responseStartRoute: RouteType | null = null;
+      let responseEndRoute: RouteType | null = null;
+      postfetch("/routes", {
+        ...startPos,
+        naver_id: startPos.id,
+        x: Number(startPos.x),
+        y: Number(startPos.y),
+      }).then((d) => {
+        responseStartRoute = d;
+        if (responseStartRoute !== null && responseEndRoute !== null)
+          resolve({ responseStartRoute: responseStartRoute, responseEndRoute: responseEndRoute });
+      });
+      postfetch("/routes", {
+        ...endPos,
+        naver_id: endPos.id,
+        x: Number(endPos.x),
+        y: Number(endPos.y),
+      }).then((d) => {
+        responseEndRoute = d;
+        if (responseStartRoute !== null && responseEndRoute !== null)
+          resolve({ responseStartRoute: responseStartRoute, responseEndRoute: responseEndRoute });
+      });
+    });
+    // { responseStartRoute: responseStartRoute, responseEndRoute: responseEndRoute }
+  };
   const postCreateChatRoom = async () => {
     if (!postCondition) {
       alert("출발지/도착지/출발시간을 확인해주세요.");
     } else {
+      setLoading(true);
+      const responseRoute = await getPostRoute(startPos, endPos);
       const response = await postfetch("/chat-rooms", {
         title: title,
         gender: genderLimit ? "M" : "None",
         creator_id: "0",
         chat_user: ["0"],
-        "start_route[]": JSON.stringify({
-          __component: "route.route",
-          ...startPos,
-          naver_id: startPos.id,
-          x: Number(startPos.x),
-          y: Number(startPos.y),
-        }),
-        "end_route[]": JSON.stringify({
-          __component: "route.route",
-          ...endPos,
-          naver_id: endPos.id,
-          x: Number(endPos.x),
-          y: Number(endPos.y),
-        }),
+        start_route: responseRoute.responseStartRoute.id,
+        end_route: responseRoute.responseEndRoute.id,
         person_limit: personLimit,
         start_at: date,
         path: path.path,
@@ -190,15 +213,18 @@ export const CreateBottomModal = () => {
         // # 새로 방 업데이트
         getfetch("/chat-rooms").then((d) =>
           setChatRoomList(
-            d.map((room) => {
+            d.map((room: any) => {
               return { ...room, path: _.chunk(_.split(room.path, ","), 2) };
             })
           )
         );
+        setLoading(false);
       } else if (response.statusCode === 200) {
         try {
+          setLoading(false);
           alert(JSON.stringify(response.data.errors));
         } catch (e) {
+          setLoading(false);
           console.debug(e);
         }
       }
@@ -211,7 +237,7 @@ export const CreateBottomModal = () => {
         open={visible}
         onDismiss={() => setVisible(false)}
         snapPoints={({ minHeight, maxHeight }) => [maxHeight * 0.3, maxHeight * 0.5, maxHeight * 0.7, maxHeight * 0.9]}
-        defaultSnap={({ lastSnap, snapPoints }) => [SCREEN_HEIGHT * 0.7]}
+        defaultSnap={({ lastSnap, snapPoints }) => SCREEN_HEIGHT * 0.7}
         expandOnContentDrag={true}
       >
         <div style={{ padding: "12px 20px" }}>
@@ -246,7 +272,7 @@ export const CreateBottomModal = () => {
               <Input defaultValue={title} onChange={setTitle} placeholder="채팅방 이름을 입력해주세요. (선택)" />
             </div>
             <div style={{ marginTop: 12 }}>
-              <InputMap value={startPos} placeholder="출발지를 선택해주세요." position={"start"} />
+              <InputMap placeholder="출발지를 선택해주세요." position={"start"} />
               {startPos.place_name ? (
                 <PositionCard
                   address={startPos.address_name}
@@ -261,7 +287,7 @@ export const CreateBottomModal = () => {
               )}
             </div>
             <div style={{ marginTop: 12 }}>
-              <InputMap value={endPos} placeholder="도착지를 선택해주세요." position={"end"} />
+              <InputMap placeholder="도착지를 선택해주세요." position={"end"} />
               {endPos.place_name ? (
                 <PositionCard
                   address={endPos.address_name}
@@ -277,7 +303,8 @@ export const CreateBottomModal = () => {
             </div>
             <div style={{ marginTop: 12 }}>
               <div style={{ fontWeight: "bold", margin: "0 12px 12px", color: GRAY7 }}>출발 시간을 선택해주세요.</div>
-              <Input defaultValue={date} onChange={setDate} type="datetime-local" id="appt" name="appt" />
+              <Input defaultValue={date} onChange={setDate} type="datetime-local" />
+              {/* id="appt" name="appt" */}
             </div>
             <div style={{ marginTop: 0, padding: 8 }}>
               <Switch

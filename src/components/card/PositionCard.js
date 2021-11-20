@@ -8,7 +8,7 @@ export const PositionCard = ({
   address,
   url,
   img,
-  onClick,
+  onClick = ()=> {},
   onClickDelete,
   imgWidth = "100%",
   padding = "16px 16px 0 16px",
@@ -16,7 +16,7 @@ export const PositionCard = ({
   return (
     <div style={{ padding: padding, display: "flex", flex: 1 }} onClick={onClick ? onClick : () => {}}>
       <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center" }}>
-        <img alt={" "} src={img} width={imgWidth} style={{ borderRadius: 20, maxHeight: "5em", maxWidth:"5em" }}></img>
+        <img alt={" "} src={img} width={imgWidth} style={{ borderRadius: 12, maxHeight: "5em", maxWidth:"5em" }}></img>
       </div>
       <div style={{ flex: 4, marginLeft: 16, alignSelf: "center" }}>
         <div style={{ ...textOverflowHidden, fontSize: 12, color: GRAY7 }}>{address}</div>
