@@ -21,20 +21,30 @@ type Props = {
   disable?: boolean;
   icon?: string;
 };
-export const ProfileCard = ({ title, desc, address, url, img, onClick, onClickDelete, disable, icon = "faCrown" }: Props) => {
+export const ProfileCard = ({
+  title,
+  desc,
+  address,
+  url,
+  img,
+  onClick,
+  onClickDelete,
+  disable,
+  icon = "faCrown",
+}: Props) => {
   const [userData] = useRecoilState(userDataState);
   return (
     <div style={{ height: 80 }}>
-      <div
-        style={{ padding: "16px 16px 0 16px", display: "flex", alignItems: "center" }}
-        onClick={onClick ? onClick : () => { }}
-      >
+      <div style={{ padding: "16px 16px 0 16px", display: "flex", alignItems: "center" }}>
         {/* 유저아이콘 */}
-        <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <div
+          style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center" }}
+          onClick={onClick ? onClick : () => {}}
+        >
           <ProfileIcon icon={icon ? icon : ""} />
         </div>
         {/* 상세내용 */}
-        <div style={{ flex: 4, marginLeft: 16, alignSelf: "center" }}>
+        <div style={{ flex: 4, marginLeft: 16, alignSelf: "center" }} onClick={onClick ? onClick : () => {}}>
           <div style={{ ...textOverflowHidden, fontSize: 14, color: GRAY7, fontWeight: "bold" }}>{address}</div>
           <div style={{ ...textOverflowHidden, fontSize: 12, marginTop: 3, color: GRAY6 }}>{title}</div>
           <div style={{ ...textOverflowHidden, fontSize: 12, color: GRAY6 }}>{desc}</div>
@@ -61,7 +71,7 @@ export const ProfileCard = ({ title, desc, address, url, img, onClick, onClickDe
             padding: "3px 20px",
             height: 22,
           }}
-          onClick={() => !userData ? alert("로그인이 필요한 기능입니다!") : togglerFollow(1, 2)}
+          onClick={() => (!userData ? alert("로그인이 필요한 기능입니다!") : togglerFollow(1, 2))}
         >
           팔로우
         </div>

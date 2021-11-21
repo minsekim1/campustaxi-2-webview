@@ -1,3 +1,4 @@
+import { useHistory } from "react-router";
 import { useRecoilState } from "recoil";
 import useWindowDimensions from "../hook/useWindowDimensions";
 import { HEADER_HEIGHT } from "../style";
@@ -7,6 +8,7 @@ import { userDataState } from "./recoil";
 export const TitleHeader = ({ title = "" }) => {
   const { height, width } = useWindowDimensions();
   const [userData] = useRecoilState(userDataState);
+  const history = useHistory();
 
   const goToUser = () => {
     history.push("/my");
