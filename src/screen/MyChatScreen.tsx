@@ -21,6 +21,7 @@ const MyChatScreen = () => {
   const body = document.getElementsByTagName("body")[0];
   useEffect(() => {
     body.removeAttribute("style");
+    return () => setLoading(false);
   }, [body]);
   // #endregion
   //#region 데이터 관리
@@ -41,7 +42,7 @@ const MyChatScreen = () => {
         <div style={{ position: "sticky", top: 0, zIndex: 2, height: 56, backgroundColor: "white" }}>
           <TitleHeader title="내 채팅" />
         </div>
-        loading...
+        {/* loading... */}
         <BottomTabBar />
       </div>
     );
@@ -65,7 +66,7 @@ const ChatRoomArea = ({ chatRooms }: { chatRooms: ChatRoomType[] }) => {
   return (
     <div style={{ padding: "0 16px 96px 16px" }}>
       {chatRooms.map((room, i: number) => (
-        <RoomCard key={i.toString()}room={room} noClick />
+        <RoomCard key={i.toString()} room={room} noClick />
       ))}
     </div>
   );

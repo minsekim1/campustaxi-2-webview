@@ -64,7 +64,7 @@ export const ChatScreen = ({ }) => {
     return (
       <div>
         <BackHeaderRight title={""} userImg={""} roomId={id} />
-        loading...
+        {/* loading... */}
       </div>
     );
   if (loading) setLoading(false);

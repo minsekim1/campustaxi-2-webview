@@ -61,27 +61,38 @@ const CourseDetailScreen = () => {
   const [loading, setLoading] = useRecoilState(loadingState);
   //#region 스크롤 열기
   useEffect(() => {
-    const body = document.getElementsByTagName('body')[0];
+    const body = document.getElementsByTagName("body")[0];
     body.setAttribute("style", "overflow: scroll;");
     return () => {
       body.setAttribute("style", "overflow: hidden;");
       setLoading(false);
-    }
-  }, [])
+    };
+  }, []);
   //#endregion
   const { id }: { id: string | undefined } = useParams();
   const { data, error } = useSWR(`${API_URL}/courses?id=${id}`, fetcher);
   if ((error || !data) && !loading) setLoading(true);
-  if (error) return <div><BackHeader />failed to load</div>;
-  if (!data) return <div><BackHeader />loading...</div>;
+  if (error)
+    return (
+      <div>
+        <BackHeader />
+        failed to load
+      </div>
+    );
+  if (!data)
+    return (
+      <div>
+        <BackHeader />
+        {/* loading... */}
+      </div>
+    );
   if (loading) setLoading(false);
 
   const course: CourseType = data[0];
 
-
   return (
     <>
-      <div style={{position:'fixed'}}>
+      <div style={{ position: "fixed" }}>
         <BackHeader />
       </div>
       <CourseArea course={course} />
@@ -275,7 +286,7 @@ const CommandArea = ({ content }: { content: CourseType[] }) => {
                 }}
               ></div>
               <div style={{ padding: 1.5 }}>
-                <CItem index={i} data={item} disable/>
+                <CItem index={i} data={item} disable />
               </div>
             </div>
           </div>

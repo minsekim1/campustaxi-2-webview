@@ -54,7 +54,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "push": "sh push.sh",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "upload": "npm run build && git add . && git commit -m \"build upload\" && git push"
   },
   "eslintConfig": {
     "extends": [
