@@ -12,6 +12,7 @@ import { RoomCard } from "../components/card/RoomCard";
 import { TitleHeader } from "../components/TitleHeader";
 import useWindowDimensions from "../hook/useWindowDimensions";
 import { styleCenter } from "../style";
+import { KaKaoLoginBtn } from "../components/Btn/LoginBtn";
 
 const MyChatScreen = () => {
   const [loading, setLoading] = useRecoilState(loadingState);
@@ -62,7 +63,8 @@ const MyChatScreen = () => {
 
 const ChatRoomArea = ({ chatRooms }: { chatRooms: ChatRoomType[] }) => {
   return (
-    <div style={{ padding:"0 16px 96px 16px"}}>
+    <div style={{ padding: "0 16px 96px 16px" }}>
+      <KaKaoLoginBtn/>
       {chatRooms.map((room, i: number) => (
         <RoomCard key={i.toString()}room={room} noClick />
       ))}

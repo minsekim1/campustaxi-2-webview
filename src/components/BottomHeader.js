@@ -1,19 +1,22 @@
-import { homeTabIndexState } from "../components/recoil";
+import { homeTabIndexState, userDataState } from "../components/recoil";
 import { HEADER_HEIGHT } from "./../style/index";
 import { useRecoilState } from "recoil";
 import { useHistory } from "react-router";
 import useWindowDimensions from "../hook/useWindowDimensions";
+import { KaKaoLoginBtn } from "./Btn/LoginBtn";
 
 export const BottomHeader = () => {
+  const [userData] = useRecoilState(userDataState);
+
   const { height, width } = useWindowDimensions();
   const history = useHistory();
   const [homeTabIndex, setHomeTabIndex] = useRecoilState(homeTabIndexState);
   const onClick = (index) => {
-		if (homeTabIndex !== index) {
-			if (index === 1) history.push("/");
-			else if ( index === 0) history.push("/course");
-			setHomeTabIndex(index);
-		}
+    if (homeTabIndex !== index) {
+      if (index === 1) history.push("/");
+      else if (index === 0) history.push("/course");
+      setHomeTabIndex(index);
+    }
   };
   const goToUser = () => {
     history.push("/my");
@@ -50,28 +53,37 @@ export const BottomHeader = () => {
       </div>
       <div style={inlineStyle.flex}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "end", marginRight: width * 0.05 }}>
-          <div
-            onClick={goToUser}
-            style={{
-              ...inlineStyle.noStyleBtn,
-              border: `3px solid #F1F3F5`,
-              borderRadius: 200,
-              backgroundColor: "#F1F3F5",
-              alignItems: "center",
-              justifyContent: "center",
-              display: "flex",
-              width: 44,
-              height: 44,
-            }}
-          >
-            <img
-              alt={" "}
-              width={32}
-              height={32}
-              style={{ borderRadius: 200 }}
-              src={"https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"}
-            ></img>
-          </div>
+          {userData ? (
+            <div
+              onClick={goToUser}
+              style={{
+                ...inlineStyle.noStyleBtn,
+                border: `3px solid #F1F3F5`,
+                borderRadius: 200,
+                backgroundColor: "#F1F3F5",
+                alignItems: "center",
+                justifyContent: "center",
+                display: "flex",
+                width: 44,
+                height: 44,
+              }}
+            >
+              <img
+                alt={" "}
+                width={32}
+                height={32}
+                style={{ borderRadius: 200 }}
+                src={
+                  userData.profile_image ??
+                  "https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
+                }
+              ></img>
+            </div>
+          ) : (
+            <div stlye={{ height: 16 }}>
+              <KaKaoLoginBtn />
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -79,7 +91,6 @@ export const BottomHeader = () => {
 };
 
 const inlineStyle = {
-  
   barFlexInner: { flex: 1, display: "flex", justifyContent: "center", alignItems: "baseline" },
   flex: { flex: 1 },
   flexL: { float: "left" },

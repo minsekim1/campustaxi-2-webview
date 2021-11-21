@@ -259,6 +259,7 @@ export const homeTabIndexState = atom({
   key: "recoil/homeTabIndex",
   default: 1,
 });
+
 //#endregion
 //#region bttomTabIndex
 /**
@@ -308,5 +309,13 @@ export const searchState = atom<{ users: UserType[]; rooms: ChatRoomType[]; cour
 export const lastMessageMarginBottomState = atom<number>({
   key: "recoil/lastMessageMarginBottomState",
   default: 0,
+});
+//#endregion
+
+//#region /users 회원가입
+export const userDataState = atom<UserType| null>({
+  key: "recoil/userDataState",
+  default: null,
+  effects_UNSTABLE: [localStorageEffect("recoil/userDataState")],
 });
 //#endregion

@@ -257,7 +257,7 @@ const CommandArea = ({ content }: { content: CourseType[] }) => {
     <div>
       {content.map((item: any, i: number) => {
         return (
-          <div>
+          <div key={i.toString()}>
             <div
               style={{
                 display: "flex",
