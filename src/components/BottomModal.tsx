@@ -9,10 +9,11 @@ import {
   pathState,
   posInitType,
   startPosState,
+  userDataState,
 } from "./recoil";
 import "react-spring-bottom-sheet/dist/style.css";
 import "../style/switch.css";
-import { GRAY7, ORANGE, SCREEN_HEIGHT } from "../style";
+import { GRAY7, ORANGE, SCREEN_HEIGHT, styleCenter } from "../style";
 import { GRAY8, GRAY6 } from "../style/index";
 import { createRef, useMemo, useRef, useState } from "react";
 import { getfetch, posInit, postfetch } from "./common";
@@ -24,6 +25,8 @@ import { RoomCard } from "./card/RoomCard";
 import _ from "lodash";
 import { RouteType } from "../types/Route";
 import { ChatRoomType } from "../types/ChatRoom";
+import KakaoLogin from "react-kakao-login";
+import { KaKaoLoginBtn } from "./Btn/LoginBtn";
 
 export const BottomModal = () => {
   const [visible, setVisible] = useRecoilState(BottomModalState);
@@ -77,7 +80,7 @@ export const BottomModal = () => {
           maxHeight * 0.7,
           maxHeight * 0.9,
         ]}
-        style={{zIndex:9999999999999}}
+        style={{ zIndex: 9999999999999 }}
         defaultSnap={({ lastSnap, snapPoints }) => SCREEN_HEIGHT * 0.4}
         header={
           <div>
@@ -94,7 +97,7 @@ export const BottomModal = () => {
         }
         expandOnContentDrag={false}
       >
-        <div style={{ padding: "0 10px 80px 10px",  }}>
+        <div style={{ padding: "0 10px 80px 10px" }}>
           <div style={{ display: "flex", justifyContent: "center", marginTop: 16 }}>
             <InputSearch
               value={filterSearchTxt}
@@ -246,6 +249,7 @@ export const CreateBottomModal = () => {
             <div style={{ fontFamily: "roboto", fontWeight: "bold", fontSize: 17, color: GRAY8, float: "left" }}>
               채팅방을 만들어보세요!
             </div>
+            <BlockLogin />
             {closeCondition ? (
               <div
                 style={{
@@ -323,6 +327,35 @@ export const CreateBottomModal = () => {
           </div>
         </div>
       </BottomSheet>
+    </>
+  );
+};
+
+const BlockLogin = () => {
+  const [userData] = useRecoilState(userDataState);
+
+  return (
+    <>
+      {!userData ? (
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            position: "absolute",
+            backgroundColor: "rgba(255,255,255,0.6)",
+            ...styleCenter,
+            zIndex: 3,
+            flexDirection:'column'
+          }}
+        >
+          <KaKaoLoginBtn width={256} />
+          <div style={{marginTop:8, marginBottom:60}}>
+            로그인이 필요한 기능입니다.
+          </div>
+        </div>
+      ) : (
+        false
+      )}
     </>
   );
 };

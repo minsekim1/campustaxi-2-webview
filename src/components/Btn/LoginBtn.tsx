@@ -6,7 +6,7 @@ import { getfetch, postfetch } from "../common";
 import { Browser, OS } from "../common/function/getPlatform";
 import { loadingState, userDataState } from "../recoil";
 
-export const KaKaoLoginBtn = () => {
+export const KaKaoLoginBtn = ({ width=64}) => {
   const [userData, setUserData] = useRecoilState(userDataState);
   const [, setLoading] = useRecoilState(loadingState); //loading
 
@@ -72,7 +72,7 @@ export const KaKaoLoginBtn = () => {
       onFail={(p) => console.error(p)}
       onLogout={() => console.log("logout!")}
       useLoginForm
-      style={{ backgroundColor: '#ffeb00', width: 64 }}
+      style={{ backgroundColor: '#ffeb00', width: width }}
     >로그인</KakaoLogin>
   );
 };

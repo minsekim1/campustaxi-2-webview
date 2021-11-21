@@ -2,6 +2,8 @@ import { GRAY6, GRAY7, SUB_BLUE, textOverflowHidden } from "../../style";
 import { Icon } from "../common/Icon";
 import { GRAY4 } from "../../style/index";
 import { ProfileIcon } from "../Icon/ProfileIcon";
+import { userDataState } from "../recoil";
+import { useRecoilState } from "recoil";
 
 export const togglerFollow = (my_user_id: number, your_user_id: number) => {
   alert("팔로우!");
@@ -14,17 +16,18 @@ type Props = {
   address?: string;
   url?: string;
   img?: string;
-  onClick?: ()=>void;
-  onClickDelete?: ()=>void;
+  onClick?: () => void;
+  onClickDelete?: () => void;
   disable?: boolean;
   icon?: string;
 };
-export const ProfileCard = ({ title, desc, address, url, img, onClick, onClickDelete, disable, icon="faCrown" }: Props) => {
+export const ProfileCard = ({ title, desc, address, url, img, onClick, onClickDelete, disable, icon = "faCrown" }: Props) => {
+  const [userData] = useRecoilState(userDataState);
   return (
     <div style={{ height: 80 }}>
       <div
         style={{ padding: "16px 16px 0 16px", display: "flex", alignItems: "center" }}
-        onClick={onClick ? onClick : () => {}}
+        onClick={onClick ? onClick : () => { }}
       >
         {/* 유저아이콘 */}
         <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center" }}>
@@ -52,13 +55,13 @@ export const ProfileCard = ({ title, desc, address, url, img, onClick, onClickDe
             fontSize: 12,
             fontWeight: "bold",
             justifyContent: "center",
-            backgroundColor: SUB_BLUE,
+            backgroundColor: !userData ? "gray" : SUB_BLUE,
             color: "white",
             borderRadius: 20,
             padding: "3px 20px",
             height: 22,
           }}
-          onClick={() => togglerFollow(1, 2)}
+          onClick={() => !userData ? alert("로그인이 필요한 기능입니다!") : togglerFollow(1, 2)}
         >
           팔로우
         </div>

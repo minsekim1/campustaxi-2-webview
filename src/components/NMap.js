@@ -72,8 +72,7 @@ function NaverMapAPI() {
 
   //# useEffect
   useEffect(() => {
-    getfetch("/chat-rooms").then(
-      (d) =>
+    getfetch("/chat-rooms").then((d) =>
       setChatRoomList(
         d.map((room) => {
           return { ...room, path: _.chunk(_.split(room.path, ","), 2) };
@@ -82,7 +81,7 @@ function NaverMapAPI() {
     );
   }, []);
 
-  useEffect(async() => {
+  useEffect(async () => {
     if (endPos.place_name && startPos.place_name) {
       let x1 = Number(startPos.x);
       let y1 = Number(startPos.y);
@@ -218,7 +217,9 @@ function NaverMapAPI() {
             path={
               path.distance > 0 && visibleCreate
                 ? path.path.map((line) => new navermaps.LatLng(Number(line[1]), Number(line[0])))
-                : chatRoomSeleted.path.map((line) => new navermaps.LatLng(Number(line[1]), Number(line[0])))
+                : chatRoomSeleted && chatRoomSeleted.path
+                ? chatRoomSeleted.path.map((line) => new navermaps.LatLng(Number(line[1]), Number(line[0])))
+                : []
             }
             strokeColor={"red"}
             strokeOpacity={1}

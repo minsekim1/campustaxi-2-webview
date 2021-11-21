@@ -64,7 +64,6 @@ const MyChatScreen = () => {
 const ChatRoomArea = ({ chatRooms }: { chatRooms: ChatRoomType[] }) => {
   return (
     <div style={{ padding: "0 16px 96px 16px" }}>
-      <KaKaoLoginBtn/>
       {chatRooms.map((room, i: number) => (
         <RoomCard key={i.toString()}room={room} noClick />
       ))}

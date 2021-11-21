@@ -32,7 +32,7 @@ const DefaultChat = ({ data, mref, isLast = false }: { data: MessageChatType; mr
 	const isMy = data.user_id ? data.user_id.nickname === myNickname : true;
 
 	const year = data.created_at ? Number(data.created_at.slice(0, 4)) : "";
-	const month = data.created_at ? Number(data.created_at.slice(5, 7))+1 : "";
+	const month = data.created_at ? Number(data.created_at.slice(5, 7)): "";
 	const day = data.created_at ? Number(data.created_at.slice(8, 10)) : "";
 	const date = data.created_at ? `${year}년 ${month}월 ${day}일` : ""
 
