@@ -1,6 +1,6 @@
 import axios from "axios";
 import KakaoLogin from "react-kakao-login";
-import { LoginResponse, UserProfile } from "react-kakao-login/lib/types";
+import { LoginResponse } from "react-kakao-login/lib/types";
 import { useRecoilState } from "recoil";
 import { getfetch, postfetch } from "../common";
 import { Browser, OS } from "../common/function/getPlatform";
