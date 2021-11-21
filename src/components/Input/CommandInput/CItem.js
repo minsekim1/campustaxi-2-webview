@@ -6,7 +6,7 @@ import { CTag } from './CTag';
 import { CContour } from './CContour';
 import { CProduct } from "./CProduct";
 
-export const CItem = ({ index, data }) => {
+export const CItem = ({ index, data, disable=false }) => {
   switch (data.type) {
     case "text":
       return <CTextarea index={index} />;
@@ -23,7 +23,7 @@ export const CItem = ({ index, data }) => {
     case "h3":
       return <CH index={index} data={data} type={"h3"} />;
     case "tag":
-      return <CTag index={index} data={data} />;
+      return <CTag disable={disable} index={index} data={data} />;
     case "contour":
       return <CContour index={index} data={data} />;
     default:

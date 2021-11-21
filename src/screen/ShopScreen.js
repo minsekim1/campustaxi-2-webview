@@ -1,59 +1,63 @@
 import { BottomTabBar } from "../components/BottomTabBar";
 import { BottomModal } from './../components/BottomModal';
-import "./ShopScreen.css"
 import { FaFilter, FaSearch } from "react-icons/fa";
+import useWindowDimensions from "../hook/useWindowDimensions";
+import { GRAY1, GRAY2, GRAY8, GRAY9 } from "../style";
+
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { CardActionArea } from '@mui/material';
+import { TitleHeader } from "../components/TitleHeader";
 
 var counts = 0;
 const ShopScreen = () => {
-  // const [data, setData] = useState([]);
-  
-  // // useEffect(()=>{},[]) 샵 들어올때 1번 실행
-  // useEffect(() => {
-  //   // 데이터 가져오기
-  //   getfetch("/users").then((d) => setData(d));
-  //   // getfetch("/chat-rooms").then((d) => setData(d));
-
-  //   //데이터 저장하기
-  //   // postfetch("/chat-rooms", {저장할 값들})
-  //   // alert(data);
-  // }, []);
-
-  // // alert('re-render!')
   return (
-    <body>
-      <div className="shopScreenTop">
-        <div className="top">
-          SHOP
-        </div>
-        <div className="count">
-          총 {counts}개의 제품
-        </div>
-        <div className="shopSearch">
-          <div>원하시는 상품을 검색해 보세요! <FaSearch style={{marginTop: 2, marginLeft: 5}}/></div>
-          <div className="searchIcon"></div>
-        </div>
-        <div className="shopFilter">
-          최신순 <FaFilter style={{marginTop: 2, marginLeft: 5}}/>
-        </div>
-        <div className="itemViews">
-          
-        </div>
-        </div>
-      <BottomModal />
+    <>
+      <div style={{position:'sticky', height:56 , top:0, background:GRAY2, zIndex:2}}>
+        <TitleHeader title="SHOP" />
+      </div>
+      <ShopCard />
       <BottomTabBar />
-    </body>
+    </>
   );
 };
-/*
-- 프로필 추가
-- 돋보기 아이콘 추가
-- 'n개'의 제품 font-weight bold
-- 필터 아이콘 추가
-- 필터 옵션 추가 (가격 낮은 순 / 가격 높은 순)
-- 상품 사진&이름 추가
-- 아이템 추가 시 바뀔 수 있게
-*/
-
-
+const ShopCard = () => {
+  const { height, width } = useWindowDimensions();
+  return (
+    <>
+      <div
+        style={{
+          backgroundColor: GRAY1,
+          height: height - 56,
+          width: width,
+          justifyContent: "center",
+          alignItems: "center",
+          display: "flex",
+        }}
+        onClick={() =>
+          open(
+            "https://www.11st.co.kr/products/3215920069?NaPm=ct=kw7sstow|ci=f6c1f183068b064c15b5d369abf32a9b0ee6384d|tr=slct|sn=17703|hk=9535048eb4706134446bcf47e1fec54a957453b6&utm_term=&utm_campaign=%B3%D7%C0%CC%B9%F6pc_%B0%A1%B0%DD%BA%F1%B1%B3%B1%E2%BA%BB&utm_source=%B3%D7%C0%CC%B9%F6_PC_PCS&utm_medium=%B0%A1%B0%DD%BA%F1%B1%B3"
+          )
+        }
+        // onClick={() => open("https://smartstore.naver.com/campustaxi/products/5976589929")}
+      >
+        <Card sx={{ borderRadius: 12, marginBottom: 8 }}>
+          <CardActionArea sx={{ width: 300, height: 540, display: "flex", flexDirection: "column" }}>
+            <CardMedia component="img" height="440" image="/images/shopItem.png" alt="green iguana" />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                <span style={{ fontSize: 21 }}>진공 스테인리스 LED 온도표시 스마트 터치 텀블러</span>
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                <s>15,000원</s> <span style={{ fontSize: 25, color: GRAY9 }}>10,000원</span>
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      </div>
+    </>
+  );
+}
 export default ShopScreen;
-

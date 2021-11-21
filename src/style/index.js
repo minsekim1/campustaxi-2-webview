@@ -34,3 +34,8 @@ export const textOverflowHidden = {
   WebkitLineClamp: 1, //줄수
   // WebkitBoxOrient: "vertical",
 };
+export const styleCenter = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+};

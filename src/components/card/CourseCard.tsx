@@ -1,10 +1,10 @@
 import { GRAY2, GRAY3, GRAY4, GRAY6, GRAY7, textOverflowHidden } from "../../style";
 import { Icon } from "../common/Icon";
-import { ProfileIcon } from '../Icon/ProfileIcon';
-import { useHistory } from 'react-router-dom';
+import { ProfileIcon } from "../Icon/ProfileIcon";
+import { useHistory } from "react-router-dom";
 import useWindowDimensions from "../../hook/useWindowDimensions";
-import { CourseType } from "../../types/CourseArea.d";
-import _ from 'lodash'
+import { CourseType } from "../../types/Course";
+import _ from "lodash";
 export const TagBlack = ({ title }: { title: string }) => {
   return (
     <div
@@ -16,7 +16,7 @@ export const TagBlack = ({ title }: { title: string }) => {
         fontSize: 11,
         borderRadius: 20,
         fontWeight: "bold",
-        marginRight: 4
+        marginRight: 4,
       }}
     >
       {title}
@@ -24,37 +24,46 @@ export const TagBlack = ({ title }: { title: string }) => {
   );
 };
 type CourseCardType = {
-  course: CourseType;
+  course?: CourseType;
   width: number;
 };
 type ContentType = {
-  content: string;//"문화"
-  id: string;//"item-1636275004918"
-  type: string;//"text"
-}
+  content: string; //"문화"
+  id: string; //"item-1636275004918"
+  type: string; //"text"
+};
 export const CourseCard = ({ course, width }: CourseCardType) => {
   const history = useHistory();
-  const content = course.content ? _.join(JSON.parse(course.content).filter((item: ContentType) => item.type === 'text').map((item: ContentType) => item.content), ' ') : null;
+  const content = course
+    ? course.content
+      ? _.join(
+          JSON.parse(course.content)
+            .filter((item: ContentType) => item.type === "text")
+            .map((item: ContentType) => item.content),
+          " "
+        )
+      : null
+    : null;
   let image = null;
-  if (course.images && course.images.length > 0)
-    if (course.images[0].url.includes('218'))
-      image = course.images[0].url
-  const imageCSS = image ? {
-    backgroundImage: `url('${image}')`,
-    backgroundRepeat: 'no-repeat',
-    backgroundBlendMode: 'darken',
-    backgroundPosition: 'center',
-    backgroundSize: 'cover',
-    backgroundColor: GRAY2,
-  } : { backgroundColor: GRAY4, }
+  if (course && course.images && course.images.length > 0) if (course.images[0].url.includes("218")) image = course.images[0].url;
+  const imageCSS = image
+    ? {
+        backgroundImage: `url('${image}')`,
+        backgroundRepeat: "no-repeat",
+        backgroundBlendMode: "darken",
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+        backgroundColor: GRAY2,
+      }
+    : { backgroundColor: GRAY4 };
   return (
     <div style={{ margin: width > 340 ? "16px 24px" : "8px 16px 0 16px" }}>
       <div
-        onClick={() => history.push(`/course/detail?id=${course.id ?? ''}`)}
+        onClick={() => history.push(`/course/detail/${course && (course.id ?? "")}`)}
         style={{
           width: "100%",
           borderRadius: 10,
-           height:240,
+          height: 240,
           ...imageCSS,
         }}
       >
@@ -64,9 +73,10 @@ export const CourseCard = ({ course, width }: CourseCardType) => {
             <div style={{ display: "flex", flexDirection: "row" }}>
               <div style={{ flex: 3, display: "flex", flexDirection: "row" }}>
                 {/* 왼쪽 태그 */}
-                {course.tags && course.tags.map(((tag, i: number) =>
-                  <TagBlack key={i.toString()} title={tag.name === "이벤트" ? "EVENT" : tag.name} />
-                ))}
+                {course && course.tags &&
+                  course.tags.map((tag, i: number) => (
+                    <TagBlack key={i.toString()} title={tag.name === "이벤트" ? "EVENT" : tag.name} />
+                  ))}
               </div>
               <div style={{ flex: 1, minWidth: 120, display: "flex", justifyContent: "flex-end" }}>
                 {/* 오른쪽 태그 */}
@@ -74,17 +84,27 @@ export const CourseCard = ({ course, width }: CourseCardType) => {
               </div>
             </div>
             {/* 타이틀/상세내용 */}
-            <div style={{ fontSize: 18, marginTop: 12, fontWeight: "bold", color: 'white', textShadow: '2px 2px 2px gray' }}>{course.title ? course.title : ''}</div>
+            <div
+              style={{
+                fontSize: 18,
+                marginTop: 12,
+                fontWeight: "bold",
+                color: "white",
+                textShadow: "2px 2px 2px gray",
+              }}
+            >
+              {course && course.title ? course.title : ""}
+            </div>
             <div
               style={{
                 ...textOverflowHidden,
                 WebkitLineClamp: 3,
                 padding: 6,
                 marginTop: 6,
-                color: 'white',
+                color: "white",
                 fontSize: 13,
                 maxHeight: 48,
-                textShadow: '2px 2px 2px gray'
+                textShadow: "2px 2px 2px gray",
               }}
             >
               {content}
@@ -92,7 +112,10 @@ export const CourseCard = ({ course, width }: CourseCardType) => {
             {/* 유저사진, 댓글, 북마크수 */}
             <div style={{ display: "flex", flexDirection: "row", marginTop: 12, alignItems: "flex-end" }}>
               <div style={{ flex: 1, display: "flex", flexDirection: "row", alignItems: "baseline" }}>
-                <ProfileIcon icon={"faCrown"} img={course.creator_id && (course.creator_id.profile_image ?? undefined)} />
+                <ProfileIcon
+                  icon={"faCrown"}
+                  img={course && course.creator_id && (course.creator_id.profile_image ?? undefined)}
+                />
                 {/* 두번째 유저 */}
                 {/* <div style={{ marginLeft: 3 }}>
                   <ProfileIcon size={"sm"} />
@@ -137,6 +160,6 @@ export const CourseCard = ({ course, width }: CourseCardType) => {
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 };

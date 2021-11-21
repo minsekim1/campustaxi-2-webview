@@ -8,7 +8,7 @@ export const PositionCard = ({
   address,
   url,
   img,
-  onClick,
+  onClick = ()=> {},
   onClickDelete,
   imgWidth = "100%",
   padding = "16px 16px 0 16px",
@@ -16,7 +16,7 @@ export const PositionCard = ({
   return (
     <div style={{ padding: padding, display: "flex", flex: 1 }} onClick={onClick ? onClick : () => {}}>
       <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center" }}>
-        <img alt={" "} src={img} width={imgWidth} style={{ borderRadius: 20, maxHeight: "5em", maxWidth:"5em" }}></img>
+        <img alt={" "} src={img} width={imgWidth} style={{ borderRadius: 12, maxHeight: "5em", maxWidth:"5em" }}></img>
       </div>
       <div style={{ flex: 4, marginLeft: 16, alignSelf: "center" }}>
         <div style={{ ...textOverflowHidden, fontSize: 12, color: GRAY7 }}>{address}</div>
@@ -33,7 +33,7 @@ export const PositionCard = ({
     </div>
   );
 };
-export const PositionCardReverse = ({ title, desc, address, url, img }) => {
+export const PositionCardReverse = ({ title, desc,imgWidth = "100%", address, url, img }) => {
   // onClick={onClick ? onClick : () => {}}
   return (
     <div style={{ padding: "8px 16px 0 16px", display: "flex" }}>
@@ -43,7 +43,7 @@ export const PositionCardReverse = ({ title, desc, address, url, img }) => {
         <div style={{ ...textOverflowHidden, fontSize: 13, color: GRAY6 }}>{desc}</div>
       </div>
       <div style={{ flex: 1 }}>
-        <img alt={' '} src={img} width={"100%"} style={{ borderRadius: 20 }}></img>
+        <img alt={" "} src={img} width={imgWidth} style={{ borderRadius: 12, maxHeight: "5em", maxWidth: "5em" }}></img>
       </div>
     </div>
   );

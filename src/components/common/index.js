@@ -4,7 +4,7 @@ export const ProxyURL = !isHttp
   : "https://circlin-web-react-proxy.herokuapp.com/";
 export const FTP_URL = "https://218.153.157.69/ftp/";//http://218.153.157.69/ftp/1636779791516_874ca4a993.jpeg
 export const API_URL = (isHttp ? ProxyURL : "") + "https://www.campus-taxi.com:444";
-  //"https://www.campus-taxi.com:444";
+//"https://www.campus-taxi.com:444";
 /**
  * Example
  * await fetchWithTimeout('/games', {timeout:6000})

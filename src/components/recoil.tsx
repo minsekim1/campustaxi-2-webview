@@ -4,7 +4,10 @@ import { ChatRoomInit, posInit } from "./common";
 import { getItems } from "./Input/CommandInput/dndFunc";
 import { localStorageEffect } from "./common/function/localStorageEffect";
 import { tagInitList } from "./CourseArea";
-import { CourseType } from "../types/CourseArea.d";
+import { CourseType } from "../types/Course";
+import { UserType } from "../types/User";
+import { ChatRoomType } from "../types/ChatRoom";
+
 //#region userData token
 /**
  * 유저 데이터 Badge, user 포함
@@ -21,8 +24,13 @@ import { CourseType } from "../types/CourseArea.d";
  * address_name category_group_code category_group_name category_name distance id phone place_name place_url road_address_name x y
  */
 
+export type commandType = {
+  id: string;
+  content: any;
+  type: string;
+};
 const tagInitListItem = tagInitList[Math.floor(Math.random() * tagInitList.length)];
-export const commandInputListState = atom({
+export const commandInputListState = atom<commandType[]>({
   key: "recoil/commandInputList",
   default: [
     ...getItems(1),
@@ -100,7 +108,7 @@ export const pathState = atom({
  *  AlertDialog 띄우기
  *  { visible: false, text: "" }
  */
-export const alertDialogInit = { visible: false, title: "", text: "", handleConfirm: () => { } };
+export const alertDialogInit = { visible: false, title: "", text: "", handleConfirm: () => {} };
 export const alertDialogState = atom({
   key: "recoil/alertDialog",
   default: alertDialogInit,
@@ -133,7 +141,21 @@ export const endPosState = atom({
  * 출발지
  * address_name category_group_code category_group_name category_name distance id phone place_name place_url road_address_name x y
  */
-export const startPosState = atom({
+export type posInitType = {
+  address_name: string;
+  category_group_code: string;
+  category_group_name: string;
+  category_name: string;
+  distance: string;
+  id: number;
+  phone: string;
+  place_name: string;
+  place_url: string;
+  road_address_name: string;
+  x: string; //127.036586636975
+  y: string; //37.5090312068588
+};
+export const startPosState = atom<posInitType>({
   key: "recoil/startPos",
   default: posInit,
 });
@@ -154,6 +176,7 @@ export const ChatRoomSeletedState = atom({
 export const ChatRoomListState = atom({
   key: "recoil/chatRoomList",
   default: [],
+  effects_UNSTABLE: [localStorageEffect("recoil/chatRoomList")],
 });
 
 /**
@@ -168,9 +191,9 @@ export const SearchPosResultState = atom({
 
 /**
  *  출발지/도착지 선택 시 지도에서 검색하기
- *  position : "start" | "end" | "place"
+ *  position : "start" | "end" | "place" | ""
  */
-export const SearchPositionState = atom({
+export const SearchPositionState = atom<{ visible: boolean; position: "start" | "end" | "place" | "" }>({
   key: "recoil/searchPosition",
   default: { visible: false, position: "" },
 });
@@ -188,7 +211,7 @@ export const FilePathState = atom({
 /**
  *  이미지 수정 crop
  */
-export const CropInit = { visible: false, file: new File([], ''), previewURL: "", type: "" };
+export const CropInit = { visible: false, file: new File([], ""), previewURL: "", type: "" };
 export const CropState = atom({
   key: "recoil/crop",
   default: CropInit,
@@ -236,6 +259,7 @@ export const homeTabIndexState = atom({
   key: "recoil/homeTabIndex",
   default: 1,
 });
+
 //#endregion
 //#region bttomTabIndex
 /**
@@ -248,8 +272,50 @@ export const bottomTabIndexState = atom({
 //#endregion
 
 //#region /course
-export const CouseListState = atom<CourseType[]>({
-  key: "recoil/CouseListState",
+export const CourseListState = atom<CourseType[]>({
+  key: "recoil/CourseListState",
   default: [],
+  effects_UNSTABLE: [localStorageEffect("recoil/CourseListState")],
+});
+export const TagListState = atom<string[]>({
+  key: "recoil/TagListState",
+  default: [],
+  effects_UNSTABLE: [localStorageEffect("recoil/TagListState")],
+});
+export const CourseIndexState = atom<number>({
+  key: "recoil/CourseIndexState",
+  default: 0,
+  effects_UNSTABLE: [localStorageEffect("recoil/CourseIndexState")],
+});
+export const shareModalState = atom<{ visible: boolean }>({
+  key: "recoil/shareModalState",
+  default: { visible: false },
+});
+//#endregion
+
+//#region /search
+/**
+ *  사용자 / 채팅방 / 코스 검색
+ */
+// { users: any[]; rooms: any[]; course: any[] }
+
+export const searchState = atom<{ users: UserType[]; rooms: ChatRoomType[]; courses: CourseType[] }>({
+  key: "recoil/searchState",
+  default: { rooms: [], users: [], courses: [] },
+});
+//#endregion
+
+//#region  /chat 채팅방
+export const lastMessageMarginBottomState = atom<number>({
+  key: "recoil/lastMessageMarginBottomState",
+  default: 0,
+});
+//#endregion
+
+//#region /users 회원가입
+export const userDataState = atom<UserType| null>({
+  key: "recoil/userDataState",
+  default: null,
+  effects_UNSTABLE: [localStorageEffect("recoil/userDataState")],
 });
 //#endregion

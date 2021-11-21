@@ -7,6 +7,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.map_copyright{
+  display: none;
+}
 @font-face {
   font-family: 'AppleSDGothicNeo';
   font-style: normal;

@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as fal from "@fortawesome/pro-light-svg-icons";
-import * as  far from "@fortawesome/pro-regular-svg-icons";
+import * as far from "@fortawesome/pro-regular-svg-icons";
 
 import { useRecoilState } from "recoil";
 import { BottomModalState, bottomTabIndexState, homeTabIndexState } from "./recoil";
@@ -14,32 +14,36 @@ export const BottomTabBar = () => {
   const [homeTabIndex] = useRecoilState(homeTabIndexState);
   const [, setVisible] = useRecoilState(BottomModalState);
   const [bottomTabIndex, setBottomTabIndex] = useRecoilState(bottomTabIndexState);
-  
+
   const onClick = (index) => {
     if (bottomTabIndex !== index) {
       if (homeTabIndex === 1 && index === 1) {
-        setVisible(true)
+        if (history.location.pathname !== "/") {
+          history.replace("/");
+          setBottomTabIndex(0);
+        }
+        setVisible(true);
         return;
       }
       if (homeTabIndex === 1 && index === 0) history.replace("/");
       else if (homeTabIndex === 0 && index === 0) history.replace("/course");
       else if (homeTabIndex === 0 && index === 1) history.replace("/search");
       else if (index === 2) history.replace("/shop");
-      else if (index === 3) history.replace("/chat/my");
+      else if (index === 3) history.replace("/mychat");
       setBottomTabIndex(index);
     }
   };
   return (
     <div
       style={{
-          position: "fixed",
-          bottom: 48,
-          height: 42,
-          boxShadow: "0.2px 0.2px 0 0 gray",
-          borderRadius: 10,
-          width: width * 0.8,
-          marginLeft: width * 0.1,
-          backgroundColor: "white",
+        position: "fixed",
+        bottom: 48,
+        height: 42,
+        boxShadow: "0.2px 0.2px 0 0 gray",
+        borderRadius: 10,
+        width: width * 0.8,
+        marginLeft: width * 0.1,
+        backgroundColor: "white",
       }}
     >
       <div style={inlineStyle.barFlexInner}>
@@ -97,7 +101,6 @@ export const BottomTabBar = () => {
 };
 
 const inlineStyle = {
-
   barFlexInner: {
     display: "flex",
     height: 42,

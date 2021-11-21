@@ -1,6 +1,6 @@
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
-import { GRAY7, SCREEN_HEIGHT } from "../../style";
+import { GRAY7, SCREEN_HEIGHT, styleCenter } from "../../style";
 import { GRAY6 } from "../../style/index";
 import { useRecoilState } from "recoil";
 import {
@@ -9,11 +9,12 @@ import {
   CreateRouteBottomModalState,
   FilePathInit,
   loadingState,
+  userDataState,
 } from "../recoil";
 import { useEffect, useRef, useState } from "react";
 import { Textarea } from "../Input/index";
 import { InputImage } from "../Input/InputImage";
-import { BookmarkBtn } from "../Btn/BookmarkBtn";
+import { CourseActionField } from "../Btn/CourseActionField";
 import { ProfileCard } from "../card/ProfileCard";
 import { CommandArea } from "../Input/CommandArea";
 import { FilePathState } from "./../recoil";
@@ -21,6 +22,7 @@ import { ORANGE } from "./../../style/index";
 import { getItems } from "./../Input/CommandInput/dndFunc";
 import { API_URL, postfetch } from "../common";
 import axios from "axios";
+import { KaKaoLoginBtn } from "../Btn/LoginBtn";
 
 //#region 파일업로드시 Blob to File
 const dataURLtoFile = (dataurl, fileName) => {
@@ -199,6 +201,7 @@ export const CourseCreateModal = () => {
         expandOnContentDrag={false}
       >
         <div>
+          <BlockLogin/>
           <InputImage placeholder={"배경 사진을 선택해주세요!"} />
           <div style={{ padding: "0 16px 80px 16px" }}>
             <div>
@@ -236,7 +239,7 @@ export const CourseCreateModal = () => {
                   placeholder={"간단한 소개 (최대 3줄)"}
                 />
               </div>
-              <BookmarkBtn disable />
+              <CourseActionField disable />
               <ProfileCard address={"캠퍼스택시"} title={"서울시 강남구"} desc={"팔로워 3,456명"} img={"img"} disable />
               <div style={{ marginTop: 6 }}>
                 <CommandArea />
@@ -245,6 +248,33 @@ export const CourseCreateModal = () => {
           </div>
         </div>
       </BottomSheet>
+    </>
+  );
+};
+
+const BlockLogin = () => {
+  const [userData] = useRecoilState(userDataState);
+
+  return (
+    <>
+      {!userData ? (
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            position: "absolute",
+            backgroundColor: "rgba(255,255,255,0.6)",
+            ...styleCenter,
+            zIndex: 3,
+            flexDirection: "column",
+          }}
+        >
+          <KaKaoLoginBtn width={256} />
+          <div style={{ marginTop: 8, marginBottom: 60 }}>로그인이 필요한 기능입니다.</div>
+        </div>
+      ) : (
+        false
+      )}
     </>
   );
 };

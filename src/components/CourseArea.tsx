@@ -2,21 +2,18 @@ import { VirtualizeSwipeableViews, slideRenderer } from "./list/CouseList";
 import { useCallback, useEffect, useState } from "react";
 import { getfetch } from "./common";
 import useWindowDimensions from "../hook/useWindowDimensions";
-import { CourseType } from "../types/CourseArea.d";
+import { CourseType } from "../types/Course";
 import _ from 'lodash'
 import { useRecoilState } from "recoil";
-import { CouseListState } from "./recoil";
-// const favorite = {
-//   enterCount: { '이벤트': 3, '데이트': 2, '여행': 1, '힐링': 10, '문화': 20, '놀이': 10 },
-//   index: { '이벤트': 1, '데이트': 0, '여행': 1, '힐링': 1, '문화': 1, '놀이': 0 },
-// };
+import { CourseIndexState, CourseListState,  TagListState } from "./recoil";
+
 export const tagInitList = ["문화", "힐링", "놀이", "이벤트", "데이트", "여행", "기타"];
 
 export const CourseArea = () => {
-  const [courseList, setCourseList] = useRecoilState<CourseType[]>(CouseListState);
-  const [tagList, setTagList] = useState<string[]>([]);
+  const [courseList, setCourseList] = useRecoilState<CourseType[]>(CourseListState);
+  const [tagList, setTagList] = useRecoilState<string[]>(TagListState);
+  const [index, setIndex] = useRecoilState<number>(CourseIndexState);
   const { height, width } = useWindowDimensions();
-  const [index, setIndex] = useState<number>(0);
   
 
   //#region 코스 데이터 가져오기
