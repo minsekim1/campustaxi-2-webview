@@ -5,6 +5,8 @@ import { useHistory } from "react-router-dom";
 import useWindowDimensions from "../../hook/useWindowDimensions";
 import { CourseType } from "../../types/Course";
 import _ from "lodash";
+import axios from "axios";
+import { ProxyURL } from "../common";
 export const TagBlack = ({ title }: { title: string }) => {
   return (
     <div
@@ -45,10 +47,22 @@ export const CourseCard = ({ course, width }: CourseCardType) => {
       : null
     : null;
   let image = null;
-  if (course && course.images && course.images.length > 0) if (course.images[0].url.includes("218")) image = course.images[0].url;
+  if (course && course.images && course.images.length > 0)
+    if (course.images[0].url.includes("218")) image = course.images[0].url;
+  // axios
+  //   .get(, {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       "X-Requested-With": "XMLHttpRequest",
+  //       "Access-Control-Allow-Origin": "*",
+  //       "Access-Control-Allow-Headers": "X-Requested-With",
+  //     },
+  //   })
+  //   .then((d) => console.log(d));
+
   const imageCSS = image
     ? {
-        backgroundImage: `url('${image}')`,
+        backgroundImage: `url('${ProxyURL+image}')`,
         backgroundRepeat: "no-repeat",
         backgroundBlendMode: "darken",
         backgroundPosition: "center",
@@ -73,7 +87,8 @@ export const CourseCard = ({ course, width }: CourseCardType) => {
             <div style={{ display: "flex", flexDirection: "row" }}>
               <div style={{ flex: 3, display: "flex", flexDirection: "row" }}>
                 {/* 왼쪽 태그 */}
-                {course && course.tags &&
+                {course &&
+                  course.tags &&
                   course.tags.map((tag, i: number) => (
                     <TagBlack key={i.toString()} title={tag.name === "이벤트" ? "EVENT" : tag.name} />
                   ))}
