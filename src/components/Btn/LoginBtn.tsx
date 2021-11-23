@@ -61,10 +61,10 @@ export const KaKaoLoginBtn = ({ width=64}) => {
         kakao_refresh_token_expires_in: res.refresh_token_expires_in ?? "",
       }).then((d) => {
         setLoading(false)
+        history.goBack();
         if (d.statusCode === 400) console.error("로그인실패..", d);
         else {
           setUserData(d);
-          history.replace('/')
         }
       });
   };
@@ -72,12 +72,15 @@ export const KaKaoLoginBtn = ({ width=64}) => {
   // 로그인된 상태에서 버튼 누르면 로그아웃됌
   return (
     <KakaoLogin
+      
       token={"0319421ef3dceca8c69d3b04efc365dc"}
       onSuccess={onSuccess}
       onFail={(p) => console.error(p)}
       onLogout={() => console.log("logout!")}
       useLoginForm
+      render={()=><div>render..</div>}
       style={{ backgroundColor: '#ffeb00', width: width }}
+      
     >로그인</KakaoLogin>
   );
 };
