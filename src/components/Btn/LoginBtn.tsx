@@ -1,6 +1,7 @@
 import axios from "axios";
 import KakaoLogin from "react-kakao-login";
 import { LoginResponse } from "react-kakao-login/lib/types";
+import { useHistory } from "react-router";
 import { useRecoilState } from "recoil";
 import { getfetch, postfetch } from "../common";
 import { Browser, OS } from "../common/function/getPlatform";
@@ -9,6 +10,7 @@ import { loadingState, userDataState } from "../recoil";
 export const KaKaoLoginBtn = ({ width=64}) => {
   const [userData, setUserData] = useRecoilState(userDataState);
   const [, setLoading] = useRecoilState(loadingState); //loading
+  const history = useHistory();
 
   //#region 회원가입하기
   const onSuccess = async (response: { response: LoginResponse; profile?: any | profileType | undefined }) => {
@@ -60,7 +62,10 @@ export const KaKaoLoginBtn = ({ width=64}) => {
       }).then((d) => {
         setLoading(false)
         if (d.statusCode === 400) console.error("로그인실패..", d);
-        else setUserData(d);
+        else {
+          setUserData(d);
+          history.replace('/')
+        }
       });
   };
   //#endregion
