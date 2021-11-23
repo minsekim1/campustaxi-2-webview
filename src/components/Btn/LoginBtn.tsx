@@ -77,7 +77,7 @@ export const KaKaoLoginBtn = ({ width=64}) => {
       onSuccess={onSuccess}
       onFail={(p) => console.error(p)}
       onLogout={() => console.log("logout!")}
-      // useLoginForm
+      useLoginForm
       render={({ onClick }) => (
         <div
           onClick={(e) => {
