@@ -78,16 +78,6 @@ export const KaKaoLoginBtn = ({ width=64}) => {
       onFail={(p) => console.error(p)}
       onLogout={() => console.log("logout!")}
       useLoginForm
-      render={({ onClick }) => (
-        <div
-          onClick={(e) => {
-            e.preventDefault();
-            onClick();
-          }}
-        >
-          카카오로 로그인하기
-        </div>
-      )}
       style={{ backgroundColor: '#ffeb00', width: width }}
       
     >로그인</KakaoLogin>
