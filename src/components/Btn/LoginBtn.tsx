@@ -61,11 +61,11 @@ export const KaKaoLoginBtn = ({ width=64}) => {
         kakao_refresh_token_expires_in: res.refresh_token_expires_in ?? "",
       }).then((d) => {
         setLoading(false)
-        history.goBack();
         if (d.statusCode === 400) console.error("로그인실패..", d);
         else {
           setUserData(d);
         }
+        history.goBack();
       });
   };
   //#endregion
