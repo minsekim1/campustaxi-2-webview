@@ -80,7 +80,7 @@ export const KaKaoLoginBtn = ({ width=64}) => {
       useLoginForm
       style={{ backgroundColor: '#ffeb00', width: width }}
       
-    >로그인</KakaoLogin>
+    ><p style={{color:'black'}}>로그인</p></KakaoLogin>
   );
 };
 
