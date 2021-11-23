@@ -62,7 +62,7 @@ export const CourseCard = ({ course, width }: CourseCardType) => {
 
   const imageCSS = image
     ? {
-        backgroundImage: `url('${ProxyURL+image}')`,
+        backgroundImage: `url('${image}')`,
         backgroundRepeat: "no-repeat",
         backgroundBlendMode: "darken",
         backgroundPosition: "center",
