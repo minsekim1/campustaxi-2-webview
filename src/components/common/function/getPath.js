@@ -8,10 +8,12 @@ export const getPath = (x1, y1, x2, y2) => {
     fetch(url, {
       method: "GET",
       headers: {
+        mode:"no-cors",
         Accept: "application/json",
         "Content-Type": "application/json",
         "X-NCP-APIGW-API-KEY-ID": NAVER_API_KEY,
         "X-NCP-APIGW-API-KEY": NAVER_API_SECRET_KEY,
+        "Access-Control-Allow-Origin":"*"
       },
     })
       .then((d) => d.json())
