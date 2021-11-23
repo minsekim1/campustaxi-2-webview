@@ -1,5 +1,6 @@
 {
   "files": {
+<<<<<<< HEAD
     "main.css": "/static/css/main.7be9e58e.chunk.css",
     "main.js": "/static/js/main.724f7d42.chunk.js",
     "main.js.map": "/static/js/main.724f7d42.chunk.js.map",
@@ -14,13 +15,35 @@
     "static/css/2.534ed2fe.chunk.css.map": "/static/css/2.534ed2fe.chunk.css.map",
     "static/css/main.7be9e58e.chunk.css.map": "/static/css/main.7be9e58e.chunk.css.map",
     "static/js/2.092d6c05.chunk.js.LICENSE.txt": "/static/js/2.092d6c05.chunk.js.LICENSE.txt",
+=======
+    "main.css": "/static/css/main.590f1854.chunk.css",
+    "main.js": "/static/js/main.e1f1349f.chunk.js",
+    "main.js.map": "/static/js/main.e1f1349f.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.2f9f7a77.js",
+    "runtime-main.js.map": "/static/js/runtime-main.2f9f7a77.js.map",
+    "static/css/2.534ed2fe.chunk.css": "/static/css/2.534ed2fe.chunk.css",
+    "static/js/2.9c639395.chunk.js": "/static/js/2.9c639395.chunk.js",
+    "static/js/2.9c639395.chunk.js.map": "/static/js/2.9c639395.chunk.js.map",
+    "static/js/3.fa69422d.chunk.js": "/static/js/3.fa69422d.chunk.js",
+    "static/js/3.fa69422d.chunk.js.map": "/static/js/3.fa69422d.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.534ed2fe.chunk.css.map": "/static/css/2.534ed2fe.chunk.css.map",
+    "static/css/main.590f1854.chunk.css.map": "/static/css/main.590f1854.chunk.css.map",
+    "static/js/2.9c639395.chunk.js.LICENSE.txt": "/static/js/2.9c639395.chunk.js.LICENSE.txt",
+>>>>>>> 3a27d6b20b4eb4e98a831d0a233cd3492ec068c1
     "static/media/index.css": "/static/media/AppleSDGothicNeoR00.d159b4d4.ttf"
   },
   "entrypoints": [
-    "static/js/runtime-main.51eb83ca.js",
+    "static/js/runtime-main.2f9f7a77.js",
     "static/css/2.534ed2fe.chunk.css",
+<<<<<<< HEAD
     "static/js/2.092d6c05.chunk.js",
     "static/css/main.7be9e58e.chunk.css",
     "static/js/main.724f7d42.chunk.js"
+=======
+    "static/js/2.9c639395.chunk.js",
+    "static/css/main.590f1854.chunk.css",
+    "static/js/main.e1f1349f.chunk.js"
+>>>>>>> 3a27d6b20b4eb4e98a831d0a233cd3492ec068c1
   ]
 }
