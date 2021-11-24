@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useRef, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import { useRecoilState } from "recoil";
-import { lastMessageMarginBottomState, loadingState } from "../components/recoil";
+import { lastMessageMarginBottomState, loadingState, userDataState } from "../components/recoil";
 import useSWR from "swr";
 import { API_URL, postfetch } from "../components/common";
 import fetcher from "../hook/useSWR/fetcher";
@@ -138,6 +138,8 @@ const MessageList = ({ list, isInit }: { list: MessageChatType[]; isInit: any })
 };
 
 const Input = forwardRef(({ mutate, list }: { mutate: any; list: MessageChatType[] }, ref?: any) => {
+  const { id: roomId }: any = useParams();
+  const [userData] = useRecoilState(userDataState);
   const [lastMessageMarginBottom, setLastMessageMarginBottom] = useRecoilState(lastMessageMarginBottomState);
   const { height, width } = useWindowDimensions();
   const [text, setText] = useState("");
@@ -171,7 +173,7 @@ const Input = forwardRef(({ mutate, list }: { mutate: any; list: MessageChatType
     setTimeout(() => {
       window.scroll(0, 9999999);
     }, 30);
-    await postfetch("/chats", JSON.stringify({ message: text, chat_room_id: 22, user_id: 2 }), true);
+    await postfetch("/chats", JSON.stringify({ message: text, chat_room_id: roomId, user_id: String(userData?.id) }), true);
     mutate();
   };
   return (
