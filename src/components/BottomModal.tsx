@@ -136,6 +136,7 @@ export const BottomModal = () => {
 const defaultValueDate = new Date().toJSON().split(".")[0];
 export const CreateBottomModal = () => {
   const [, setLoading] = useRecoilState(loadingState); //loading
+  
   const [visible, setVisible] = useRecoilState(CreateBottomModalState);
 
   const [title, setTitle] = useState("");
@@ -157,7 +158,7 @@ export const CreateBottomModal = () => {
     [startPos.place_name, endPos.place_name, path.distance]
   );
 
-  const getPostRoute = async (startPos: posInitType, endPos: posInitType) => {
+  const getPostRoute = async (startPos: posInitType, endPos: posInitType) => {    
     return new Promise((resolve: (p: { responseStartRoute: RouteType; responseEndRoute: RouteType }) => void) => {
       let responseStartRoute: RouteType | null = null;
       let responseEndRoute: RouteType | null = null;
@@ -185,6 +186,8 @@ export const CreateBottomModal = () => {
     // { responseStartRoute: responseStartRoute, responseEndRoute: responseEndRoute }
   };
   const postCreateChatRoom = async () => {
+    const [userData] = useRecoilState(userDataState);
+
     if (!postCondition) {
       alert("출발지/도착지/출발시간을 확인해주세요.");
     } else {
@@ -193,7 +196,7 @@ export const CreateBottomModal = () => {
       const response = await postfetch("/chat-rooms", {
         title: title,
         gender: genderLimit ? "M" : "None",
-        creator_id: "0",
+        creator_id: String(userData ? userData.id : 0),
         chat_user: ["0"],
         start_route: responseRoute.responseStartRoute.id,
         end_route: responseRoute.responseEndRoute.id,

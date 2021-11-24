@@ -7,7 +7,7 @@ import CourseDetailScreen from "./screen/CourseDetailScreen";
 import CourseScreen from "./screen/CourseScreen";
 import ShopScreen from "./screen/ShopScreen";
 import MyChatScreen from "./screen/MyChatScreen";
-import MyScreen from "./screen/MyScreen";
+import UserScreen from "./screen/UserScreen";
 import { resetServerContext } from "react-beautiful-dnd";
 import { LinearProgress } from "@mui/material";
 import { loadingState } from "./components/recoil";
@@ -46,8 +46,8 @@ const App = () => {
           <Route exact path="/chat/:id">
             <ChatScreen />
           </Route>
-          <Route exact path="/my">
-            <MyScreen />
+          <Route exact path="/user/:id">
+            <UserScreen />
           </Route>
         </Switch>
       </BrowserRouter>

@@ -41,6 +41,7 @@ const dataURLtoFile = (dataurl, fileName) => {
 //#endregion
 
 export const CourseCreateModal = () => {
+  const [userData] = useRecoilState(userDataState);
   const [loading, setLoading] = useRecoilState(loadingState);
   const [visibleRoute, setVisibleRoute] = useRecoilState(CreateRouteBottomModalState);
   const [commandWindow, setCommandWindow] = useRecoilState(commandWindowState);
@@ -130,13 +131,16 @@ export const CourseCreateModal = () => {
           const data = new FormData();
 
           // 메인사진
-          const filename = new Date().getTime().toString() + "." + filepath.type.split("/")[1];
+          const split = filepath && filepath.type ? filepath.type.split("/") : [];
+          const filename = new Date().getTime().toString() + "." + split.length > 0 ? split[1] : split[0];
           data.append("files", dataURLtoFile(filepath.file, filename));
 
           // 코스첨부사진들
-          await commandInputList.filter(item => item.type === "image").map((item,i) => {
-            data.append("files", dataURLtoFile(item.content.file, filename + i));
-          })
+          await commandInputList
+            .filter((item) => item.type === "image")
+            .map((item, i) => {
+              data.append("files", dataURLtoFile(item.content.file, filename + i));
+            });
           //#endregion
           //#region 업로드=> 1.이미지 업로드
           axios.post(`${API_URL}/upload`, data).then(async (d) => {
@@ -144,7 +148,7 @@ export const CourseCreateModal = () => {
             const dataCourse = {
               title: titleRef.current.value,
               description: descRef.current.value,
-              creator_id: 1,
+              creator_id: String(userData ? userData.id : 0),
               images: [imgId],
               content: JSON.stringify(commandInputList),
               tags: tagIdList,
@@ -201,7 +205,7 @@ export const CourseCreateModal = () => {
         expandOnContentDrag={false}
       >
         <div>
-          <BlockLogin/>
+          <BlockLogin />
           <InputImage placeholder={"배경 사진을 선택해주세요!"} />
           <div style={{ padding: "0 16px 80px 16px" }}>
             <div>

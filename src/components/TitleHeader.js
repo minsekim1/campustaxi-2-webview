@@ -11,7 +11,8 @@ export const TitleHeader = ({ title = "" }) => {
   const history = useHistory();
 
   const goToUser = () => {
-    history.push("/my");
+    if (userData) history.push(`/user/${userData.id}`);
+    else alert("로그인을 먼저 해야 다른 유저의 정보를 확인할 수 있습니다.")
   };
 
   return (
