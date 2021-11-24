@@ -219,7 +219,7 @@ const ShareModal = ({ url = "", course }: { url: string; course: CourseType }) =
 const CourseArea = ({ course }: { course: CourseType }) => {
   return (
     <>
-      <CourseImage imgUrl={course.images[0].url} />
+      <CourseImage imgUrl={course && course.images && course.images.length > 0 ? course.images[0].url : ""} />
       <div style={{ padding: "0 16px 80px 16px" }}>
         <div style={{ marginTop: 16 }}>
           <Textarea
