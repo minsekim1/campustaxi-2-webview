@@ -140,7 +140,7 @@ export const CH = ({ index, type = "h1" }) => {
         dangerouslySetInnerHTML={{ __html: codes }}
         contentEditable
         suppressContentEditableWarning
-        style={{ width: SCREwidthEN_WIDTH - 60, color: GRAY7, outline: "none", ...style }}
+        style={{ width: width - 60, color: GRAY7, outline: "none", ...style }}
       />
       <div style={{ color: GRAY6, fontSize: 15, position: "relative", height: 0, top: "-1.4em" }}>{placeholder}</div>
     </>
