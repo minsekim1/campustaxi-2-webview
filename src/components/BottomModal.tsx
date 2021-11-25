@@ -193,11 +193,12 @@ export const CreateBottomModal = () => {
     } else {
       setLoading(true);
       const responseRoute = await getPostRoute(startPos, endPos);
+      console.log(title)
       const response = await postfetch("/chat-rooms", {
         title: title,
         gender: genderLimit ? "M" : "None",
         creator_id: String(userData ? userData.id : 0),
-        chat_user: ["0"],
+        chat_user: String(userData ? userData.id : 0),
         start_route: responseRoute.responseStartRoute.id,
         end_route: responseRoute.responseEndRoute.id,
         person_limit: personLimit,
@@ -277,7 +278,7 @@ export const CreateBottomModal = () => {
           </div>
           <div style={{ marginTop: 40 }}>
             <div style={{ marginTop: 12 }}>
-              <Input defaultValue={title} onChange={setTitle} placeholder="채팅방 이름을 입력해주세요. (선택)" />
+              <Input defaultValue={title} onChange={(e)=>setTitle(e)} placeholder="채팅방 이름을 입력해주세요. (선택)" />
             </div>
             <div style={{ marginTop: 12 }}>
               <InputMap placeholder="출발지를 선택해주세요." position={"start"} />
