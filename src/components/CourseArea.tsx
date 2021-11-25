@@ -5,7 +5,7 @@ import useWindowDimensions from "../hook/useWindowDimensions";
 import { CourseType } from "../types/Course";
 import _ from 'lodash'
 import { useRecoilState } from "recoil";
-import { CourseIndexState, CourseListState,  TagListState } from "./recoil";
+import { CourseIndexState, CourseListState,  CreateRouteBottomModalState,  TagListState } from "./recoil";
 import { useHistory } from "react-router";
 
 export const tagInitList = ["문화", "힐링", "놀이", "이벤트", "데이트", "여행", "기타"];
@@ -15,8 +15,7 @@ export const CourseArea = () => {
   const [tagList, setTagList] = useRecoilState<string[]>(TagListState);
   const [index, setIndex] = useRecoilState<number>(CourseIndexState);
   const { height, width } = useWindowDimensions();
-  
-  const history = useHistory();
+  const [visibleRoute, setVisibleRoute] = useRecoilState(CreateRouteBottomModalState);
   
   //#region 코스 데이터 가져오기
   useEffect(() => {
@@ -31,7 +30,7 @@ export const CourseArea = () => {
       setTagList(tagList)
       //#endregion
     });
-  }, [history]);
+  }, [visibleRoute]);
   //#endregion
   if (tagList.length === 0) return false
   return <VirtualizeSwipeableViews index={index} onChangeIndex={setIndex} slideRenderer={(p: { index: number, key: number }) => slideRenderer(p, tagList, width)} />;
