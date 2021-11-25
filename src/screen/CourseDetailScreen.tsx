@@ -217,6 +217,12 @@ const ShareModal = ({ url = "", course }: { url: string; course: CourseType }) =
 //#endregion
 
 const CourseArea = ({ course }: { course: CourseType }) => {
+  try {
+    alert(course.content)
+    JSON.stringify(course.content)
+  } catch (error) {
+    
+  }
   return (
     <>
       <CourseImage imgUrl={course && course.images && course.images.length > 0 ? course.images[0].url : ""} />
@@ -256,7 +262,7 @@ const CourseArea = ({ course }: { course: CourseType }) => {
           </div>
           <CourseActionField />
           <ProfileCard address={course && course.creator_id ?course.creator_id.nickname:""} title={course && course.creator_id ? course.creator_id.email: ""} desc={`팔로워 ${course && course.creator_id ? (course.creator_id.follower ?? 0) : 0}`} img={course && course.creator_id ? course.creator_id.profile_image: ""} />
-          <CommandArea content={course && course.content ? JSON.parse(course.content) : ""} />
+          {/* <CommandArea content={JSON.parse(course.content)} /> */}
         </div>
       </div>
     </>
