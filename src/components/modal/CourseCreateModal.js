@@ -145,6 +145,7 @@ export const CourseCreateModal = () => {
           //#region 업로드=> 1.이미지 업로드
           axios.post(`${API_URL}/upload`, data).then(async (d) => {
             const imgId = d.data[0].id;
+            alert(titleRef.current.value)
             const dataCourse = {
               title: titleRef.current.value,
               description: descRef.current.value,
@@ -244,7 +245,7 @@ export const CourseCreateModal = () => {
                 />
               </div>
               <CourseActionField disable />
-              <ProfileCard address={"캠퍼스택시"} title={"서울시 강남구"} desc={"팔로워 3,456명"} img={"img"} disable />
+              <ProfileCard address={"같이타자"} title={"서울시 강남구"} desc={"팔로워 3,456명"} img={"img"} disable />
               <div style={{ marginTop: 6 }}>
                 <CommandArea />
               </div>
