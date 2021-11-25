@@ -55,6 +55,7 @@ export const Input = ({
 };
 
 type TextareaType = {
+  onChange?: (e:string)=>void;
   placeholder?: string;
   style?: object;
   maxrows?: number;
@@ -62,12 +63,12 @@ type TextareaType = {
   disabled?: boolean;
   defaultValue?: string;
 };
-export const Textarea = ({ placeholder, style, maxrows, TextareaRef, disabled = false, defaultValue }: TextareaType) => {
+export const Textarea = ({ onChange, placeholder, style, maxrows, TextareaRef, disabled = false, defaultValue }: TextareaType) => {
   const [rowIndex, setRowIndex] = useState({ height: 0, index: 0 });
   const { height, width } = useWindowDimensions();
   const onChangeInput = useCallback(
     (e) => {
-      // if (!!onChange) onChange(e.target.value);
+      if (!!onChange) onChange(e.target.value);
       if (!!maxrows) {
         if (rowIndex.index < maxrows && rowIndex.height < e.target.scrollHeight)
           setRowIndex({ index: rowIndex.index + 1, height: e.target.scrollHeight });

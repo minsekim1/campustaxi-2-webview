@@ -85,10 +85,10 @@ export const CourseCreateModal = () => {
         alert("[필수] 내용을 입력해주세요.");
         break;
       default:
-        if (titleRef.current.value === "") {
+        if (titleRef.current === "") {
           alert("코스 제목을 입력해주세요.");
           break;
-        } else if (descRef.current.value === "") {
+        } else if (descRef.current === "") {
           alert("간단한 소개를 입력해주세요.");
           break;
         } else if (loading) {
@@ -145,10 +145,9 @@ export const CourseCreateModal = () => {
           //#region 업로드=> 1.이미지 업로드
           axios.post(`${API_URL}/upload`, data).then(async (d) => {
             const imgId = d.data[0].id;
-            alert(titleRef.current.innerHTML)
             const dataCourse = {
-              title: titleRef.current.innerHTML,
-              description: descRef.current.innerHTML,
+              title: titleRef.current,
+              description: descRef.current,
               creator_id: String(userData ? userData.id : 0),
               images: [imgId],
               content: JSON.stringify(commandInputList),
@@ -158,8 +157,8 @@ export const CourseCreateModal = () => {
             postfetch("/courses", JSON.stringify(dataCourse), true)
               .then((d) => {
                 setLoading(false);
-                titleRef.current.value = "";
-                descRef.current.value = "";
+                titleRef.current = "";
+                descRef.current = "";
                 setFilepath(FilePathInit);
                 setCommandInputList(getItems(1));
               })
@@ -211,7 +210,7 @@ export const CourseCreateModal = () => {
           <div style={{ padding: "0 16px 80px 16px" }}>
             <div>
               <Textarea
-                ref={titleRef}
+                onChange={(e) => { titleRef.current = e }}
                 placeholder={"코스 제목을 입력해주세요."}
                 style={{
                   border: "none",
@@ -228,7 +227,7 @@ export const CourseCreateModal = () => {
               />
               <div style={{ marginTop: 12 }}>
                 <Textarea
-                  ref={descRef}
+onChange={(e) => { descRef.current = e }}
                   style={{
                     border: "none",
                     width: "100%",
