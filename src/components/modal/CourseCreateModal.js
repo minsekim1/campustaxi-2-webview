@@ -145,10 +145,10 @@ export const CourseCreateModal = () => {
           //#region 업로드=> 1.이미지 업로드
           axios.post(`${API_URL}/upload`, data).then(async (d) => {
             const imgId = d.data[0].id;
-            alert(titleRef.current.value)
+            alert(titleRef.current.innerHTML)
             const dataCourse = {
-              title: titleRef.current.value,
-              description: descRef.current.value,
+              title: titleRef.current.innerHTML,
+              description: descRef.current.innerHTML,
               creator_id: String(userData ? userData.id : 0),
               images: [imgId],
               content: JSON.stringify(commandInputList),
