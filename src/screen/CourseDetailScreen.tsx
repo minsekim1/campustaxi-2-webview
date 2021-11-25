@@ -220,11 +220,11 @@ const CourseArea = ({ course }: { course: CourseType }) => {
   return (
     <>
       <CourseImage imgUrl={course && course.images && course.images.length > 0 ? course.images[0].url : ""} />
-      <div style={{ padding: "0 16px 80px 16px" }}>
+      {/* <div style={{ padding: "0 16px 80px 16px" }}>
         <div style={{ marginTop: 16 }}>
           <Textarea
             disabled
-            defaultValue={course ? (course.title ?? "") : ""}
+            defaultValue={course ? (course.title ?? "") : }
             style={{
               border: "none",
               width: "100%",
@@ -240,7 +240,7 @@ const CourseArea = ({ course }: { course: CourseType }) => {
           <div style={{ marginTop: 12 }}>
             <Textarea
               disabled
-              defaultValue={course ? (course.description ?? "") : ""}
+              defaultValue={course && (course.description ?? "")}
               style={{
                 border: "none",
                 width: "100%",
@@ -258,7 +258,7 @@ const CourseArea = ({ course }: { course: CourseType }) => {
           <ProfileCard address={course && course.creator_id ?course.creator_id.nickname:""} title={course && course.creator_id ? course.creator_id.email: ""} desc={`팔로워 ${course && course.creator_id ? course.creator_id.follower : 0}`} img={course && course.creator_id ? course.creator_id.profile_image: ""} />
           <CommandArea content={JSON.parse(course.content)} />
         </div>
-      </div>
+      </div> */}
     </>
   );
 };
