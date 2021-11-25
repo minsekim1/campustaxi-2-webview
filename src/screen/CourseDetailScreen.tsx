@@ -254,8 +254,8 @@ const CourseArea = ({ course }: { course: CourseType }) => {
               }}
             />
           </div>
-          {/* <CourseActionField /> */}
-          {/* <ProfileCard address={course && course.creator_id ?course.creator_id.nickname:""} title={course && course.creator_id ? course.creator_id.email: ""} desc={`팔로워 ${course && course.creator_id ? course.creator_id.follower : 0}`} img={course && course.creator_id ? course.creator_id.profile_image: ""} /> */}
+          <CourseActionField />
+          <ProfileCard address={course && course.creator_id ?course.creator_id.nickname:""} title={course && course.creator_id ? course.creator_id.email: ""} desc={`팔로워 ${course && course.creator_id ? course.creator_id.follower : 0}`} img={course && course.creator_id ? course.creator_id.profile_image: ""} />
           {/* <CommandArea content={JSON.parse(course.content)} /> */}
         </div>
       </div>
