@@ -16,7 +16,6 @@ import { ChatRoomType } from "../types/ChatRoom";
 
 // 처음에만 가장 아래로 이동
 
-const myNickname = "minsekim";
 let msgloading = false;
 
 export const ChatScreen = ({ }) => {

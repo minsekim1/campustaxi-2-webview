@@ -3,7 +3,7 @@ import { useRecoilState } from "recoil";
 import useWindowDimensions from "../../hook/useWindowDimensions";
 import { MessageChatType } from "../../screen/ChatScreen";
 import { GRAY2, GRAY5, GRAY7 } from "../../style";
-import { lastMessageMarginBottomState } from "../recoil";
+import { lastMessageMarginBottomState, userDataState } from "../recoil";
 
 export const MessageChatCard = ({
 	data,
@@ -24,12 +24,12 @@ export const MessageChatCard = ({
 	}
 };
 
-export const myNickname = "nickname2";
 const DefaultChat = ({ data, mref, isLast = false }: { data: MessageChatType; mref?: any; isLast?: boolean }) => {
 
+	const [userData] = useRecoilState(userDataState);
 	const { height, width } = useWindowDimensions();
 	const [lastMessageMarginBottom] = useRecoilState(lastMessageMarginBottomState); //setLastMessageMarginBottom
-	const isMy = data.user_id ? data.user_id.nickname === myNickname : true;
+	const isMy = data.user_id ? data.user_id.nickname === userData?.nickname : true;
 
 	const year = data.created_at ? Number(data.created_at.slice(0, 4)) : "";
 	const month = data.created_at ? Number(data.created_at.slice(5, 7)): "";
