@@ -292,7 +292,7 @@ const CommandArea = ({ content }: { content: CourseType[] }) => {
                 }}
               ></div>
               <div style={{ padding: 1.5 }}>
-                {JSON.stringify(item)}
+                {(item.id)}
                 {/* <CItem index={i} data={item} disable /> */}
               </div>
             </div>
