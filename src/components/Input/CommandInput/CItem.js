@@ -23,6 +23,7 @@ export const CItem = ({ index, data, disable=false }) => {
     case "h3":
       return <CH index={index} data={data} type={"h3"} />;
     case "tag":
+      return <></>;
       return <CTag disable={disable} index={index} data={data} />;
     case "contour":
       return <CContour index={index} data={data} />;
