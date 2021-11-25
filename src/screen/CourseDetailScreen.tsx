@@ -217,9 +217,11 @@ const ShareModal = ({ url = "", course }: { url: string; course: CourseType }) =
 //#endregion
 
 const CourseArea = ({ course }: { course: CourseType }) => {
+  let content = [];
   try {
     alert(course.content)
-    JSON.stringify(course.content)
+    let a = JSON.parse(course.content)
+    alert(a)
   } catch (error) {
     
   }
