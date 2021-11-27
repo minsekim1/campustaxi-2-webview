@@ -9,10 +9,10 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
-import { TitleHeader } from "../components/TitleHeader";
 import { useEffect } from "react";
 import { loadingState } from "../components/recoil";
 import { useRecoilState } from "recoil";
+import { BottomHeader } from "../components/BottomHeader";
 
 const ShopScreen = () => {
   // #region 스크롤 닫기
@@ -25,8 +25,8 @@ const ShopScreen = () => {
   // #endregion
   return (
     <>
-      <div style={{ position: "sticky", height: 56, top: 0, background: GRAY2, zIndex: 2 }}>
-        <TitleHeader title="SHOP" />
+      <div style={{ position: "sticky", height: 64 + 8, top: 0, background: GRAY2, zIndex: 2 }}>
+        <BottomHeader title="SHOP" noProfile />
       </div>
       <ShopCard />
       <BottomTabBar />
@@ -46,12 +46,8 @@ const ShopCard = () => {
           alignItems: "center",
           display: "flex",
         }}
-        onClick={() =>
-          open(
-            "https://www.11st.co.kr/products/3215920069?NaPm=ct=kw7sstow|ci=f6c1f183068b064c15b5d369abf32a9b0ee6384d|tr=slct|sn=17703|hk=9535048eb4706134446bcf47e1fec54a957453b6&utm_term=&utm_campaign=%B3%D7%C0%CC%B9%F6pc_%B0%A1%B0%DD%BA%F1%B1%B3%B1%E2%BA%BB&utm_source=%B3%D7%C0%CC%B9%F6_PC_PCS&utm_medium=%B0%A1%B0%DD%BA%F1%B1%B3"
-          )
-        }
-        // onClick={() => open("https://smartstore.naver.com/campustaxi/products/5976589929")}
+        
+        onClick={() => open("https://smartstore.naver.com/campustaxi/products/5976589929")}
       >
         <Card sx={{ borderRadius: 12, marginBottom: 8 }}>
           <CardActionArea sx={{ width: 300, height: 540, display: "flex", flexDirection: "column" }}>

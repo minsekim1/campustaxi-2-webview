@@ -1,5 +1,4 @@
 import { BottomTabBar } from "../components/BottomTabBar";
-import { BottomModal } from "../components/BottomModal";
 import useSWR from "swr";
 import { useRecoilState } from "recoil";
 import { loadingState } from "../components/recoil";
@@ -7,12 +6,9 @@ import { useEffect } from "react";
 import fetcher from "../hook/useSWR/fetcher";
 import { ChatRoomType } from "../types/ChatRoom";
 import { API_URL } from "../components/common";
-import { Swiper, SwiperSlide } from "swiper/react";
 import { RoomCard } from "../components/card/RoomCard";
-import { TitleHeader } from "../components/TitleHeader";
-import useWindowDimensions from "../hook/useWindowDimensions";
-import { styleCenter } from "../style";
-import { KaKaoLoginBtn } from "../components/Btn/LoginBtn";
+import { BottomHeader } from "../components/BottomHeader";
+
 
 const MyChatScreen = () => {
   const [loading, setLoading] = useRecoilState(loadingState);
@@ -32,7 +28,7 @@ const MyChatScreen = () => {
     return (
       <div>
         <div style={{ position: "sticky", top: 0, zIndex: 2, height: 56, backgroundColor: "white" }}>
-          <TitleHeader title="내 채팅" />
+          <BottomHeader title="내 채팅" />
         </div>
         failed to load <BottomTabBar />
       </div>
@@ -41,7 +37,7 @@ const MyChatScreen = () => {
     return (
       <div>
         <div style={{ position: "sticky", top: 0, zIndex: 2, height: 56, backgroundColor: "white" }}>
-          <TitleHeader title="내 채팅" />
+          <BottomHeader title="내 채팅" />
         </div>
         {/* loading... */}
         <BottomTabBar />
@@ -55,7 +51,7 @@ const MyChatScreen = () => {
   return (
     <>
       <div style={{ position: "sticky", top: 0, backgroundColor: "white", zIndex: 3 }}>
-        <TitleHeader title="내 채팅" />
+        <BottomHeader title="내 채팅" />
       </div>
       <ChatRoomArea chatRooms={chatRooms} />
       <BottomTabBar />

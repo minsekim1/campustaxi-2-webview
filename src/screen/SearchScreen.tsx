@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { BottomTabBar } from "../components/BottomTabBar";
 import { InputSearch } from "../components/Input";
-import { TitleHeader } from "../components/TitleHeader";
 
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -20,6 +19,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { CourseCard } from "../components/card/CourseCard";
 import { CourseType, CourseTypeInit } from "../types/Course";
 import { Router, useHistory } from "react-router";
+import { BottomHeader } from "../components/BottomHeader";
 
 const styles = {
   tabs: {
@@ -36,7 +36,7 @@ const styles = {
 const SearchScreen = () => {
   return (
     <>
-      <TitleHeader title="탐색" />
+      <BottomHeader title="탐색" />
       <SearchBar />
       <ResultTabs />
       <BottomTabBar />
@@ -103,7 +103,7 @@ const SearchBar = () => {
   //#endregion
 
   return (
-    <div style={{ width: width, display: "flex", justifyContent: "center" }}>
+    <div style={{ width: width, display: "flex", justifyContent: "center",marginTop:8 }}>
       <InputSearch
         value={filterSearchTxt}
         placeholder={"닉네임/출발지,도착지/코스를 검색해보세요."}

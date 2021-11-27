@@ -13,7 +13,7 @@ import {
 } from "./recoil";
 import "react-spring-bottom-sheet/dist/style.css";
 import "../style/switch.css";
-import { GRAY7, ORANGE, SCREEN_HEIGHT, styleCenter } from "../style";
+import { AbsoluteCenter, GRAY7, ORANGE, SCREEN_HEIGHT, styleCenter } from "../style";
 import { GRAY8, GRAY6 } from "../style/index";
 import { createRef, useMemo, useRef, useState } from "react";
 import { getfetch, posInit, postfetch } from "./common";
@@ -27,6 +27,7 @@ import { RouteType } from "../types/Route";
 import { ChatRoomType } from "../types/ChatRoom";
 import KakaoLogin from "react-kakao-login";
 import { KaKaoLoginBtn } from "./Btn/LoginBtn";
+import useWindowDimensions from "../hook/useWindowDimensions";
 
 export const BottomModal = () => {
   const [visible, setVisible] = useRecoilState(BottomModalState);
@@ -35,6 +36,7 @@ export const BottomModal = () => {
   const [chatRoomListFilterd, setChatRoomListFilterd] = useState([]);
   const filterSearchTxt = useRef("");
   const bottomRef = useRef<any>();
+  const { height, width } = useWindowDimensions();
 
   const onClickRoom = () => {
     if (bottomRef && bottomRef.current && bottomRef.current.snapTo)
@@ -45,6 +47,7 @@ export const BottomModal = () => {
   };
 
   const onChangeFilterSearchTxt = async (t: string) => {
+
     if (t.length === 0) {
       setChatRoomListFilterd([]);
     } else {
@@ -66,6 +69,7 @@ export const BottomModal = () => {
       setChatRoomListFilterd(list);
     }
   };
+
   const LIST = filterSearchTxt.current.length > 0 ? chatRoomListFilterd : chatRoomList;
   return (
     <>
@@ -105,7 +109,8 @@ export const BottomModal = () => {
               onChange={onChangeFilterSearchTxt}
             />
           </div>
-          {chatRoomList.length > 0 &&
+
+          {chatRoomList.length > 0 ? (
             LIST.map((room, i) => {
               const ref = createRef<any>();
               const handleClick = () => {
@@ -125,7 +130,20 @@ export const BottomModal = () => {
                   />
                 </div>
               );
-            })}
+            })
+          ) : (
+            <div style={{ padding: "8px 32px 0" }}>
+                <div style={{ ...AbsoluteCenter, fontSize: 15, textAlign: 'center', backgroundColor: 'white', fontWeight: 'bold', padding:16, marginTop:24, borderRadius:12, borderWidth:1, borderStyle:'dashed' }}>
+                <div>현재 들어갈 수 있는</div>
+                  <div>택시 채팅방이 없습니다.</div>
+                  <div style={{ fontSize: 13, fontWeight:'normal', marginTop:8}}>
+                <div>지도 오른쪽 하단의 버튼을 눌러</div>
+                <div>새 택시채팅방을 만들어보세요!</div>
+                  </div>
+              </div>
+              <img src={'http://218.153.157.69/ftp/2021_11_27_1_03_40_b85518ade0.png'} width={"100%"} />
+            </div>
+          )}
         </div>
       </BottomSheet>
     </>
@@ -136,7 +154,7 @@ export const BottomModal = () => {
 const defaultValueDate = new Date().toJSON().split(".")[0];
 export const CreateBottomModal = () => {
   const [, setLoading] = useRecoilState(loadingState); //loading
-  
+
   const [visible, setVisible] = useRecoilState(CreateBottomModalState);
 
   const [title, setTitle] = useState("");
@@ -158,7 +176,7 @@ export const CreateBottomModal = () => {
     [startPos.place_name, endPos.place_name, path.distance]
   );
 
-  const getPostRoute = async (startPos: posInitType, endPos: posInitType) => {    
+  const getPostRoute = async (startPos: posInitType, endPos: posInitType) => {
     return new Promise((resolve: (p: { responseStartRoute: RouteType; responseEndRoute: RouteType }) => void) => {
       let responseStartRoute: RouteType | null = null;
       let responseEndRoute: RouteType | null = null;
@@ -193,7 +211,7 @@ export const CreateBottomModal = () => {
     } else {
       setLoading(true);
       const responseRoute = await getPostRoute(startPos, endPos);
-      console.log(title)
+      console.log(title);
       const response = await postfetch("/chat-rooms", {
         title: title,
         gender: genderLimit ? "M" : "None",
@@ -278,7 +296,11 @@ export const CreateBottomModal = () => {
           </div>
           <div style={{ marginTop: 40 }}>
             <div style={{ marginTop: 12 }}>
-              <Input defaultValue={title} onChange={(e)=>setTitle(e)} placeholder="채팅방 이름을 입력해주세요. (선택)" />
+              <Input
+                defaultValue={title}
+                onChange={(e) => setTitle(e)}
+                placeholder="채팅방 이름을 입력해주세요. (선택)"
+              />
             </div>
             <div style={{ marginTop: 12 }}>
               <InputMap placeholder="출발지를 선택해주세요." position={"start"} />
@@ -349,13 +371,11 @@ const BlockLogin = () => {
             backgroundColor: "rgba(255,255,255,0.6)",
             ...styleCenter,
             zIndex: 3,
-            flexDirection:'column'
+            flexDirection: "column",
           }}
         >
           <KaKaoLoginBtn width={256} />
-          <div style={{marginTop:8, marginBottom:60}}>
-            로그인이 필요한 기능입니다.
-          </div>
+          <div style={{ marginTop: 8, marginBottom: 60 }}>로그인이 필요한 기능입니다.</div>
         </div>
       ) : (
         false

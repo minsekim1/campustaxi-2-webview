@@ -39,3 +39,9 @@ export const styleCenter = {
   alignItems: "center",
   justifyContent: "center",
 };
+export const AbsoluteCenter: any = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+};

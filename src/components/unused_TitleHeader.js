@@ -25,6 +25,7 @@ export const TitleHeader = ({ title = "" }) => {
         justifyContent: "center",
         height: HEADER_HEIGHT,
         alignItems: "center",
+        padding:"8px 16px"
       }}
     >
       {title}
