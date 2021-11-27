@@ -244,8 +244,8 @@ export const CreateBottomModal = () => {
         blocking={false}
         open={visible}
         onDismiss={() => setVisible(false)}
-        snapPoints={({ minHeight, maxHeight }) => [maxHeight * 0.3, maxHeight * 0.5, maxHeight * 0.7, maxHeight * 0.9]}
-        defaultSnap={({ lastSnap, snapPoints }) => SCREEN_HEIGHT * 0.3}
+        snapPoints={({ minHeight, maxHeight }) => [maxHeight * 0.3, maxHeight * 0.4, maxHeight * 0.5, maxHeight * 0.7]}
+        defaultSnap={({ lastSnap, snapPoints }) => SCREEN_HEIGHT * 0.4}
         expandOnContentDrag={true}
       >
         <div style={{ padding: "12px 20px" }}>
