@@ -210,7 +210,9 @@ export const CourseCreateModal = () => {
           <div style={{ padding: "0 16px 80px 16px" }}>
             <div>
               <Textarea
-                onChange={(e) => { titleRef.current = e }}
+                onChange={(e) => {
+                  titleRef.current = e;
+                }}
                 placeholder={"코스 제목을 입력해주세요."}
                 style={{
                   border: "none",
@@ -227,7 +229,9 @@ export const CourseCreateModal = () => {
               />
               <div style={{ marginTop: 12 }}>
                 <Textarea
-onChange={(e) => { descRef.current = e }}
+                  onChange={(e) => {
+                    descRef.current = e;
+                  }}
                   style={{
                     border: "none",
                     width: "100%",

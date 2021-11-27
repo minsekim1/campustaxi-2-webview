@@ -58,7 +58,7 @@ const MyScreen = () => {
   return (
     <>
       <div style={{ height: 56, position: "fixed" }}>
-        <BackHeader />
+        <BackHeader color={'black'}/>
       </div>
       <div style={{ padding: 16, paddingTop: 56 }}>
         <div>

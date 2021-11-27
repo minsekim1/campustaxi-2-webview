@@ -30,7 +30,8 @@ const MyChatScreen = () => {
         <div style={{ position: "sticky", top: 0, zIndex: 2, height: 56, backgroundColor: "white" }}>
           <BottomHeader title="내 채팅" />
         </div>
-        failed to load <BottomTabBar />
+        failed to load
+        <BottomTabBar />
       </div>
     );
   if (!data)
@@ -39,7 +40,6 @@ const MyChatScreen = () => {
         <div style={{ position: "sticky", top: 0, zIndex: 2, height: 56, backgroundColor: "white" }}>
           <BottomHeader title="내 채팅" />
         </div>
-        {/* loading... */}
         <BottomTabBar />
       </div>
     );

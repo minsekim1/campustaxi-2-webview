@@ -25,11 +25,11 @@ export const fetchWithTimeout = async ({ resource, options = {} }) => {
   return response;
 };
 
-export const postfetch = (url, params, isCustom = false) => {
+export const postfetch = (url, params, isCustom = false, method) => {
   if (isCustom) {
     return new Promise((resolve, reject) => {
       fetch(`${API_URL}${url}`, {
-        method: "POST",
+        method: method ? method : "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",

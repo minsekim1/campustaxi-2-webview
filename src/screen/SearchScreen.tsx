@@ -51,9 +51,14 @@ const SearchBar = () => {
   const [list, setList] = useRecoilState(searchState);
   const [loading, setLoading] = useRecoilState(loadingState); //loading
 
+  // #region 스크롤 닫기
+  const body = document.getElementsByTagName("body")[0];
+  body.setAttribute('style', "overflow: hidden;");
   useEffect(() => {
+    body.removeAttribute("style");
     return () => setLoading(false);
-  }, []);
+  }, [body]);
+  // #endregion
 
   //#region 유저 / 채팅방 / 코스 검색
   let cancelToken = axios.CancelToken.source(); //<- 1: 선언

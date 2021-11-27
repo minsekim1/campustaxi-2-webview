@@ -6,13 +6,13 @@ import { CourseImage } from "../components/Input/CourseImage";
 import { BackHeader } from "../components/BackHeader";
 import useSWR from "swr";
 import { useParams } from "react-router";
-import { API_URL } from "../components/common";
+import { API_URL, postfetch } from "../components/common";
 import fetcher from "../hook/useSWR/fetcher";
 import { useRecoilState } from "recoil";
 import { loadingState, shareModalState } from "../components/recoil";
 import { CourseType } from "../types/Course";
 import { BottomSheet } from "react-spring-bottom-sheet";
-import { GRAY6, GRAY7, SCREEN_HEIGHT, styleCenter } from "../style";
+import { GRAY6, GRAY7, GRAY8, SCREEN_HEIGHT, styleCenter } from "../style";
 //#region react-share
 import {
   EmailShareButton,
@@ -57,10 +57,13 @@ import {
 import { CItem } from "../components/Input/CommandInput/CItem";
 //#endregion
 
+import { GoLinkExternal } from "react-icons/go";
+
 const CourseDetailScreen = () => {
   const [loading, setLoading] = useRecoilState(loadingState);
   //#region 스크롤 열기
   useEffect(() => {
+    // 스크롤 관리
     const body = document.getElementsByTagName("body")[0];
     body.setAttribute("style", "overflow: scroll;");
     return () => {
@@ -69,9 +72,17 @@ const CourseDetailScreen = () => {
     };
   }, []);
   //#endregion
+  //#region  데이터관리
   const { id }: { id: string | undefined } = useParams();
-  const { data, error } = useSWR(`${API_URL}/courses?id=${id}`, fetcher);
+  const { data, error, mutate } = useSWR(`${API_URL}/courses?id=${id}`, fetcher);
   if ((error || !data) && !loading) setLoading(true);
+  const course: CourseType = data ? data[0] : null;
+  //#region 조회수 증가
+  useEffect(() => {
+    if (course)
+      postfetch(`/courses/${id}`, JSON.stringify({ views: course.views ? Number(course.views) + 1 : 1 }), true, "PUT").then((d) => mutate());
+  }, []);
+  //#endregion
   if (error)
     return (
       <div>
@@ -88,14 +99,13 @@ const CourseDetailScreen = () => {
     );
   if (loading) setLoading(false);
 
-  const course: CourseType = data[0];
-
+  //#endregion
   return (
     <>
       <div style={{ position: "fixed" }}>
         <BackHeader />
       </div>
-      <CourseArea course={course} />
+      <CourseArea mutate={mutate} course={course} />
       <ShareModal url={location.href} course={course} />
     </>
   );
@@ -133,7 +143,7 @@ const ShareModal = ({ url = "", course }: { url: string; course: CourseType }) =
       }
       expandOnContentDrag={false}
     >
-      <div style={{ ...styleCenter, display: "flex", flexFlow: "wrap" }}>
+      <div style={{ ...styleCenter, display: "flex", flexFlow: "wrap", color: GRAY7, fontSize: 15 }}>
         <EmailShareButton subject={"subject"} body={"body"} url={url} style={BtnStyle}>
           <EmailIcon style={IconStyle} />
           Email
@@ -216,13 +226,11 @@ const ShareModal = ({ url = "", course }: { url: string; course: CourseType }) =
 };
 //#endregion
 
-const CourseArea = ({ course }: { course: CourseType }) => {
+const CourseArea = ({ mutate, course }: { course: CourseType, mutate: any }) => {
   let content = [];
   try {
-    content = JSON.parse(course.content)
-  } catch (error) {
-    
-  }
+    content = JSON.parse(course.content);
+  } catch (error) { }
   return (
     <>
       <CourseImage imgUrl={course && course.images && course.images.length > 0 ? course.images[0].url : ""} />
@@ -230,7 +238,7 @@ const CourseArea = ({ course }: { course: CourseType }) => {
         <div style={{ marginTop: 16 }}>
           <Textarea
             disabled
-            defaultValue={course ? (course.title ?? "") :"" }
+            defaultValue={course ? course.title ?? "" : ""}
             style={{
               border: "none",
               width: "100%",
@@ -260,8 +268,13 @@ const CourseArea = ({ course }: { course: CourseType }) => {
               }}
             />
           </div>
-          <CourseActionField />
-          <ProfileCard address={course && course.creator_id ?course.creator_id.nickname:""} title={course && course.creator_id ? course.creator_id.email: ""} desc={`팔로워 ${course && course.creator_id ? (course.creator_id.follower ?? 0) : 0}`} img={course && course.creator_id ? course.creator_id.profile_image: ""} />
+          <CourseActionField mutate={mutate} course={course} />
+          <ProfileCard
+            address={course && course.creator_id ? course.creator_id.nickname : ""}
+            title={course && course.creator_id ? course.creator_id.email : ""}
+            desc={`팔로워 ${course && course.creator_id ? course.creator_id.follower ?? 0 : 0}`}
+            img={course && course.creator_id ? course.creator_id.profile_image : ""}
+          />
           <CommandArea content={content} />
         </div>
       </div>

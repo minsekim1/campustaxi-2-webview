@@ -3,8 +3,12 @@
 //   name: "Authenticated";
 //   description: "Default role given to authenticated user.";
 //   type: "authenticated";
+
+import { CourseType } from "./Course";
+
 // };
 export type UserType = {
+  like_courses: CourseType[];
   id: number;
   username: string; //"김민성";
   email: string; //"tkarnrwl7862@gmail.com";

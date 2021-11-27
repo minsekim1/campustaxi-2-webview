@@ -3,6 +3,7 @@ export type CourseType = {
   title: string | null;
   description: string | null;
   deleted_at: string | null;
+  views: number | null;
   creator_id: CreatorType;
   content: string; //"[{\"id\":\"item-1637380239913\",\"content\":\"삼육대에서 태릉입구까지 같이 타요!!!\",\"type\":\"text\"},{\"id\":\"item-1637380239914\",\"content\":\"\",\"type\":\"contour\"},{\"id\":\"item-1637380239915\",\"content\":{\"inputValue\":\"\",\"tagList\":[{\"id\":\"대학교\",\"text\":\"대학교\"}]},\"type\":\"tag\"},{\"id\":\"item-1637380246852\",\"content\":\"\",\"type\":\"text\"}]",
   end_route: string | null;
@@ -12,6 +13,7 @@ export type CourseType = {
   start_route: string | null;
   images: ImageType[];
   tags: TagType[];
+  like_users: CreatorType[];
 };
 export const CourseTypeInit = {
   content: "", //"[{\"id\":\"item-1636275004918\",\"content\":\"힐링해요~\",\"type\":\"text\"},{\"id\":\"item-1636275051161\",\"content\":{\"inputValue\":\"\",\"tagList\":[{\"id\":\"힐링\",\"text\":\"힐링\"}]},\"type\":\"tag\"},{\"id\":\"item-1636275051196\",\"content\":\"3\",\"type\":\"text\"}]"
