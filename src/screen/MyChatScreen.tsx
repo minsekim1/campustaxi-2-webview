@@ -19,6 +19,7 @@ const MyChatScreen = () => {
 
   // #region 스크롤 닫기
   const body = document.getElementsByTagName("body")[0];
+  body.setAttribute('style', "overflow-x: hidden;");
   useEffect(() => {
     body.removeAttribute("style");
     return () => setLoading(false);

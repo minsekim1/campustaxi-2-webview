@@ -72,7 +72,8 @@ function NaverMapAPI() {
 
   //# useEffect
   useEffect(() => {
-    getfetch("/chat-rooms").then((d) =>
+    // https://www.campus-taxi.com:444/chat-rooms?start_at_gt=2021-11-20T15:19:20.000Z
+    getfetch(`/chat-rooms?start_at_gt=${new Date().toISOString()}`).then((d) =>
       setChatRoomList(
         d.map((room) => {
           return { ...room, path: _.chunk(_.split(room.path, ","), 2) };

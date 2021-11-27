@@ -28,8 +28,9 @@ export const ChatScreen = ({ }) => {
   const body = document.getElementsByTagName('body')[0];
   useEffect(() => {
     body.setAttribute("style", "overflow: scroll;");
+    body.setAttribute("style", "overflow-x: hidden;");
     return () => {
-      body.setAttribute("style", "overflow: hidden;");
+      body.removeAttribute("style");
       setLoading(false);
     }
   }, [])
