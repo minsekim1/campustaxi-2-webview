@@ -57,8 +57,8 @@ export const SelectMapModal = () => {
         blocking={false}
         open={visibleSearch.visible}
         onDismiss={onDismiss}
-        snapPoints={({ minHeight, maxHeight }) => [maxHeight * 0.3, maxHeight * 0.5, maxHeight * 0.7, maxHeight * 0.9]}
-        defaultSnap={({ lastSnap, snapPoints }) => [SCREEN_HEIGHT * 0.4]}
+        snapPoints={({ minHeight, maxHeight }) => [maxHeight * 0.2, maxHeight * 0.5, maxHeight * 0.7, maxHeight * 0.9]}
+        defaultSnap={({ lastSnap, snapPoints }) => [SCREEN_HEIGHT * 0.2]}
         header={
           <div>
             <div style={{ fontFamily: "roboto", fontWeight: "bold", fontSize: 17, color: GRAY8, float: "left" }}>
