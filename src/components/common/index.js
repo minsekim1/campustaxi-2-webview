@@ -2,7 +2,7 @@ export const isHttp = window.location.protocol !== "https:";
 // export const ProxyURL = isHttp
 //   ? "http://circlin-web-react-proxy.herokuapp.com/"
 //   : "https://circlin-web-react-proxy.herokuapp.com/";
-export const ProxyURL = "http://circlin-web-react-proxy.herokuapp.com/";
+// export const ProxyURL = "http://circlin-web-react-proxy.herokuapp.com/";
 export const FTP_URL = "http://218.153.157.69/ftp/"; //http://218.153.157.69/ftp/1636779791516_874ca4a993.jpeg
 export const API_URL =  "https://www.campus-taxi.com:444"; //(isHttp ? ProxyURL : "") +
 //"https://www.campus-taxi.com:444";

@@ -6,7 +6,6 @@ import useWindowDimensions from "../../hook/useWindowDimensions";
 import { CourseType } from "../../types/Course";
 import _ from "lodash";
 import axios from "axios";
-import { ProxyURL } from "../common";
 export const TagBlack = ({ title }: { title: string }) => {
   return (
     <div
