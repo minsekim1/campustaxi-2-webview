@@ -5,7 +5,7 @@ import { styled } from "@mui/material/styles";
 
 import { Icon } from "../common/Icon";
 import useWindowDimensions from "../../hook/useWindowDimensions";
-import { Checkbox } from "@mui/material";
+import { Checkbox, SwitchUnstyled } from "@mui/material";
 import { GRAY7, GRAY8, styleCenter } from "../../style";
 
 import { useRecoilState } from "recoil";
@@ -15,10 +15,11 @@ import { FcExpand, FcExport, FcIdea, FcLike, FcReading, FcReadingEbook, FcSettin
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { CItem } from "../Input/CommandInput/CItem";
 import { GoLinkExternal } from "react-icons/go";
-import { useHistory, useParams } from "react-router";
+import {  useHistory, useParams } from "react-router";
 import { CourseType } from "../../types/Course";
 import { getfetch, postfetch } from "../common";
 import _ from "lodash";
+import { Switch } from "@material-ui/core";
 
 const fontStyle = {
   fontSize: 15,

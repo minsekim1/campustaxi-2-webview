@@ -227,6 +227,7 @@ const ShareModal = ({ url = "", course }: { url: string; course: CourseType }) =
 //#endregion
 
 const CourseArea = ({ mutate, course }: { course: CourseType, mutate: any }) => {
+  console.log('course',course.creator_id)
   let content = [];
   try {
     content = JSON.parse(course.content);
@@ -270,6 +271,7 @@ const CourseArea = ({ mutate, course }: { course: CourseType, mutate: any }) => 
           </div>
           <CourseActionField mutate={mutate} course={course} />
           <ProfileCard
+            userId={course && course.creator_id ? course.creator_id.id : -1}
             address={course && course.creator_id ? course.creator_id.nickname : ""}
             title={course && course.creator_id ? course.creator_id.email : ""}
             desc={`팔로워 ${course && course.creator_id ? course.creator_id.follower ?? 0 : 0}`}

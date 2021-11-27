@@ -47,7 +47,6 @@ export type UserType = {
   badge_my: string | null;
   created_at: string; // "2021-11-21T10:15:50.000Z";
   updated_at: string; //"2021-11-21T10:15:50.000Z";
-  follower: string | null;
   kakao_id: string; //"1452229818";
   kakao_nickname: string; // "김민성";
   kakao_profile_image: string; //"http://k.kakaocdn.net/dn/j0ZNn/btqGmUejwAP/3d6x9Sz0oRgj83NUITVul1/img_640x640.jpg";
@@ -63,5 +62,6 @@ export type UserType = {
   kakao_expires_in: string; //"7199";
   kakao_refresh_token_expires_in: string; //"5183999";
   browser: string; //"Google Chrome";
-  following: any[];
+  follower: UserType[];
+  following: UserType[];
 };
