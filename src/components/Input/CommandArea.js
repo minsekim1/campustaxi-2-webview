@@ -7,7 +7,7 @@ import { CommandListRenderItem } from "./CommandInput/CommandListRenderItem";
 import { getItems, getItemStyle, getListStyle, onDragEnd } from "./CommandInput/dndFunc";
 import { useCallback, useEffect } from "react";
 import { posInit } from "../common";
-import { CItem } from "./CommandInput/CItem";
+import { CItem, MCItem } from "./CommandInput/CItem";
 import { deleteModePosState } from "./../recoil";
 import Button from "@mui/material/Button";
 import { Rowdot } from "./../Icon/Rowdot";
@@ -142,15 +142,15 @@ export const CommandArea = ({ }) => {
                             style={
                               alertDialogInfo.visible && deleteMode.index === index
                                 ? {
-                                  borderStyle: "solid",
-                                  borderWidth: 2,
-                                  borderRadius: 3,
-                                  borderColor: "#d32f2f",
-                                }
+                                    borderStyle: "solid",
+                                    borderWidth: 2,
+                                    borderRadius: 3,
+                                    borderColor: "#d32f2f",
+                                  }
                                 : { padding: 1.5 }
                             }
                           >
-                            <CItem index={index} data={item} />
+                            <MCItem index={index} data={item} />
                           </div>
                         </div>
                       </div>

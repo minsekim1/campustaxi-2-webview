@@ -12,6 +12,7 @@ import { resetServerContext } from "react-beautiful-dnd";
 import { LinearProgress } from "@mui/material";
 import { loadingState } from "./components/recoil";
 import ChatScreen from "./screen/ChatScreen";
+import HomeScreenPre from "./screen/HomeScreenPre";
 
 /* eslint-disable */
 
@@ -24,6 +25,9 @@ const App = () => {
         <LoadingPage />
         <Switch>
           <Route exact path="/">
+            <HomeScreenPre />
+          </Route>
+          <Route exact path="/home">
             <HomeScreen />
           </Route>
           <Route exact path="/course/detail/:id">

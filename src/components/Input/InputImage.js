@@ -15,7 +15,7 @@ const { height, width } = useWindowDimensions();
     loadXHR(filepath.file)
       .then((f) => {
         try {
-          if (typeof f.type === "string") console.debug(f.type.includes("image"), f);
+          // if (typeof f.type === "string") console.debug(f.type.includes("image"), f);
         } catch (e) {}
       })
       .catch(() => setFilepath(FilePathInit));

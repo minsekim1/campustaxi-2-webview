@@ -7,6 +7,7 @@ import { tagInitList } from "./CourseArea";
 import { CourseType } from "../types/Course";
 import { UserType } from "../types/User";
 import { ChatRoomType } from "../types/ChatRoom";
+import { ContentItemType } from "../types/Command";
 
 //#region userData token
 /**
@@ -24,13 +25,9 @@ import { ChatRoomType } from "../types/ChatRoom";
  * address_name category_group_code category_group_name category_name distance id phone place_name place_url road_address_name x y
  */
 
-export type commandType = {
-  id: string;
-  content: any;
-  type: string;
-};
+
 const tagInitListItem = tagInitList[Math.floor(Math.random() * tagInitList.length)];
-export const commandInputListState = atom<commandType[]>({
+export const commandInputListState = atom<ContentItemType[]>({
   key: "recoil/commandInputList",
   default: [
     ...getItems(1),
@@ -52,9 +49,14 @@ export const loadingState = atom({
   key: "recoil/loading",
   default: false,
 });
-export const commandWindowState = atom({
+type CommandWindowProps = {
+  color: "red" | 'blue' | 'brown' | 'purple' | 'yellow' | 'orange' | 'gray' | "";
+  visible: boolean; top: number; left: number; index: number; height: number; pos: number;
+  beforeInnerHTML?: any;
+}
+export const commandWindowState = atom<CommandWindowProps>({
   key: "recoil/commandWindow",
-  default: { visible: false, top: 0, left: 0, index: -1, height: 0 },
+  default: { color: "", visible: false, top: 0, left: 0, index: -1, height: 0, pos: 0 },
 });
 
 /**
@@ -108,7 +110,7 @@ export const pathState = atom({
  *  AlertDialog 띄우기
  *  { visible: false, text: "" }
  */
-export const alertDialogInit = { visible: false, title: "", text: "", handleConfirm: () => {} };
+export const alertDialogInit = { visible: false, title: "", text: "", handleConfirm: () => { } };
 export const alertDialogState = atom({
   key: "recoil/alertDialog",
   default: alertDialogInit,
@@ -313,7 +315,7 @@ export const lastMessageMarginBottomState = atom<number>({
 //#endregion
 
 //#region /users 회원가입
-export const userDataState = atom<UserType| null>({
+export const userDataState = atom<UserType | null>({
   key: "recoil/userDataState",
   default: null,
   effects_UNSTABLE: [localStorageEffect("recoil/userDataState")],

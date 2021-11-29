@@ -9,7 +9,7 @@ import { Checkbox, SwitchUnstyled } from "@mui/material";
 import { GRAY7, GRAY8, styleCenter } from "../../style";
 
 import { useRecoilState } from "recoil";
-import { commandType, loadingState, shareModalState, userDataState } from "../recoil";
+import {  loadingState, shareModalState, userDataState } from "../recoil";
 
 import { FcExpand, FcExport, FcIdea, FcLike, FcReading, FcReadingEbook, FcSettings, FcShare, FcShop } from "react-icons/fc";
 import { CopyToClipboard } from "react-copy-to-clipboard";

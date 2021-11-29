@@ -20,7 +20,7 @@ import { CommandArea } from "../Input/CommandArea";
 import { FilePathState } from "./../recoil";
 import { ORANGE } from "./../../style/index";
 import { getItems } from "./../Input/CommandInput/dndFunc";
-import { API_URL, postfetch } from "../common";
+import { API_URL, API_URL_NO_Proxy, postfetch } from "../common";
 import axios from "axios";
 import { KaKaoLoginBtn } from "../Btn/LoginBtn";
 
@@ -105,10 +105,10 @@ export const CourseCreateModal = () => {
               return new Promise((resolve) => {
                 let count = 0;
                 tagList.map((v, i) => {
-                  axios.get(`${API_URL}/tags?name=${v.text}`).then((d) => {
+                  axios.get(`${API_URL_NO_Proxy}/tags?name=${v.text}`).then((d) => {
                     // 없으면 태그 생성 후 id 가져오기
                     if (d.data.length === 0) {
-                      axios.post(`${API_URL}/tags`, { name: v.text }).then((d) => {
+                      axios.post(`${API_URL_NO_Proxy}/tags`, { name: v.text }).then((d) => {
                         tagIdList.push(Number(d.data.id));
                         count++;
                         if (count === tagList.length) resolve(tagIdList);
@@ -143,7 +143,7 @@ export const CourseCreateModal = () => {
             });
           //#endregion
           //#region 업로드=> 1.이미지 업로드
-          axios.post(`${API_URL}/upload`, data).then(async (d) => {
+          axios.post(`${API_URL_NO_Proxy}/upload`, data).then(async (d) => {
             const imgId = d.data[0].id;
             const dataCourse = {
               title: titleRef.current,
@@ -161,8 +161,10 @@ export const CourseCreateModal = () => {
                 descRef.current = "";
                 setFilepath(FilePathInit);
                 setCommandInputList(getItems(1));
+                setVisibleRoute(false);
               })
               .catch((e) => {
+                console.error(e);
                 setLoading(false);
                 setVisibleRoute(false);
               });
@@ -210,9 +212,7 @@ export const CourseCreateModal = () => {
           <div style={{ padding: "0 16px 80px 16px" }}>
             <div>
               <Textarea
-                onChange={(e) => {
-                  titleRef.current = e;
-                }}
+                onChange={(e) => (titleRef.current = e)}
                 placeholder={"코스 제목을 입력해주세요."}
                 style={{
                   border: "none",

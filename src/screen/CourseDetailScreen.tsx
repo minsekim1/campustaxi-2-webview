@@ -54,10 +54,9 @@ import {
   WhatsappIcon,
   WorkplaceIcon,
 } from "react-share";
-import { CItem } from "../components/Input/CommandInput/CItem";
+import { CItem, MCItem } from "../components/Input/CommandInput/CItem";
+import { ContentItemType } from "../types/Command";
 //#endregion
-
-import { GoLinkExternal } from "react-icons/go";
 
 const CourseDetailScreen = () => {
   const [loading, setLoading] = useRecoilState(loadingState);
@@ -100,6 +99,7 @@ const CourseDetailScreen = () => {
   if (loading) setLoading(false);
 
   //#endregion
+
   return (
     <>
       <div style={{ position: "fixed" }}>
@@ -227,10 +227,10 @@ const ShareModal = ({ url = "", course }: { url: string; course: CourseType }) =
 //#endregion
 
 const CourseArea = ({ mutate, course }: { course: CourseType, mutate: any }) => {
-  console.log('course',course.creator_id)
-  let content = [];
+  let content: ContentItemType[] = [];
   try {
     content = JSON.parse(course.content);
+    console.log(content)
   } catch (error) { }
   return (
     <>
@@ -284,10 +284,10 @@ const CourseArea = ({ mutate, course }: { course: CourseType, mutate: any }) => 
   );
 };
 
-const CommandArea = ({ content }: { content: CourseType[] }) => {
+const CommandArea = ({ content }: { content: ContentItemType[] }) => {
   return (
     <div>
-      {content.map((item: any, i: number) => {
+      {content.map((item, i: number) => {
         return (
           <div key={i.toString()}>
             <div
@@ -307,7 +307,7 @@ const CommandArea = ({ content }: { content: CourseType[] }) => {
                 }}
               ></div>
               <div style={{ padding: 1.5 }}>
-                <CItem index={i} data={item} disable />
+                <MCItem index={i} data={item} disable />
               </div>
             </div>
           </div>

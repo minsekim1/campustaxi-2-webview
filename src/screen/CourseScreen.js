@@ -15,7 +15,6 @@ const CourseScreen = () => {
   useEffect(() => {
     const body = document.getElementsByTagName("body")[0];
     body.setAttribute("style", "overflow: hidden;");
-    
     return () => body.setAttribute("style", "overflow: scroll;");
   }, []);
   return (

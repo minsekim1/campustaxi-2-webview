@@ -30,19 +30,19 @@ export const loadXHR = (url)=>{
   });
 }
 
-export const CImage = ({ index }) => {
+export const CImage = ({ index, data }) => {
   const [commandInputList, setCommandInputList] = useRecoilState(commandInputListState);
   const [crop, setCrop] = useRecoilState(CropState);
   // const [filepath, setFilepath] = useState({ file: "", previewURL: "" });
   const [isCrop, setIsCrop] = useState(false);
   const filepath = commandInputList[index].content;
-const { height, width } = useWindowDimensions();
+  const { height, width } = useWindowDimensions();
   //#region 앱껏다 키고 캐쉬 초기화 시 이미지 아닌게 들어깄으면 삭제
   useEffect(() => {
     loadXHR(filepath.file)
       .then((f) => {
         try {
-          if (typeof f.type === "string") console.debug(f.type.includes("image"), f);
+          // if (typeof f.type === "string") console.debug(f.type.includes("image"), f);
         } catch (e) {}
       })
       .catch(() => {
@@ -59,7 +59,7 @@ const { height, width } = useWindowDimensions();
     if (!crop.visible && isCrop) {
       setCommandInputList([
         ...commandInputList.slice(0, index),
-        { ...commandInputList[index], content: { file: crop.file, previewURL: crop.previewURL, type:crop.type } },
+        { ...commandInputList[index], content: { file: crop.file, previewURL: crop.previewURL, type: crop.type } },
         ...commandInputList.slice(index + 1, 999),
       ]);
       // setFilepath({ file: crop.file, previewURL: crop.previewURL });
