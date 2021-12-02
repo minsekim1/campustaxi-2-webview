@@ -1,5 +1,5 @@
 import { BottomSheet } from "react-spring-bottom-sheet";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
   BottomModalState,
   ChatRoomListState,
@@ -156,6 +156,7 @@ export const CreateBottomModal = () => {
   const [, setLoading] = useRecoilState(loadingState); //loading
 
   const [visible, setVisible] = useRecoilState(CreateBottomModalState);
+  const userData = useRecoilValue(userDataState);
 
   const [title, setTitle] = useState("");
   const [date, setDate] = useState(defaultValueDate);
@@ -204,14 +205,12 @@ export const CreateBottomModal = () => {
     // { responseStartRoute: responseStartRoute, responseEndRoute: responseEndRoute }
   };
   const postCreateChatRoom = async () => {
-    const [userData] = useRecoilState(userDataState);
 
     if (!postCondition) {
       alert("출발지/도착지/출발시간을 확인해주세요.");
     } else {
       setLoading(true);
       const responseRoute = await getPostRoute(startPos, endPos);
-      console.log(title);
       const response = await postfetch("/chat-rooms", {
         title: title,
         gender: genderLimit ? "M" : "None",
@@ -237,7 +236,7 @@ export const CreateBottomModal = () => {
         setGenderLimit(false);
         setVisible(false);
         // # 새로 방 업데이트
-        getfetch("/chat-rooms").then((d) =>
+        getfetch(`/chat-rooms?start_at_gt=${new Date().toISOString()}`).then((d) =>
           setChatRoomList(
             d.map((room: any) => {
               return { ...room, path: _.chunk(_.split(room.path, ","), 2) };

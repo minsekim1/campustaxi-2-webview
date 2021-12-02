@@ -1,10 +1,10 @@
-import { NAVER_API_KEY, NAVER_API_SECRET_KEY, isHttp } from "..";
+import { NAVER_API_KEY, NAVER_API_SECRET_KEY, isHttp, ProxyURL } from "..";
 
 export const getPath = (x1, y1, x2, y2) => {
   //&option={탐색옵션}
   return new Promise((resolve, reject) => {
     const Base_URL = `https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving?start=${x1},${y1}&goal=${x2},${y2}`;
-    const url = Base_URL; //ProxyURL +
+    const url = ProxyURL + Base_URL;
     fetch(url, {
       method: "GET",
       headers: {

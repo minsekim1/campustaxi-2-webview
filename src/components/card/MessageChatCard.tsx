@@ -14,7 +14,6 @@ export const MessageChatCard = ({
 	mref?: any;
 	isLast?: boolean;
 	}) => {
-	console.log(data)
 	switch (typeof data.media) {
 		// 추후 사진/동영상 전송
 		// case 'string':

@@ -230,7 +230,6 @@ const CourseArea = ({ mutate, course }: { course: CourseType, mutate: any }) => 
   let content: ContentItemType[] = [];
   try {
     content = JSON.parse(course.content);
-    console.log(content)
   } catch (error) { }
   return (
     <>
