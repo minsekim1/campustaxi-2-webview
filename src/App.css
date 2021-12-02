@@ -44,3 +44,7 @@ textarea:disabled {
     font-weight:bold;
     
 }
+
+#react-naver-map > div:nth-child(7) > div:nth-child(2),#react-naver-map > div:nth-child(6),#react-naver-map > div:nth-child(7) > div:nth-child(1) > div {
+  display: none !important;
+}
