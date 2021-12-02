@@ -40,7 +40,7 @@ const ShopCard = () => {
       <div
         style={{
           backgroundColor: GRAY1,
-          height: height - 56,
+          height: height - 64 - 8,
           width: width,
           justifyContent: "center",
           alignItems: "center",
