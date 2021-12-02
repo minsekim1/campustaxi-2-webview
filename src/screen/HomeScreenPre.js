@@ -16,7 +16,7 @@ const HomeScreenPre = () => {
   }, []);
   return (
     <>
-      <PreRegistrationPopup/>
+      {/* <PreRegistrationPopup/> */}
       <BottomHeader />
       <SearchPosition />
       <NMAP />
