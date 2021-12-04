@@ -29,27 +29,16 @@ export const PositionCard = ({
   imgWidth = "100%",
   padding = "16px 16px 0 16px",
 }: Props) => {
-  //#region image
-  // 언마운트 할때 fetch 멈추기
-  const source = axios.CancelToken.source();
-  const { data: image, error } = useSWR(
-    img ? img : `https://openapi.naver.com/v1/search/image?query=${title}&sort=date`,
-    img ? fetcherBlob : (url) => fetcherGetImageByKeyword(url, title, source)
-  );
-  useEffect(() => {
-    return () => source.cancel();
-  }, []);
-  //#endregion
 
   return (
     <div style={{ padding: padding, display: "flex", flex: 1 }} onClick={onClick ? onClick : () => {}}>
       <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center" }}>
-        {image === undefined ? (
+        {img === undefined ? (
           <Skeleton variant={"rectangular"} height={"4em"} width={"4em"} style={{ borderRadius: 10 }} />
-        ) : image === null ? (
+        ) : img === null ? (
           <div style={{ backgroundColor: GRAY1, width: "4em", height: "4em" }} />
         ) : (
-          <img alt={" "} src={image} width={imgWidth} style={{ borderRadius: 12, height: "4em", width: "4em" }} />
+          <img alt={" "} src={img} width={imgWidth} style={{ borderRadius: 12, height: "4em", width: "4em" }} />
         )}
       </div>
       <div style={{ flex: 4, marginLeft: 16, alignSelf: "center" }}>

@@ -16,6 +16,10 @@ import { GRAY8, GRAY6 } from "./../style/index";
 import { PositionCard } from "./card/PositionCard";
 import { useHistory } from "react-router-dom";
 import { posInit } from "../types/ChatRoom";
+import axios from "axios";
+import { fetcherBlob, fetcherGetImageByKeyword } from "../hook/useSWR/fetcher";
+import useSWR from "swr";
+import { useEffect } from "react";
 
 export const SelectMapModal = () => {
   // const title = useRef("");
@@ -75,21 +79,48 @@ export const SelectMapModal = () => {
         expandOnContentDrag={true}
       >
         <div style={{ padding: "12px 20px" }}>
-          <div>
-            {searchResult.documents[0] !== posInit &&
-              searchResult.documents.map((pos, i) => (
-                <PositionCard
-                  key={i.toString()}
-                  address={pos.address_name}
-                  title={pos.place_name}
-                  desc={pos.category_name}
-                  url={pos.place_url}
-                  onClick={() => onClick(pos)}
-                />
-              ))}
-          </div>
+          <SearchList />
         </div>
       </BottomSheet>
     </>
   );
 };
+//#region SearchList
+const SearchList = () => {
+  const [searchResult, setSearchResult] = useRecoilState(SearchPosResultState);
+
+  return (
+    <>
+      {searchResult.documents[0] !== posInit &&
+        searchResult.documents.map((pos, i) => <SearchCard pos={pos} key={pos.id} />)}
+    </>
+  );
+};
+//#endregion
+//#region SearchCard
+const SearchCard = ({ pos }) => {
+  //#region Image UnMount
+  // 언마운트 할때 fetch 멈추기
+  const title = pos.place_name;
+  const source = axios.CancelToken.source();
+
+  const { data: image, error } = useSWR(`https://openapi.naver.com/v1/search/image?query=${title}&sort=date`, (url) =>
+    fetcherGetImageByKeyword(url, title, source)
+  );
+  useEffect(() => {
+    return () => source.cancel();
+  }, []);
+  // //#endregion
+
+  return (
+    <PositionCard
+      address={pos.address_name}
+      title={title}
+      desc={pos.category_name}
+      url={pos.place_url}
+      img={image}
+      onClick={() => onClick(pos)}
+    />
+  );
+};
+//#endregion

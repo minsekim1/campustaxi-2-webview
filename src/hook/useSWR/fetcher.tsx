@@ -1,6 +1,6 @@
 import axios, { CancelToken, CancelTokenSource } from "axios";
 import fetch from "unfetch";
-import { ProxyURL } from "../../components/common";
+import { NAVER_API_KEY, NAVER_API_SECRET_KEY, ProxyURL } from "../../components/common";
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 export const fetcherBlob = (url: string): Promise<string> =>
@@ -23,13 +23,19 @@ export const fetcherGetImageByKeyword = (
   source: CancelTokenSource
 ): Promise<string | null> => {
   return new Promise((resolve) => {
-    axios(`${ProxyURL}${url}`, {
+		axios(`${url}`, {//${ProxyURL}
       method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "X-Naver-Client-Id": "yeoXdUtxPpcjkxR4G932",
-        "X-Naver-Client-Secret": "TChrYL1rxH",
+			headers: {
+				mode: "no-cors",
+				Accept: "application/json",
+				"Content-Type": "application/json",
+				"X-NCP-APIGW-API-KEY-ID": NAVER_API_KEY,
+				"X-NCP-APIGW-API-KEY": NAVER_API_SECRET_KEY,
+				"Access-Control-Allow-Origin": "*",
+        // Accept: "application/json",
+        // "Content-Type": "application/json",
+        // "X-Naver-Client-Id": "yeoXdUtxPpcjkxR4G932",
+        // "X-Naver-Client-Secret": "TChrYL1rxH",
       },
       cancelToken: source.token,
     }).then((res: any) => {
