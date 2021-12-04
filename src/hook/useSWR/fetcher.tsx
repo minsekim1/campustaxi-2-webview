@@ -26,13 +26,11 @@ export const fetcherGetImageByKeyword = (
 		axios(`${url}`, {//${ProxyURL}
       method: "GET",
 			headers: {
-				// Accept: "application/json",
-				// "X-NCP-APIGW-API-KEY-ID": NAVER_API_KEY,
-				// "X-NCP-APIGW-API-KEY": NAVER_API_SECRET_KEY,
-
 				"Content-Type": "application/json",
         "X-Naver-Client-Id": "yeoXdUtxPpcjkxR4G932",
-        "X-Naver-Client-Secret": "TChrYL1rxH",
+				"X-Naver-Client-Secret": "TChrYL1rxH",
+				mode: "no-cors",
+				"Access-Control-Allow-Origin": "*",
       },
       cancelToken: source.token,
     }).then((res: any) => {
