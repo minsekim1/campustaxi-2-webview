@@ -19,7 +19,7 @@ import { posInit } from "../types/ChatRoom";
 import axios from "axios";
 import { fetcherBlob, fetcherGetImageByKeyword } from "../hook/useSWR/fetcher";
 import useSWR from "swr";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export const SelectMapModal = () => {
   // const title = useRef("");
@@ -88,36 +88,49 @@ export const SelectMapModal = () => {
 //#region SearchList
 const SearchList = ({ onClick }) => {
   const [searchResult, setSearchResult] = useRecoilState(SearchPosResultState);
-  const source = axios.CancelToken.source();
-  useEffect(() => {
-    return () => source.cancel();
-  }, [searchResult]);
   return (
     <>
       {searchResult.documents[0] !== posInit &&
-        searchResult.documents.map((pos, i) => <SearchCard source={source} onClick={onClick} pos={pos} key={pos.id} />)}
+        searchResult.documents.map((pos, i) => <SearchCard onClick={onClick} pos={pos} key={pos.id} />)}
     </>
   );
 };
 //#endregion
 //#region SearchCard
-const SearchCard = ({ pos, onClick, source }) => {
+const SearchCard = ({ pos, onClick }) => {
   //#region Image UnMount
   // 언마운트 할때 fetch 멈추기
   const title = pos.place_name;
-  const { data: image, error } = useSWR(`https://openapi.naver.com/v1/search/image?query=${title}&sort=date`, (url) =>
-    fetcherGetImageByKeyword(url, title, source)
-  );
+  // useEffect(() => {
+
+  //        fetch(`/v1/search/image?query=${title}&sort=date&limit=1`, {
+  //          method: "GET",
+  //          headers: {
+  //            Accept: "application/json",
+  //            "Content-Type": "application/json",
+  //            "X-Naver-Client-Id": "yeoXdUtxPpcjkxR4G932",
+  //            "X-Naver-Client-Secret": "TChrYL1rxH",
+  //          },
+  //        }).then(d=>console.log(d));
+    
+  //   // fetcherGetImageByKeyword(
+  //   //   `/v1/search/image?query=${title}&sort=date&limit=1`,
+  //   //   title,
+  //   //   source
+  //   // ).then((img) => (img !== null ? setImage(img) : setImage(null)));
+  //   return () => source.cancel();
+  // }, []);
   // //#endregion
 
   return (
     <PositionCard
       address={pos.address_name}
       title={title}
+      noImg
       desc={pos.category_name}
       url={pos.place_url}
-      img={image}
       onClick={() => onClick(pos)}
+      padding={10}
     />
   );
 };

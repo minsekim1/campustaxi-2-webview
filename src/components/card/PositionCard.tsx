@@ -3,8 +3,8 @@ import { Icon } from "../common/Icon";
 import { GRAY4 } from "../../style/index";
 import useSWR from "swr";
 import { fetcherBlob, fetcherGetImageByKeyword } from "../../hook/useSWR/fetcher";
-import { Skeleton } from "@mui/material";
-import { useEffect } from "react";
+import { CircularProgress, Skeleton } from "@mui/material";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 type Props = {
@@ -12,11 +12,12 @@ type Props = {
   desc: string;
   address: string;
   url: string;
-  img: string | undefined;
+  img: string | undefined | null;
   onClick?: () => void;
   onClickDelete?: () => void;
   imgWidth?: string;
   padding?: string;
+  noImg?: boolean;
 };
 export const PositionCard = ({
   title,
@@ -28,20 +29,53 @@ export const PositionCard = ({
   onClickDelete,
   imgWidth = "100%",
   padding = "16px 16px 0 16px",
+  noImg = false,
 }: Props) => {
+  const [image, setImage] = useState(img);
 
+  useEffect(() => setImage(img), [img]);
   return (
-    <div style={{ padding: padding, display: "flex", flex: 1 }} onClick={onClick ? onClick : () => {}}>
-      <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center" }}>
-        {img === undefined ? (
-          <Skeleton variant={"rectangular"} height={"4em"} width={"4em"} style={{ borderRadius: 10 }} />
-        ) : img === null ? (
-          <div style={{ backgroundColor: GRAY1, width: "4em", height: "4em" }} />
+    <div style={{ padding: padding, display: "flex", flex: 1 }} onClick={onClick ? onClick : () => { }}>
+      {noImg ? false : <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center" }}>
+        {image === undefined ? (
+          <div
+            style={{
+              backgroundColor: GRAY1,
+              width: "4em",
+              height: "4em",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 10,
+            }}
+          >
+            <CircularProgress size={18} />
+          </div>
+        ) : image === null ? (
+          <div
+            style={{
+              backgroundColor: GRAY1,
+              width: "4em",
+              height: "4em",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 10,
+            }}
+          >
+            <div style={{ fontSize: 8, fontWeight: "bold", textAlign: "center" }}>Not Found Image</div>
+          </div>
         ) : (
-          <img alt={" "} src={img} width={imgWidth} style={{ borderRadius: 12, height: "4em", width: "4em" }} />
+          <img
+            alt={" "}
+            src={image}
+            width={imgWidth}
+            style={{ borderRadius: 12, height: "4em", width: "4em" }}
+            onError={() => setImage(null)}
+          />
         )}
-      </div>
-      <div style={{ flex: 4, marginLeft: 16, alignSelf: "center" }}>
+      </div>}
+      <div style={{ flex: 4, marginLeft: noImg ? 8 :16, alignSelf: "center" }}>
         <div style={{ ...textOverflowHidden, fontSize: 12, color: GRAY7 }}>{address}</div>
         <div style={{ ...textOverflowHidden, fontSize: 15, color: GRAY8 }}>{title}</div>
         <div style={{ ...textOverflowHidden, fontSize: 13, color: GRAY6 }}>{desc}</div>
@@ -72,7 +106,7 @@ export const PositionCardReverse = ({
   //#endregion
 
   return (
-    <div style={{ padding: padding, display: "flex", flex: 1 }} onClick={onClick ? onClick : () => {}}>
+    <div style={{ padding: padding, display: "flex", flex: 1 }} onClick={onClick ? onClick : () => { }}>
       <div style={{ flex: 4, marginLeft: 16, alignSelf: "center" }}>
         <div style={{ ...textOverflowHidden, fontSize: 12, color: GRAY7 }}>{address}</div>
         <div style={{ ...textOverflowHidden, fontSize: 15, color: GRAY8 }}>{title}</div>

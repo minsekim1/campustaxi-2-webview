@@ -23,22 +23,19 @@ export const fetcherGetImageByKeyword = (
   source: CancelTokenSource
 ): Promise<string | null> => {
   return new Promise((resolve) => {
-		axios(`${url}`, {//${ProxyURL}
+    axios(`${url}`, {
       method: "GET",
-			headers: {
-				"Content-Type": "application/json",
+      headers: {
+        "Content-Type": "application/json",
         "X-Naver-Client-Id": "yeoXdUtxPpcjkxR4G932",
-				"X-Naver-Client-Secret": "TChrYL1rxH",
-				mode: "no-cors",
-				"Access-Control-Allow-Origin": "*",
+        "X-Naver-Client-Secret": "TChrYL1rxH",
       },
       cancelToken: source.token,
     }).then((res: any) => {
-      try {
+      if (res.data.display)
         resolve(res.data.items[0].thumbnail);
-      } catch (e) {
+      else
         resolve(null);
-      }
     });
   });
 };
