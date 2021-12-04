@@ -6,6 +6,11 @@ import useWindowDimensions from "../../hook/useWindowDimensions";
 import { CourseType } from "../../types/Course";
 import _ from "lodash";
 import axios from "axios";
+import { ProxyURL } from "../common";
+import { useState } from "react";
+import useSWR from "swr";
+import fetcher, { fetcherBlob } from "../../hook/useSWR/fetcher";
+import { Skeleton } from "@mui/material";
 export const TagBlack = ({ title }: { title: string }) => {
   return (
     <div
@@ -35,6 +40,17 @@ type ContentType = {
 };
 export const CourseCard = ({ course, width }: CourseCardType) => {
   const history = useHistory();
+  const { data: image, error } = useSWR(
+    course && course.images && course.images.length > 0 ? `${ProxyURL}${course.images[0].url}` : null,
+    fetcherBlob
+  );
+  if (!image)
+    return (
+      <div style={{ margin: width > 340 ? "16px 24px" : "8px 16px 0 16px" }}>
+        <Skeleton variant="rectangular" animation="wave" width={"100%"} height={240} style={{borderRadius:10}}/>
+      </div>
+    );
+
   const content = course
     ? course.content
       ? _.join(
@@ -45,19 +61,6 @@ export const CourseCard = ({ course, width }: CourseCardType) => {
         )
       : null
     : null;
-  let image = null;
-  if (course && course.images && course.images.length > 0)
-    if (course.images[0].url.includes("218")) image = course.images[0].url.replace("https", "http");
-  // axios
-  //   .get(, {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       "X-Requested-With": "XMLHttpRequest",
-  //       "Access-Control-Allow-Origin": "*",
-  //       "Access-Control-Allow-Headers": "X-Requested-With",
-  //     },
-  //   })
-  //   .then((d) => console.log(d));
 
   const imageCSS = image
     ? {
@@ -69,6 +72,7 @@ export const CourseCard = ({ course, width }: CourseCardType) => {
         backgroundColor: GRAY2,
       }
     : { backgroundColor: GRAY4 };
+
   return (
     <div style={{ margin: width > 340 ? "16px 24px" : "8px 16px 0 16px" }}>
       <div
