@@ -207,7 +207,7 @@ export const CourseCreateModal = () => {
         expandOnContentDrag={false}
       >
         <div>
-          <BlockLogin />
+          {/* <BlockLogin /> */}
           <InputImage placeholder={"배경 사진을 선택해주세요!"} />
           <div style={{ padding: "0 16px 80px 16px" }}>
             <div>

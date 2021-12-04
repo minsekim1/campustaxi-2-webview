@@ -270,7 +270,7 @@ export const CreateBottomModal = () => {
             <div style={{ fontFamily: "roboto", fontWeight: "bold", fontSize: 17, color: GRAY8, float: "left" }}>
               채팅방을 만들어보세요!
             </div>
-            <BlockLogin />
+            {/* <BlockLogin /> */}
             {closeCondition ? (
               <div
                 style={{

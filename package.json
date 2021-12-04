@@ -52,6 +52,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "starts": "HTTPS=true react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "push": "sh push.sh",

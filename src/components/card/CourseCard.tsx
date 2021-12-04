@@ -44,12 +44,6 @@ export const CourseCard = ({ course, width }: CourseCardType) => {
     course && course.images && course.images.length > 0 ? `${ProxyURL}${course.images[0].url}` : null,
     fetcherBlob
   );
-  if (!image)
-    return (
-      <div style={{ margin: width > 340 ? "16px 24px" : "8px 16px 0 16px" }}>
-        <Skeleton variant="rectangular" animation="wave" width={"100%"} height={240} style={{borderRadius:10}}/>
-      </div>
-    );
 
   const content = course
     ? course.content
