@@ -1,12 +1,11 @@
 // import { User } from "./model/User";
 import { atom } from "recoil";
-import { ChatRoomInit, posInit } from "./common";
 import { getItems } from "./Input/CommandInput/dndFunc";
 import { localStorageEffect } from "./common/function/localStorageEffect";
 import { tagInitList } from "./CourseArea";
 import { CourseType } from "../types/Course";
 import { UserType } from "../types/User";
-import { ChatRoomType } from "../types/ChatRoom";
+import { ChatRoomInit, ChatRoomType, posInit } from "../types/ChatRoom";
 import { ContentItemType } from "../types/Command";
 
 //#region userData token
@@ -166,7 +165,7 @@ export const startPosState = atom<posInitType>({
  * address_name* / category_group_code / category_group_name / category_name*
  * distance / id / phone* / place_name* / place_url / x* / y*
  */
-export const ChatRoomSeletedState = atom({
+export const ChatRoomSeletedState = atom<ChatRoomType>({
   key: "recoil/chatRoomSeleted",
   default: ChatRoomInit,
 });

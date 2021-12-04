@@ -145,9 +145,8 @@ const ResultTabs = () => {
                     address={user.nickname}
                     title={user.greeting}
                     desc={(user.device ?? "") + (user.gender ?? "") + user.username}
-                    url={user.profile_image ?? ""}
-                    img={"img"}
-                    icon={""}
+                    img={user.profile_image ? user.profile_image : undefined}
+                    icon={"faUser"}
                     onClick={() => onClick(user.id)}
                     disable={false}
                   />

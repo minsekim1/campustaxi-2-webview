@@ -64,4 +64,5 @@ export type UserType = {
   browser: string; //"Google Chrome";
   follower: UserType[];
   following: UserType[];
+  
 };

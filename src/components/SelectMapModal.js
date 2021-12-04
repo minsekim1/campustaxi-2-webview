@@ -13,9 +13,9 @@ import "react-spring-bottom-sheet/dist/style.css";
 import "../style/switch.css";
 import { SCREEN_HEIGHT } from "../style";
 import { GRAY8, GRAY6 } from "./../style/index";
-import { posInit } from "./common";
 import { PositionCard } from "./card/PositionCard";
 import { useHistory } from "react-router-dom";
+import { posInit } from "../types/ChatRoom";
 
 export const SelectMapModal = () => {
   // const title = useRef("");
@@ -84,7 +84,6 @@ export const SelectMapModal = () => {
                   title={pos.place_name}
                   desc={pos.category_name}
                   url={pos.place_url}
-                  img={"https://picsum.photos/200"}
                   onClick={() => onClick(pos)}
                 />
               ))}

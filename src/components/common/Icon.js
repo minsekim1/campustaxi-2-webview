@@ -17,7 +17,6 @@ export const Icon = ({ name, size, opacity, color, type }) => {
       opacity={opacity ?? 1}
       color={color ?? GRAY9}
       transform={{ size: typeof size === "number" ? size : undefined }}
-      
     />
   );
 };

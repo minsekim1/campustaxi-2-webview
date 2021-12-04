@@ -40,31 +40,32 @@ type ContentType = {
 };
 export const CourseCard = ({ course, width }: CourseCardType) => {
   const history = useHistory();
+  //#region image
   const { data: image, error } = useSWR(
-    course && course.images && course.images.length > 0 ? `${ProxyURL}${course.images[0].url}` : null,
+    course && course.images && course.images.length > 0 ? course.images[0].url : null,
     fetcherBlob
   );
-
+  //#endregion
   const content = course
     ? course.content
       ? _.join(
-          JSON.parse(course.content)
-            .filter((item: ContentType) => item.type === "text")
-            .map((item: ContentType) => item.content),
-          " "
-        )
+        JSON.parse(course.content)
+          .filter((item: ContentType) => item.type === "text")
+          .map((item: ContentType) => item.content),
+        " "
+      )
       : null
     : null;
 
   const imageCSS = image
     ? {
-        backgroundImage: `url('${image}')`,
-        backgroundRepeat: "no-repeat",
-        backgroundBlendMode: "darken",
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-        backgroundColor: GRAY2,
-      }
+      backgroundImage: `url('${image}')`,
+      backgroundRepeat: "no-repeat",
+      backgroundBlendMode: "darken",
+      backgroundPosition: "center",
+      backgroundSize: "cover",
+      backgroundColor: GRAY2,
+    }
     : { backgroundColor: GRAY4 };
 
   return (

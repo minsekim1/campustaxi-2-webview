@@ -16,7 +16,7 @@ import "../style/switch.css";
 import { AbsoluteCenter, GRAY7, ORANGE, SCREEN_HEIGHT, styleCenter } from "../style";
 import { GRAY8, GRAY6 } from "../style/index";
 import { createRef, useMemo, useRef, useState } from "react";
-import { getfetch, posInit, postfetch } from "./common";
+import { getfetch, postfetch } from "./common";
 import { Input, InputMap, InputSearch } from "./Input/index";
 import { Switch } from "./Input/switch";
 import { Radio } from "./Input/radio";
@@ -24,10 +24,12 @@ import { PositionCard } from "./card/PositionCard";
 import { RoomCard } from "./card/RoomCard";
 import _ from "lodash";
 import { RouteType } from "../types/Route";
-import { ChatRoomType } from "../types/ChatRoom";
+import { ChatRoomType, posInit } from "../types/ChatRoom";
 import KakaoLogin from "react-kakao-login";
 import { KaKaoLoginBtn } from "./Btn/LoginBtn";
 import useWindowDimensions from "../hook/useWindowDimensions";
+import useSWR from "swr";
+import { fetcherBlob } from "../hook/useSWR/fetcher";
 
 export const BottomModal = () => {
   const [visible, setVisible] = useRecoilState(BottomModalState);
@@ -36,7 +38,9 @@ export const BottomModal = () => {
   const [chatRoomListFilterd, setChatRoomListFilterd] = useState([]);
   const filterSearchTxt = useRef("");
   const bottomRef = useRef<any>();
-  const { height, width } = useWindowDimensions();
+  //#region image
+  const { data: image, error } = useSWR("http://218.153.157.69/ftp/2021_11_27_1_03_40_b85518ade0.png", fetcherBlob);
+  //#endregion
 
   const onClickRoom = () => {
     if (bottomRef && bottomRef.current && bottomRef.current.snapTo)
@@ -47,7 +51,6 @@ export const BottomModal = () => {
   };
 
   const onChangeFilterSearchTxt = async (t: string) => {
-
     if (t.length === 0) {
       setChatRoomListFilterd([]);
     } else {
@@ -55,16 +58,16 @@ export const BottomModal = () => {
         (room: ChatRoomType) =>
           // 추후 방장이름도 추가
           room.title.includes(t) ||
-          room.start_route.road_address_name.includes(t) ||
-          room.start_route.place_name.includes(t) ||
-          room.start_route.phone.includes(t) ||
-          room.start_route.address_name.includes(t) ||
-          room.start_route.category_name.includes(t) ||
-          room.end_route.road_address_name.includes(t) ||
-          room.end_route.place_name.includes(t) ||
-          room.end_route.phone.includes(t) ||
-          room.end_route.address_name.includes(t) ||
-          room.end_route.category_name.includes(t)
+          (room.start_route && room.start_route.road_address_name && room.start_route.road_address_name.includes(t)) ||
+          (room.start_route && room.start_route.place_name && room.start_route.place_name.includes(t)) ||
+          (room.start_route && room.start_route.phone.includes(t)) ||
+          (room.start_route && room.start_route.address_name && room.start_route.address_name.includes(t)) ||
+          (room.start_route && room.start_route.category_name && room.start_route.category_name.includes(t)) ||
+          (room.end_route && room.end_route.road_address_name && room.end_route.road_address_name.includes(t)) ||
+          (room.end_route && room.end_route.place_name && room.end_route.place_name.includes(t)) ||
+          (room.end_route && room.end_route.phone.includes(t)) ||
+          (room.end_route && room.end_route.address_name && room.end_route.address_name.includes(t)) ||
+          (room.end_route && room.end_route.category_name && room.end_route.category_name.includes(t))
       );
       setChatRoomListFilterd(list);
     }
@@ -133,15 +136,28 @@ export const BottomModal = () => {
             })
           ) : (
             <div style={{ padding: "8px 32px 0" }}>
-                <div style={{ ...AbsoluteCenter, fontSize: 15, textAlign: 'center', backgroundColor: 'white', fontWeight: 'bold', padding:16, marginTop:24, borderRadius:12, borderWidth:1, borderStyle:'dashed' }}>
+              <div
+                style={{
+                  ...AbsoluteCenter,
+                  fontSize: 15,
+                  textAlign: "center",
+                  backgroundColor: "white",
+                  fontWeight: "bold",
+                  padding: 16,
+                  marginTop: 24,
+                  borderRadius: 12,
+                  borderWidth: 1,
+                  borderStyle: "dashed",
+                }}
+              >
                 <div>현재 들어갈 수 있는</div>
-                  <div>택시 채팅방이 없습니다.</div>
-                  <div style={{ fontSize: 13, fontWeight:'normal', marginTop:8}}>
-                <div>지도 오른쪽 하단의 버튼을 눌러</div>
-                <div>새 택시채팅방을 만들어보세요!</div>
-                  </div>
+                <div>택시 채팅방이 없습니다.</div>
+                <div style={{ fontSize: 13, fontWeight: "normal", marginTop: 8 }}>
+                  <div>지도 오른쪽 하단의 버튼을 눌러</div>
+                  <div>새 택시채팅방을 만들어보세요!</div>
+                </div>
               </div>
-              <img src={'http://218.153.157.69/ftp/2021_11_27_1_03_40_b85518ade0.png'} width={"100%"} />
+              <img src={image} width={"100%"} />
             </div>
           )}
         </div>
@@ -205,7 +221,6 @@ export const CreateBottomModal = () => {
     // { responseStartRoute: responseStartRoute, responseEndRoute: responseEndRoute }
   };
   const postCreateChatRoom = async () => {
-
     if (!postCondition) {
       alert("출발지/도착지/출발시간을 확인해주세요.");
     } else {
@@ -270,7 +285,7 @@ export const CreateBottomModal = () => {
             <div style={{ fontFamily: "roboto", fontWeight: "bold", fontSize: 17, color: GRAY8, float: "left" }}>
               채팅방을 만들어보세요!
             </div>
-            {/* <BlockLogin /> */}
+            <BlockLogin />
             {closeCondition ? (
               <div
                 style={{

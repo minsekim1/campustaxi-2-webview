@@ -1,51 +1,75 @@
 import { CreatorType } from "./Course";
+import { RouteType } from "./Route";
+import { UserType } from "./User";
 
+export const posInit = {
+  address_name: "",
+  category_group_code: "",
+  category_group_name: "",
+  category_name: "",
+  distance: "",
+  id: -1,
+  phone: "",
+  place_name: "",
+  place_url: "",
+  road_address_name: "",
+  x: "", //127.036586636975
+  y: "", //37.5090312068588
+};
 export type ChatRoomType = {
-  id: number;
-  deleted_at: string |null;
-  taxiFare: number//17700;
-  course_id: string |null;
-  distance: number//14.4;
-  departureTime: string//"2021-11-06T16:45:49.000Z";
-  person_limit: number//2;
-  start_at: string//"2021-11-06T16:45:24.000Z";
-  disable_at: string |null;
-  gender: string//"M";
-  creator_id: CreatorType;
-  title: string//"채팅방이름";
-  path: string// "126.9854806,37.5510271,126.985411 ...";
-  duration: 55;
-  published_at: string//"2021-11-06T07:46:01.000Z";
-  created_at: string//"2021-11-06T07:46:01.000Z";
-  updated_at: string//"2021-11-06T07:46:01.000Z";
-  start_route: {
-    id: number//;
-    x: number//126.988533821602;
-    y: number//37.5518816389714;
-    address_code: string | null;
-    road_address_name: string//"";
-    place_url: string//"http://place.map.kakao.com/17561501";
-    place_name: string//"남산공원 1주차장";
-    phone: string//"";
-    naver_id: string//"17561501";
-    category_name: string//"교통,수송 > 교통시설 > 주차장";
-    category_group_name: string//"주차장";
-    category_group_code: string//"PK6";
-    address_name: string//"서울 중구 예장동 8-1";
-  };
-  end_route: {
-    id: number//2;
-    x: number//127.075405300578;
-    y: number//37.618459513199;
-    address_code:string | null;
-    road_address_name: string//"서울 노원구 동일로 지하 992-1";
-    place_url: string//"http://place.map.kakao.com/17754628";
-    place_name: string//"태릉입구역 7호선";
-    phone: string//"02-6311-7171";
-    naver_id: string//"17754628";
-    category_name: string//"교통,수송 > 지하철,전철 > 수도권7호선";
-    category_group_name: string//"지하철역";
-    category_group_code: string// "SW8";
-    address_name: string//"서울 노원구 공릉동 616-4";
-  };
+  created_at: string; //"2021-11-20T05:20:04.000Z"
+  creator_id: CreatorType | null;
+  deleted_at: null | string; //
+  departureTime: string; //"2021-11-20T14:19:59.000Z"
+  disable_at: null | string; //
+  distance: number; //16.8
+  duration: number; //60
+  end_route: RouteType | null;
+  enter_users: UserType[];
+  gender: "None" | "M" | "W";
+  id: number; //23;
+  path: []; // "126.9921518,37.5704197,126.9921518,37.5704242,126";
+  person_limit: number; //2;
+  published_at: string; //"2021-11-20T05:20:04.000Z";
+  start_at: string; //"2021-11-20T14:20:55.000Z";
+  start_route: RouteType | null;
+  taxiFare: number; //19670;
+  title: string; //"채팅방 이름2";
+  updated_at: string; // "2021-11-20T05:20:04.000Z";
+
+  // 개발용옵션
+  address_name?: string;
+  category_group_code?: string;
+  category_group_name?: string;
+  category_name?: string;
+  phone?: string;
+  place_name?: string;
+  place_url?: string;
+  road_address_name?: string;
+  x?: number;
+  y?: number;
+};
+
+export const ChatRoomInit: ChatRoomType = {
+  ...posInit,
+  creator_id: null,
+  duration: 0,
+  published_at: "",
+  updated_at: "",
+  departureTime: "",
+  created_at: "",
+  deleted_at: null,
+  disable_at: "",
+  distance: 0,
+  end_route: null,
+  gender: "None",
+  path: [],
+  person_limit: -1,
+  start_at: "",
+  start_route: null,
+  taxiFare: -1,
+  title: "",
+  enter_users: [],
+  x: undefined,
+  y: undefined,
 };

@@ -24,12 +24,13 @@ import {
   startPosState,
 } from "./recoil";
 import { useEffect, useRef, useState } from "react";
-import { NAVER_API_KEY, posInit } from "./common";
+import { NAVER_API_KEY } from "./common";
 import { getfetch } from "./common/index";
 import { getPath } from "./common/function/getPath";
 import { PathInfo } from "./PathInfo";
 import _ from "lodash";
 import useWindowDimensions from "../hook/useWindowDimensions";
+import { posInit } from "../types/ChatRoom";
 
 export const NMAP = () => {
   return (

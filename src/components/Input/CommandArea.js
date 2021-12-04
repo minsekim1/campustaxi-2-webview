@@ -6,11 +6,11 @@ import { FadeDiv } from "../FadeDiv";
 import { CommandListRenderItem } from "./CommandInput/CommandListRenderItem";
 import { getItems, getItemStyle, getListStyle, onDragEnd } from "./CommandInput/dndFunc";
 import { useCallback, useEffect } from "react";
-import { posInit } from "../common";
 import { CItem, MCItem } from "./CommandInput/CItem";
 import { deleteModePosState } from "./../recoil";
 import Button from "@mui/material/Button";
 import { Rowdot } from "./../Icon/Rowdot";
+import { posInit } from "../../types/ChatRoom";
 
 export const CommandArea = ({ }) => {
   const [deleteMode, setDeleteMode] = useRecoilState(deleteModePosState);

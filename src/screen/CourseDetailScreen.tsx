@@ -7,7 +7,7 @@ import { BackHeader } from "../components/BackHeader";
 import useSWR from "swr";
 import { useParams } from "react-router";
 import { API_URL, postfetch } from "../components/common";
-import fetcher from "../hook/useSWR/fetcher";
+import fetcher, { fetcherBlob } from "../hook/useSWR/fetcher";
 import { useRecoilState } from "recoil";
 import { loadingState, shareModalState } from "../components/recoil";
 import { CourseType } from "../types/Course";
@@ -227,13 +227,21 @@ const ShareModal = ({ url = "", course }: { url: string; course: CourseType }) =
 //#endregion
 
 const CourseArea = ({ mutate, course }: { course: CourseType, mutate: any }) => {
+  //#region main image
+  const { data: image, error } = useSWR(
+    course && course.images && course.images.length > 0 ? course.images[0].url : null,
+    fetcherBlob
+  );
+  //#endregion
+  //#region let content
   let content: ContentItemType[] = [];
   try {
     content = JSON.parse(course.content);
   } catch (error) { }
+  //#endregion
   return (
     <>
-      <CourseImage imgUrl={course && course.images && course.images.length > 0 ? course.images[0].url : ""} />
+      <CourseImage imgUrl={image} />
       <div style={{ padding: "0 16px 80px 16px" }}>
         <div style={{ marginTop: 16 }}>
           <Textarea
@@ -274,7 +282,7 @@ const CourseArea = ({ mutate, course }: { course: CourseType, mutate: any }) => 
             address={course && course.creator_id ? course.creator_id.nickname : ""}
             title={course && course.creator_id ? course.creator_id.email : ""}
             desc={`팔로워 ${course && course.creator_id ? course.creator_id.follower ?? 0 : 0}`}
-            img={course && course.creator_id ? course.creator_id.profile_image : ""}
+            img={course && course.creator_id ? course.creator_id.profile_image : undefined}
           />
           <CommandArea content={content} />
         </div>

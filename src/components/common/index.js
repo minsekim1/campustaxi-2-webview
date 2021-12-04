@@ -1,3 +1,5 @@
+import { ChatRoomType } from "../../types/ChatRoom";
+
 export const isHttp = window.location.protocol !== "https:";
 // export const ProxyURL = isHttp
 //   ? "http://circlin-web-react-proxy.herokuapp.com/"
@@ -5,7 +7,7 @@ export const isHttp = window.location.protocol !== "https:";
 export const ProxyURL = "https://circlin-web-react-proxy.herokuapp.com/";
 export const FTP_URL = "http://218.153.157.69/ftp/"; //http://218.153.157.69/ftp/1636779791516_874ca4a993.jpeg
 export const API_URL = (isHttp ? ProxyURL : "") + "https://www.campus-taxi.com:444"; //
-export const API_URL_NO_Proxy ="https://www.campus-taxi.com:444"; //
+export const API_URL_NO_Proxy = "https://www.campus-taxi.com:444"; //
 //"https://www.campus-taxi.com:444";
 /**
  * Example
@@ -107,37 +109,9 @@ export const getfetchCommon = (url, params, headers) => {
   });
 };
 
-export const posInit = {
-  address_name: "",
-  category_group_code: "",
-  category_group_name: "",
-  category_name: "",
-  distance: "",
-  id: -1,
-  phone: "",
-  place_name: "",
-  place_url: "",
-  road_address_name: "",
-  x: "", //127.036586636975
-  y: "", //37.5090312068588
-};
 
-export const ChatRoomInit = {
-  ...posInit,
-  departureTime: "",
-  created_at: "",
-  deleted_at: "",
-  disable_at: "",
-  distance: "",
-  end_route: [],
-  gender: "",
-  path: [],
-  person_limit: -1,
-  start_at: "",
-  start_route: [],
-  taxiFare: -1,
-  title: "",
-};
+
+
 
 export const NAVER_API_KEY = "lxll2d6397";
 export const NAVER_API_SECRET_KEY = "cqaiGWouBEzt1W2A1re3KJb50znmMmx0qwBx8KpU";

@@ -8,13 +8,14 @@ import { getfetch, postfetch } from "../common";
 import { UserType } from "../../types/User";
 import { useEffect } from "react";
 import _ from "lodash";
+import useSWR from "swr";
+import { fetcherBlob } from "../../hook/useSWR/fetcher";
 
 export const togglerFollow = async (myUserData: UserType, other_user_id: number) => {
   if (!myUserData.id) return;
-  console.log(myUserData)
+  console.log(myUserData);
 
   // const list = myUserData.follower.map((user)=>user.id).
-
 
   // if (true) {
   //   // 좋아요 추가
@@ -22,7 +23,7 @@ export const togglerFollow = async (myUserData: UserType, other_user_id: number)
   //   await postfetch(`/users/${myUserData.id}`, JSON.stringify({ followers: list }), true, "PUT")
   //   // 좋아요 게시글에 반영 && 내 팔로우 수 변경
   //   mutate();
-  //   // 
+  //   //
   //   mutate();
   // } else {
   //   // 좋아요 삭제
@@ -59,26 +60,19 @@ export const ProfileCard = ({
   icon = "faCrown",
 }: Props) => {
   const [userData, setUserData] = useRecoilState(userDataState);
-
-  useEffect(() => {
-    if (userData) {
-      getfetch(`/users/${userData.id}`).then((d) => {
-        setUserData(d)
-      });
-    }
-  }, [])
+  
   return (
     <div style={{ height: 80 }}>
       <div style={{ padding: "16px 16px 0 16px", display: "flex", alignItems: "center" }}>
         {/* 유저아이콘 */}
         <div
           style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center" }}
-          onClick={onClick ? onClick : () => { }}
+          onClick={onClick ? onClick : () => {}}
         >
-          <ProfileIcon icon={icon ? icon : ""} img={img ?? ''} />
+          <ProfileIcon icon={icon ? icon : ""} img={img} />
         </div>
         {/* 상세내용 */}
-        <div style={{ flex: 4, marginLeft: 16, alignSelf: "center" }} onClick={onClick ? onClick : () => { }}>
+        <div style={{ flex: 4, marginLeft: 16, alignSelf: "center" }} onClick={onClick ? onClick : () => {}}>
           <div style={{ ...textOverflowHidden, fontSize: 14, color: GRAY7, fontWeight: "bold" }}>{address}</div>
           <div style={{ ...textOverflowHidden, fontSize: 12, marginTop: 3, color: GRAY6 }}>{title}</div>
           <div style={{ ...textOverflowHidden, fontSize: 12, color: GRAY6 }}>{desc}</div>
@@ -92,23 +86,27 @@ export const ProfileCard = ({
           false
         )}
         {/* 팔로우버튼 */}
-        {!userId || userData?.id !== userId ? <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            fontSize: 12,
-            fontWeight: "bold",
-            justifyContent: "center",
-            backgroundColor: !userData ? "gray" : SUB_BLUE,
-            color: "white",
-            borderRadius: 20,
-            padding: "3px 20px",
-            height: 22,
-          }}
-          onClick={() => (!userData ? alert("로그인이 필요한 기능입니다!") : togglerFollow(userData, 2))}
-        >
-          팔로우
-        </div> : false}
+        {!userId || userData?.id !== userId ? (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              fontSize: 12,
+              fontWeight: "bold",
+              justifyContent: "center",
+              backgroundColor: !userData ? "gray" : SUB_BLUE,
+              color: "white",
+              borderRadius: 20,
+              padding: "3px 20px",
+              height: 22,
+            }}
+            onClick={() => (!userData ? alert("로그인이 필요한 기능입니다!") : togglerFollow(userData, 2))}
+          >
+            팔로우
+          </div>
+        ) : (
+          false
+        )}
       </div>
       {/* 덮개 */}
       {disable ? (
