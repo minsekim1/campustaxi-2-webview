@@ -79,37 +79,35 @@ export const SelectMapModal = () => {
         expandOnContentDrag={true}
       >
         <div style={{ padding: "12px 20px" }}>
-          <SearchList />
+          <SearchList onClick={onClick} />
         </div>
       </BottomSheet>
     </>
   );
 };
 //#region SearchList
-const SearchList = () => {
+const SearchList = ({ onClick }) => {
   const [searchResult, setSearchResult] = useRecoilState(SearchPosResultState);
-
+  const source = axios.CancelToken.source();
+  useEffect(() => {
+    return () => source.cancel();
+  }, [searchResult]);
   return (
     <>
       {searchResult.documents[0] !== posInit &&
-        searchResult.documents.map((pos, i) => <SearchCard pos={pos} key={pos.id} />)}
+        searchResult.documents.map((pos, i) => <SearchCard source={source} onClick={onClick} pos={pos} key={pos.id} />)}
     </>
   );
 };
 //#endregion
 //#region SearchCard
-const SearchCard = ({ pos }) => {
+const SearchCard = ({ pos, onClick, source }) => {
   //#region Image UnMount
   // 언마운트 할때 fetch 멈추기
   const title = pos.place_name;
-  const source = axios.CancelToken.source();
-
   const { data: image, error } = useSWR(`https://openapi.naver.com/v1/search/image?query=${title}&sort=date`, (url) =>
     fetcherGetImageByKeyword(url, title, source)
   );
-  useEffect(() => {
-    return () => source.cancel();
-  }, []);
   // //#endregion
 
   return (
