@@ -47,7 +47,7 @@ export const CourseCard = ({ course, width }: CourseCardType) => {
     : null;
   let image = null;
   if (course && course.images && course.images.length > 0)
-    if (course.images[0].url.includes("218")) image = course.images[0].url;
+    if (course.images[0].url.includes("218")) image = course.images[0].url.replace("https", "http");
   // axios
   //   .get(, {
   //     headers: {
