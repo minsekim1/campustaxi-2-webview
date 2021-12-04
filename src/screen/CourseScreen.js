@@ -11,11 +11,8 @@ import { useEffect } from "react";
 import { useHistory } from "react-router";
 
 const CourseScreen = () => {
-  
   useEffect(() => {
-    const body = document.getElementsByTagName("body")[0];
-    body.setAttribute("style", "overflow: hidden;");
-    return () => body.setAttribute("style", "overflow: scroll;");
+    window.scrollTo(0, 0);
   }, []);
   return (
     <>

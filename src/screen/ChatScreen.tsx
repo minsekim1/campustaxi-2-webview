@@ -30,7 +30,7 @@ export const ChatScreen = ({ }) => {
     body.setAttribute("style", "overflow: scroll;");
     body.setAttribute("style", "overflow-x: hidden;");
     return () => {
-      body.removeAttribute("style");
+      // body.removeAttribute("style");
       setLoading(false);
     }
   }, [])

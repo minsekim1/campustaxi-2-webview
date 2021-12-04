@@ -98,35 +98,11 @@ const SearchList = ({ onClick }) => {
 //#endregion
 //#region SearchCard
 const SearchCard = ({ pos, onClick }) => {
-  //#region Image UnMount
-  // 언마운트 할때 fetch 멈추기
-  const title = pos.place_name;
-  // useEffect(() => {
-
-  //        fetch(`/v1/search/image?query=${title}&sort=date&limit=1`, {
-  //          method: "GET",
-  //          headers: {
-  //            Accept: "application/json",
-  //            "Content-Type": "application/json",
-  //            "X-Naver-Client-Id": "yeoXdUtxPpcjkxR4G932",
-  //            "X-Naver-Client-Secret": "TChrYL1rxH",
-  //          },
-  //        }).then(d=>console.log(d));
-    
-  //   // fetcherGetImageByKeyword(
-  //   //   `/v1/search/image?query=${title}&sort=date&limit=1`,
-  //   //   title,
-  //   //   source
-  //   // ).then((img) => (img !== null ? setImage(img) : setImage(null)));
-  //   return () => source.cancel();
-  // }, []);
-  // //#endregion
-
   return (
     <PositionCard
-      address={pos.address_name}
-      title={title}
       noImg
+      address={pos.address_name}
+      title={pos.place_name}
       desc={pos.category_name}
       url={pos.place_url}
       onClick={() => onClick(pos)}

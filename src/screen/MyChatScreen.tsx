@@ -8,18 +8,17 @@ import { ChatRoomType } from "../types/ChatRoom";
 import { API_URL } from "../components/common";
 import { RoomCard } from "../components/card/RoomCard";
 import { BottomHeader } from "../components/BottomHeader";
-
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/swiper-bundle.min.css";
+import "swiper/swiper.min.css";
 
 const MyChatScreen = () => {
   const [loading, setLoading] = useRecoilState(loadingState);
 
   // #region 스크롤 닫기
-  const body = document.getElementsByTagName("body")[0];
-  body.setAttribute('style', "overflow-x: hidden;");
   useEffect(() => {
-    body.removeAttribute("style");
     return () => setLoading(false);
-  }, [body]);
+  }, []); //body
   // #endregion
   //#region 데이터 관리
   const { data, error } = useSWR(`${API_URL}/chat-rooms`, fetcher);
@@ -61,10 +60,14 @@ const MyChatScreen = () => {
 
 const ChatRoomArea = ({ chatRooms }: { chatRooms: ChatRoomType[] }) => {
   return (
-    <div style={{ padding: "0 16px 96px 16px" }}>
-      {chatRooms.map((room, i: number) => (
-        <RoomCard key={i.toString()} room={room} noClick />
-      ))}
+    <div style={{ padding: "0 16px 96px 16px", zIndex:-10, position:'relative' }}>
+      <Swiper slidesPerView={1} direction={"vertical"} speed={500} height={260}>
+        {chatRooms.map((room, i: number) => (
+          <SwiperSlide key={room.id}>
+            <RoomCard room={room} noClick />
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </div>
   );
 };
