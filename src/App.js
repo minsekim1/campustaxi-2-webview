@@ -13,7 +13,8 @@ import { LinearProgress } from "@mui/material";
 import { loadingState } from "./components/recoil";
 import ChatScreen from "./screen/ChatScreen";
 import HomeScreenPre from "./screen/HomeScreenPre";
-
+import moment from "moment";
+import "moment/locale/ko";
 /* eslint-disable */
 
 resetServerContext();

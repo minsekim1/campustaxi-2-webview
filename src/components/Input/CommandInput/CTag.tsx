@@ -49,7 +49,7 @@ export const CTag = ({ index, disable, data }: Props) => {
   return (
     <>
       <ReactTags
-        className={disable ? "disableTag" : ""}
+        classNames={disable ? { tags : "disableTag"} : undefined}
         placeholder={"엔터, 스페이스, 쉼표로 태그를 구분해주세요."}
         maxLength={30}
         allowDeleteFromEmptyInput={false}
