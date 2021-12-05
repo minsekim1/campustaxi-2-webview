@@ -129,6 +129,7 @@ function NaverMapAPI() {
   };
   //#endregion
 
+
   return (
     <NaverMap
       ref={naverMapRef}
@@ -149,7 +150,9 @@ function NaverMapAPI() {
           <div key={i.toString()}>
             {/* DB 모든 출발지 */}
             <ImageMarker
-              color={"#FF6F6F"}
+              url={room.creator_id.kakao_profile_thumbnail}
+              isProfile
+              color={chatRoomSeleted.id === room.id ? null : "#6FC1EF"}
               onClick={() => {
                 setChatRoomSeleted(room);
                 setVisible(true);
@@ -159,10 +162,13 @@ function NaverMapAPI() {
             />
             {/* DB 모든 도착지 */}
             <ImageMarker
+              url={room.creator_id.kakao_profile_thumbnail}
+              isProfile
               onClick={() => {
                 setChatRoomSeleted(room);
                 setVisible(true);
               }}
+              color={chatRoomSeleted.id === room.id ? null : "#FF6F6F"}
               position={new navermaps.LatLng(Number(room.end_route.y), Number(room.end_route.x))}
               navermaps={navermaps}
             />
@@ -249,8 +255,8 @@ function ImageMarker(props) {
   const navermaps = props.navermaps;
   const icon = {
     content: `<div onClick=\"${props.onClick}\"><img alt=\" \" style=\"${
-      !props.url ? "border-radius:30px;border-style:solid;" : ""
-    }border-color:${props.color ?? "#535353"};border-width:3px\" width=37 height=${props.url ? 48 : 37} src=${
+      props.isProfile ? "border-radius:30px;border-style:solid;" : ""
+    }border-color:${props.color ?? "#535353"};border-width:3px\" width=36 height=${props.isProfile ? 36 : 48} src=${
       props.url ?? "https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
     } /></div>`,
     size: new navermaps.Size(20, 20),
