@@ -9,7 +9,7 @@ import {
 } from "react-naver-maps";
 
 import { HEADER_HEIGHT, SCREEN_HEIGHT } from "./../style";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   BottomModalState,
   ChatRoomListState,
@@ -50,13 +50,14 @@ function NaverMapAPI() {
   const [searchResult, setSearchResult] = useRecoilState(SearchPosResultState);
   const [visibleCreate, setVisibleCreate] = useRecoilState(CreateBottomModalState);
   const [visible, setVisible] = useRecoilState(BottomModalState);
-  const [, setLoading] = useRecoilState(loadingState); //loading
+  const setLoading = useSetRecoilState(loadingState); //loading
 
-  const [myPos] = useRecoilState(MyPosState); //setMyPos
+  const myPos = useRecoilValue(MyPosState); //setMyPos
   const [startPos, setStartPos] = useRecoilState(startPosState);
   const [endPos, setEndPos] = useRecoilState(endPosState);
   const [path, setPath] = useRecoilState(pathState);
 
+  //#region 변수
   //# 기본 데이터
   const navermaps = window.naver.maps;
   const [bounds, setBounds] = useState(
@@ -70,8 +71,9 @@ function NaverMapAPI() {
 
   //# 방검색 데이터
   const [chatRoomSeleted, setChatRoomSeleted] = useRecoilState(ChatRoomSeletedState);
+  //#endregion
 
-  //# useEffect
+  //#region useEffect
   useEffect(() => {
     // https://www.campus-taxi.com:444/chat-rooms?start_at_gt=2021-11-20T15:19:20.000Z
     getfetch(`/chat-rooms?start_at_gt=${new Date().toISOString()}`).then((d) =>
@@ -115,8 +117,9 @@ function NaverMapAPI() {
       setBounds(new navermaps.LatLngBounds(new navermaps.LatLng(y1 - 0.08, x1), new navermaps.LatLng(y2 + 0.02, x2)));
     }
   }, [chatRoomSeleted]);
+  //#endregion
 
-  //# 함수
+  //#region 함수
   const onClickMarker = (pos) => {
     if (visibleSearch.position === "start") setStartPos(pos);
     else setEndPos(pos);

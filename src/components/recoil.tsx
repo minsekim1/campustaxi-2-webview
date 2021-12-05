@@ -155,6 +155,7 @@ export type posInitType = {
   road_address_name: string;
   x: string; //127.036586636975
   y: string; //37.5090312068588
+  place_image?: string | null;
 };
 export const startPosState = atom<posInitType>({
   key: "recoil/startPos",
@@ -234,6 +235,14 @@ export const CreateRouteBottomModalState = atom({
 /**
  *  새채팅방 만들기
  */
+export const StartPosImageState = atom<null | string>({
+  key: "recoil/StartPosImageState",
+  default: null,
+});
+export const EndPosImageState = atom<null | string>({
+  key: "recoil/EndPosImageState",
+  default: null,
+});
 export const CreateBottomModalState = atom({
   key: "recoil/createBottomModal",
   default: false,

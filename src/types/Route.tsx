@@ -17,4 +17,6 @@ export type RouteType = {
   updated_at: string | null; //"2021-11-20T04:05:44.000Z",
   courses: number[];
   chat_rooms: number[];
+
+  place_image?: string | null;
 };

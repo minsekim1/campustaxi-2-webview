@@ -4,10 +4,12 @@ import {
   BottomModalState,
   ChatRoomListState,
   CreateBottomModalState,
+  EndPosImageState,
   endPosState,
   loadingState,
   pathState,
   posInitType,
+  StartPosImageState,
   startPosState,
   userDataState,
 } from "./recoil";
@@ -180,9 +182,12 @@ export const CreateBottomModal = () => {
   const [genderLimit, setGenderLimit] = useState(false);
 
   const [startPos, setStartPos] = useRecoilState(startPosState);
+  const startPosImage = useRecoilValue(StartPosImageState);
   const [endPos, setEndPos] = useRecoilState(endPosState);
+  const endPosImage = useRecoilValue(EndPosImageState);
   const [path] = useRecoilState(pathState); //setPath
   const [, setChatRoomList] = useRecoilState(ChatRoomListState); //chatRoomList
+
 
   const closeCondition = useMemo(
     () => title !== "" || startPos.place_name !== "" || endPos.place_name !== "",
@@ -225,7 +230,9 @@ export const CreateBottomModal = () => {
       alert("출발지/도착지/출발시간을 확인해주세요.");
     } else {
       setLoading(true);
-      const responseRoute = await getPostRoute(startPos, endPos);
+      const startParam: posInitType = { ...startPos, place_image: startPosImage }
+      const endParam: posInitType = { ...endPos, place_image: endPosImage}
+      const responseRoute = await getPostRoute(startParam, endParam);
       const response = await postfetch("/chat-rooms", {
         title: title,
         gender: genderLimit ? "M" : "None",
@@ -285,7 +292,7 @@ export const CreateBottomModal = () => {
             <div style={{ fontFamily: "roboto", fontWeight: "bold", fontSize: 17, color: GRAY8, float: "left" }}>
               채팅방을 만들어보세요!
             </div>
-            {/* <BlockLogin /> */}
+            <BlockLogin />
             {closeCondition ? (
               <div
                 style={{
@@ -324,7 +331,8 @@ export const CreateBottomModal = () => {
                   title={startPos.place_name}
                   desc={startPos.category_name}
                   url={startPos.place_url}
-                  img={"https://picsum.photos/200"}
+                  img={undefined}
+                  isStartPos
                   onClickDelete={() => setStartPos(posInit)}
                 />
               ) : (
@@ -339,7 +347,8 @@ export const CreateBottomModal = () => {
                   title={endPos.place_name}
                   desc={endPos.category_name}
                   url={endPos.place_url}
-                  img={"https://picsum.photos/200"}
+                  img={undefined}
+                  isEndPos
                   onClickDelete={() => setEndPos(posInit)}
                 />
               ) : (

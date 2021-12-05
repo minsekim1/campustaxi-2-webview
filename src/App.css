@@ -32,18 +32,12 @@
   width: 300px;
   font-size: 11px;
   margin-left: 10px;
-  outline: none;
-  
+  outline: none; 
 }
 * > div {
    color: #343A40;
 }
 textarea:disabled {
-    color: #343A40;
-    font-weight:bold;
-    
-}
-
-#react-naver-map > div:nth-child(7) > div:nth-child(2),#react-naver-map > div:nth-child(6),#react-naver-map > div:nth-child(7) > div:nth-child(1) > div {
-  display: none !important;
+  color: #343A40;
+  font-weight:bold;
 }

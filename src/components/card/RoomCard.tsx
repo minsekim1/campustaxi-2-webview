@@ -69,7 +69,8 @@ export const RoomCard = ({ room, onClick = () => {}, noClick = false }: Props) =
         display: "flex",
         flexDirection: "column",
         borderRadius: 20,
-        marginTop: 16,
+        marginTop: 8,
+        paddingTop:8,
         backgroundColor: isSeleted && !noClick ? "white" : GRAY1,
         height: "88%",
         alignItems: "center",
@@ -85,12 +86,14 @@ export const RoomCard = ({ room, onClick = () => {}, noClick = false }: Props) =
         }}
       >
         <PositionCard
-          address={room && room.end_route && room.end_route.address_name ? room.end_route.address_name : ""}
-          title={room && room.end_route && room.end_route.place_name ? room.end_route.place_name : ""}
-          desc={room && room.end_route && room.end_route.category_name ? room.end_route.category_name : ""}
-          url={room && room.end_route && room.end_route.place_url ? room.end_route.place_url : ""}
-          img={"https://picsum.photos/200"}
           padding={"0"}
+          address={room.start_route && room.start_route.address_name ? room.start_route.address_name : ""}
+          title={room.start_route && room.start_route.place_name ? room.start_route.place_name : ""}
+          desc={room.start_route && room.start_route.category_name ? room.start_route.category_name : ""}
+          url={room.start_route && room.start_route.place_url ? room.start_route.place_url : ""}
+          img={room && room.start_route && room.start_route.place_image ? room.start_route.place_image : null}
+
+          
         />
       </div>
       <div
@@ -99,29 +102,28 @@ export const RoomCard = ({ room, onClick = () => {}, noClick = false }: Props) =
           justifyContent: "center",
           display: "flex",
           width: "92%",
+          marginTop:8
         }}
       >
         <PositionCardReverse
+          address={room && room.end_route && room.end_route.address_name ? room.end_route.address_name : ""}
+          title={room && room.end_route && room.end_route.place_name ? room.end_route.place_name : ""}
+          desc={room && room.end_route && room.end_route.category_name ? room.end_route.category_name : ""}
+          url={room && room.end_route && room.end_route.place_url ? room.end_route.place_url : ""}
+          img={room && room.end_route && room.end_route.place_image ? room.end_route.place_image : null}
           padding={"0"}
-          address={room.start_route && room.start_route.address_name ? room.start_route.address_name : ""}
-          title={room.start_route && room.start_route.place_name ? room.start_route.place_name : ""}
-          desc={room.start_route && room.start_route.category_name ? room.start_route.category_name : ""}
-          url={room.start_route && room.start_route.place_url ? room.start_route.place_url : ""}
-          img={"https://picsum.photos/200"}
         />
       </div>
       <div
         style={{
           display: "flex",
           height: 32,
-          paddingTop: 6,
-          paddingBottom: 6,
-          marginLeft: 16,
           alignItems: "flex-end",
-          width: width - 50,
+          margin: "4px 0 6px 0",
+          width: "100%",
         }}
       >
-        <div style={{ display: "flex", flex: 7 }}>
+        <div style={{ display: "flex", flex: 7, paddingLeft:16 }}>
           {tags.map((tag, i) => (
             <Tag key={i.toString()} text={tag} index={i} />
           ))}
@@ -131,7 +133,6 @@ export const RoomCard = ({ room, onClick = () => {}, noClick = false }: Props) =
             flex: 1,
             display: "flex",
             justifyContent: "flex-end",
-
             position: "relative",
             bottom: -6.5,
             right: -0.5,

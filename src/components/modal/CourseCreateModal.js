@@ -2,13 +2,15 @@ import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
 import { GRAY7, SCREEN_HEIGHT, styleCenter } from "../../style";
 import { GRAY6 } from "../../style/index";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
   commandInputListState,
   commandWindowState,
   CreateRouteBottomModalState,
+  EndPosImageState,
   FilePathInit,
   loadingState,
+  StartPosImageState,
   userDataState,
 } from "../recoil";
 import { useEffect, useRef, useState } from "react";
@@ -207,7 +209,7 @@ export const CourseCreateModal = () => {
         expandOnContentDrag={false}
       >
         <div>
-          {/* <BlockLogin /> */}
+          <BlockLogin />
           <InputImage placeholder={"배경 사진을 선택해주세요!"} />
           <div style={{ padding: "0 16px 80px 16px" }}>
             <div>
