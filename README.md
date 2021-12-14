@@ -1,3 +1,6 @@
+# Https
+https://haandol.github.io/2021/07/26/serve-nextjs-app-on-localhost-via-https-using-caddy.html#fn:1
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
