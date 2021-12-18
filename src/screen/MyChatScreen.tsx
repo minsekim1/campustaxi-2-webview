@@ -15,9 +15,14 @@ import "swiper/swiper.min.css";
 const MyChatScreen = () => {
   const [loading, setLoading] = useRecoilState(loadingState);
 
-  // #region 스크롤 닫기
+  // #region 스크롤 관리
+  const body = document.getElementsByTagName("body")[0];
   useEffect(() => {
-    return () => setLoading(false);
+    body.setAttribute("style", "overflow: scroll;");
+    return () => {
+      body.removeAttribute("style");
+      setLoading(false);
+    };
   }, []); //body
   // #endregion
   //#region 데이터 관리
@@ -26,7 +31,15 @@ const MyChatScreen = () => {
   if (error)
     return (
       <div>
-        <div style={{ position: "sticky", top: 0, zIndex: 2, height: 56, backgroundColor: "white" }}>
+        <div
+          style={{
+            position: "sticky",
+            top: 0,
+            zIndex: 2,
+            height: 56,
+            backgroundColor: "white",
+          }}
+        >
           <BottomHeader title="내 채팅" />
         </div>
         failed to load
@@ -36,7 +49,15 @@ const MyChatScreen = () => {
   if (!data)
     return (
       <div>
-        <div style={{ position: "sticky", top: 0, zIndex: 2, height: 56, backgroundColor: "white" }}>
+        <div
+          style={{
+            position: "sticky",
+            top: 0,
+            zIndex: 2,
+            height: 56,
+            backgroundColor: "white",
+          }}
+        >
           <BottomHeader title="내 채팅" />
         </div>
         <BottomTabBar />
@@ -49,7 +70,14 @@ const MyChatScreen = () => {
 
   return (
     <>
-      <div style={{ position: "sticky", top: 0, backgroundColor: "white", zIndex: 3 }}>
+      <div
+        style={{
+          position: "sticky",
+          top: 0,
+          backgroundColor: "white",
+          zIndex: 3,
+        }}
+      >
         <BottomHeader title="내 채팅" />
       </div>
       <ChatRoomArea chatRooms={chatRooms} />
@@ -60,7 +88,9 @@ const MyChatScreen = () => {
 
 const ChatRoomArea = ({ chatRooms }: { chatRooms: ChatRoomType[] }) => {
   return (
-    <div style={{ padding: "0 16px 96px 16px", zIndex:-10, position:'relative' }}>
+    <div
+      style={{ padding: "0 16px 96px 16px", zIndex: 0, position: "relative" }}
+    >
       <Swiper slidesPerView={1} direction={"vertical"} speed={500} height={260}>
         {chatRooms.map((room, i: number) => (
           <SwiperSlide key={room.id}>

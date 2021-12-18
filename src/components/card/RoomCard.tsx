@@ -1,13 +1,15 @@
 import { GRAY1, GRAY3, GRAY5, GRAY8 } from "../../style";
 import { Tag } from "../common/Tag";
 import { PositionCard, PositionCardReverse } from "./PositionCard";
-import { useRecoilState } from "recoil";
-import { ChatRoomSeletedState, userDataState } from "../recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { ChatRoomSeletedState, loadingState, userDataState } from "../recoil";
 import { prettyDate } from "../common/prettyDate";
 import { useHistory } from "react-router";
 import { ChatRoomInit, ChatRoomType } from "../../types/ChatRoom";
 import useWindowDimensions from "../../hook/useWindowDimensions";
 import useSWR from "swr";
+import { getfetch, postfetch } from "../common";
+import { UserType } from "../../types/User";
 
 type Props = {
   room: ChatRoomType;
@@ -15,9 +17,10 @@ type Props = {
   noClick?: boolean;
 };
 
-export const RoomCard = ({ room, onClick = () => {}, noClick = false }: Props) => {
+export const RoomCard = ({ room, onClick = () => { }, noClick = false }: Props) => {
   const [chatRoomSeleted, setChatRoomSeleted] = useRecoilState(ChatRoomSeletedState);
-  const [userData] = useRecoilState(userDataState);
+  const setLoading = useSetRecoilState(loadingState);
+  const userData = useRecoilValue(userDataState);
 
   const enterTag = room ? (room.enter_users ? room.enter_users.length : 0) + "/" + (room.person_limit + 2) : "";
   const genderTag = room ? (room.gender !== "None" ? (room.gender === "M" ? "남자만" : "여자만") : "무관") : "";
@@ -28,7 +31,8 @@ export const RoomCard = ({ room, onClick = () => {}, noClick = false }: Props) =
   const history = useHistory();
 
   const isSeleted = room ? chatRoomSeleted.id === room.id : 0;
-  const onClickRoom = (isParentBtn: boolean) => {
+  const onClickRoom = (isParentBtn: boolean, e: any) => {
+    e.stopPropagation();
     if (isParentBtn) {
       if (!noClick) {
         onClick();
@@ -45,7 +49,19 @@ export const RoomCard = ({ room, onClick = () => {}, noClick = false }: Props) =
       if (!userData) {
         alert("로그인 후 입장할 수 있습니다!");
       } else {
-        history.push(`chat/${room.id}`);
+        setLoading(true);
+        getfetch(`/chat-rooms?id=${room.id}`).then(async (d: ChatRoomType[]) => {
+          const chatroom = d[0];
+          const oldUserList = chatroom.enter_users.map((u: UserType) => u.id);
+          if (chatroom.enter_users.length < chatroom.person_limit + 2 || oldUserList.includes(userData.id)) {
+            postfetch(`/chat-rooms/${chatroom.id}`, JSON.stringify({
+              enter_users: [...oldUserList, userData.id]
+            }), true, "PUT").then(d => history.push(`chat/${room.id}`))
+            setLoading(false);
+          } else {
+            alert("이미 가득찬 방입니다.")
+          }
+        });
       }
     }
     // if ((noClick && userData) || (userData && !isParentBtn)) {
@@ -70,12 +86,12 @@ export const RoomCard = ({ room, onClick = () => {}, noClick = false }: Props) =
         flexDirection: "column",
         borderRadius: 20,
         marginTop: 8,
-        paddingTop:8,
+        paddingTop: 8,
         backgroundColor: isSeleted && !noClick ? "white" : GRAY1,
         height: "88%",
         alignItems: "center",
       }}
-      onClick={() => onClickRoom(true)}
+      onClick={(e) => onClickRoom(true, e)}
     >
       <div
         style={{
@@ -92,8 +108,6 @@ export const RoomCard = ({ room, onClick = () => {}, noClick = false }: Props) =
           desc={room.start_route && room.start_route.category_name ? room.start_route.category_name : ""}
           url={room.start_route && room.start_route.place_url ? room.start_route.place_url : ""}
           img={room && room.start_route && room.start_route.place_image ? room.start_route.place_image : null}
-
-          
         />
       </div>
       <div
@@ -102,7 +116,7 @@ export const RoomCard = ({ room, onClick = () => {}, noClick = false }: Props) =
           justifyContent: "center",
           display: "flex",
           width: "92%",
-          marginTop:8
+          marginTop: 8,
         }}
       >
         <PositionCardReverse
@@ -123,7 +137,7 @@ export const RoomCard = ({ room, onClick = () => {}, noClick = false }: Props) =
           width: "100%",
         }}
       >
-        <div style={{ display: "flex", flex: 7, paddingLeft:16 }}>
+        <div style={{ display: "flex", flex: 7, paddingLeft: 16 }}>
           {tags.map((tag, i) => (
             <Tag key={i.toString()} text={tag} index={i} />
           ))}
@@ -138,7 +152,11 @@ export const RoomCard = ({ room, onClick = () => {}, noClick = false }: Props) =
             right: -0.5,
           }}
           onClick={
-            !noClick ? (!userData ? () => alert("로그인 후 입장이 가능합니다!") : () => onClickRoom(false)) : () => {}
+            !noClick
+              ? !userData
+                ? () => alert("로그인 후 입장이 가능합니다!")
+                : (e) => onClickRoom(false, e)
+              : () => { }
           }
         >
           <div

@@ -17,7 +17,9 @@ const HomeScreen = () => {
   return (
     <>
       {/* <PreRegistrationPopup/> */}
-      <BottomHeader />
+      <div style={{ position: "fixed", top: 0, zIndex: 1, backgroundColor: "white" }}>
+        <BottomHeader />
+      </div>
       <SearchPosition />
       <NMAP />
       <CreateBtn />

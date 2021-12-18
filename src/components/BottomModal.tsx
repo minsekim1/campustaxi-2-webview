@@ -317,11 +317,11 @@ export const CreateBottomModal = () => {
           </div>
           <div style={{ marginTop: 40 }}>
             <div style={{ marginTop: 12 }}>
-              <Input
+              {/* <Input
                 defaultValue={title}
                 onChange={(e) => setTitle(e)}
                 placeholder="채팅방 이름을 입력해주세요. (선택)"
-              />
+              /> */}
             </div>
             <div style={{ marginTop: 12 }}>
               <InputMap placeholder="출발지를 선택해주세요." position={"start"} />
