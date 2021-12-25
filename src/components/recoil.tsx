@@ -24,7 +24,6 @@ import { ContentItemType } from "../types/Command";
  * address_name category_group_code category_group_name category_name distance id phone place_name place_url road_address_name x y
  */
 
-
 const tagInitListItem = tagInitList[Math.floor(Math.random() * tagInitList.length)];
 export const commandInputListState = atom<ContentItemType[]>({
   key: "recoil/commandInputList",
@@ -49,10 +48,15 @@ export const loadingState = atom({
   default: false,
 });
 type CommandWindowProps = {
-  color: "red" | 'blue' | 'brown' | 'purple' | 'yellow' | 'orange' | 'gray' | "";
-  visible: boolean; top: number; left: number; index: number; height: number; pos: number;
+  color: "red" | "blue" | "brown" | "purple" | "yellow" | "orange" | "gray" | "";
+  visible: boolean;
+  top: number;
+  left: number;
+  index: number;
+  height: number;
+  pos: number;
   beforeInnerHTML?: any;
-}
+};
 export const commandWindowState = atom<CommandWindowProps>({
   key: "recoil/commandWindow",
   default: { color: "", visible: false, top: 0, left: 0, index: -1, height: 0, pos: 0 },
@@ -109,8 +113,15 @@ export const pathState = atom({
  *  AlertDialog 띄우기
  *  { visible: false, text: "" }
  */
-export const alertDialogInit = { visible: false, title: "", text: "", handleConfirm: () => { } };
-export const alertDialogState = atom({
+export const alertDialogInit = { visible: false, title: "", text: "", handleConfirm: () => {}, confirmText: null };
+type AlertDialogProps = {
+  visible: boolean;
+  title: string;
+  text: string;
+  handleConfirm: any;
+  confirmText?: string | null;
+};
+export const alertDialogState = atom<AlertDialogProps>({
   key: "recoil/alertDialog",
   default: alertDialogInit,
 });
@@ -226,6 +237,10 @@ export const CropInit = { visible: false, file: new File([], ""), previewURL: ""
 export const CropState = atom({
   key: "recoil/crop",
   default: CropInit,
+});
+export const MenuModalState = atom<{ visible: boolean }>({
+  key: "recoil/MenuModalState",
+  default: { visible: false },
 });
 /**
  *  코스에 새 상품 추가

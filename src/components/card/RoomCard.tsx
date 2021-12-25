@@ -15,10 +15,13 @@ type Props = {
   room: ChatRoomType;
   onClick?: () => void;
   noClick?: boolean;
+  style?: object;
+  showEnterBtn?: boolean;
 };
 
-export const RoomCard = ({ room, onClick = () => { }, noClick = false }: Props) => {
+export const RoomCard = ({ room, onClick = () => {}, noClick = false, style, showEnterBtn = true }: Props) => {
   const [chatRoomSeleted, setChatRoomSeleted] = useRecoilState(ChatRoomSeletedState);
+  const loading = useRecoilValue(loadingState);
   const setLoading = useSetRecoilState(loadingState);
   const userData = useRecoilValue(userDataState);
 
@@ -33,6 +36,11 @@ export const RoomCard = ({ room, onClick = () => { }, noClick = false }: Props) 
   const isSeleted = room ? chatRoomSeleted.id === room.id : 0;
   const onClickRoom = (isParentBtn: boolean, e: any) => {
     e.stopPropagation();
+    if (loading) {
+      alert("로딩 중입니다. 잠시만 기다려주세요!");
+      return;
+    }
+
     if (isParentBtn) {
       if (!noClick) {
         onClick();
@@ -54,43 +62,43 @@ export const RoomCard = ({ room, onClick = () => { }, noClick = false }: Props) 
           const chatroom = d[0];
           const oldUserList = chatroom.enter_users.map((u: UserType) => u.id);
           if (chatroom.enter_users.length < chatroom.person_limit + 2 || oldUserList.includes(userData.id)) {
-            postfetch(`/chat-rooms/${chatroom.id}`, JSON.stringify({
-              enter_users: [...oldUserList, userData.id]
-            }), true, "PUT").then(d => history.push(`chat/${room.id}`))
-            setLoading(false);
+            postfetch(
+              `/chat-rooms/${chatroom.id}`,
+              JSON.stringify({
+                enter_users: [...oldUserList, userData.id],
+              }),
+              true,
+              "PUT"
+            ).then((d) => {
+              history.push(`chat/${room.id}`);
+              setLoading(false);
+            });
           } else {
-            alert("이미 가득찬 방입니다.")
+            alert("이미 가득찬 방입니다.");
           }
         });
       }
     }
-    // if ((noClick && userData) || (userData && !isParentBtn)) {
-    //   history.push(`chat/${room.id}`);
-    // } else if (!noClick) {
-    //   onClick();
-    //   if (isSeleted) setChatRoomSeleted(ChatRoomInit);
-    //   else setChatRoomSeleted(room);
-    // } else {
-    //   alert("로그인 후 입장할 수 있습니다!");
-    // }
   };
-
-  const { height, width } = useWindowDimensions();
   return (
     <div
-      style={{
-        borderWidth: 1,
-        borderColor: isSeleted && !noClick ? GRAY5 : "#E1E3E5",
-        borderStyle: "solid",
-        display: "flex",
-        flexDirection: "column",
-        borderRadius: 20,
-        marginTop: 8,
-        paddingTop: 8,
-        backgroundColor: isSeleted && !noClick ? "white" : GRAY1,
-        height: "88%",
-        alignItems: "center",
-      }}
+      style={
+        style
+          ? style
+          : {
+              borderWidth: 1,
+              borderColor: isSeleted && !noClick ? GRAY5 : "#E1E3E5",
+              borderStyle: "solid",
+              display: "flex",
+              flexDirection: "column",
+              borderRadius: 20,
+              marginTop: 8,
+              paddingTop: 8,
+              backgroundColor: isSeleted && !noClick ? "white" : GRAY1,
+              height: "88%",
+              alignItems: "center",
+            }
+      }
       onClick={(e) => onClickRoom(true, e)}
     >
       <div
@@ -142,7 +150,7 @@ export const RoomCard = ({ room, onClick = () => { }, noClick = false }: Props) 
             <Tag key={i.toString()} text={tag} index={i} />
           ))}
         </div>
-        <div
+        {showEnterBtn && <div
           style={{
             flex: 1,
             display: "flex",
@@ -156,7 +164,7 @@ export const RoomCard = ({ room, onClick = () => { }, noClick = false }: Props) 
               ? !userData
                 ? () => alert("로그인 후 입장이 가능합니다!")
                 : (e) => onClickRoom(false, e)
-              : () => { }
+              : () => {}
           }
         >
           <div
@@ -175,7 +183,7 @@ export const RoomCard = ({ room, onClick = () => { }, noClick = false }: Props) 
           >
             바로 입장
           </div>
-        </div>
+        </div> }
       </div>
     </div>
   );

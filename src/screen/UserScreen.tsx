@@ -28,6 +28,7 @@ const MyScreen = () => {
   const id = p.id;
   const userDataLocal = useRecoilValue(userDataState);
   const { data, error, mutate } = useSWR(`${API_URL}/users?id=${id}`, fetcher);
+  const { height, width } = useWindowDimensions();
 
   const userData: UserType = data ? data[0] : null;
   if ((error || !userData) && !loading) setLoading(true);
@@ -48,14 +49,14 @@ const MyScreen = () => {
   if (error)
     return (
       <div>
-        <BackHeaderRight title={""} userImg={""} roomId={id} />
+        <BackHeader />
         failed to load
       </div>
     );
   if (!userData)
     return (
       <div>
-        <BackHeaderRight title={""} userImg={""} roomId={id} />
+        <BackHeader />
         {/* loading... */}
       </div>
     );
@@ -72,7 +73,8 @@ const MyScreen = () => {
         <div>
           <div style={{ fontSize: 17, paddingTop: 8, flexDirection: "row", display: "flex", width: "100%" }}>
             <div style={{width:"20%"}}>
-            <Avatar sx={{ bgcolor: deepOrange[500] }} src={userDataLocal?.profile_image ?? undefined} >
+              <Avatar sx={{ bgcolor: deepOrange[500] }} src={userDataLocal?.profile_image ?? undefined}
+                style={{ width: width * 0.14, height: width*0.14}}>
               {userDataLocal?.nickname.slice(0, 1)}
               </Avatar>
             </div>

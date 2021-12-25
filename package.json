@@ -52,7 +52,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "starts": "caddy reverse-proxy --from localhost:3030 --to localhost:3001",
+    "starts": "caddy reverse-proxy --from localhost:3030 --to localhost:3000",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "push": "sh push.sh",

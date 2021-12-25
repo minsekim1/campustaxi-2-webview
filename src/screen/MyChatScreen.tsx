@@ -1,7 +1,7 @@
 import { BottomTabBar } from "../components/BottomTabBar";
 import useSWR from "swr";
-import { useRecoilState } from "recoil";
-import { loadingState } from "../components/recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { loadingState, userDataState } from "../components/recoil";
 import { useEffect } from "react";
 import fetcher from "../hook/useSWR/fetcher";
 import { ChatRoomType } from "../types/ChatRoom";
@@ -14,7 +14,7 @@ import "swiper/swiper.min.css";
 
 const MyChatScreen = () => {
   const [loading, setLoading] = useRecoilState(loadingState);
-
+  const userData = useRecoilValue(userDataState);
   // #region 스크롤 관리
   const body = document.getElementsByTagName("body")[0];
   useEffect(() => {
@@ -26,7 +26,7 @@ const MyChatScreen = () => {
   }, []); //body
   // #endregion
   //#region 데이터 관리
-  const { data, error } = useSWR(`${API_URL}/chat-rooms`, fetcher);
+  const { data, error } = useSWR(`${API_URL}/chat-rooms?_where[0][enter_users.username_contains]=${userData?.username}`, fetcher);
   if ((error || !data) && !loading) setLoading(true);
   if (error)
     return (

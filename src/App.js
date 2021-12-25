@@ -1,4 +1,4 @@
-import { RecoilRoot, useRecoilState } from "recoil";
+import { RecoilRoot, useRecoilState, useRecoilValue } from "recoil";
 import HomeScreen from "./screen/HomeScreen";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 
@@ -62,7 +62,9 @@ const App = () => {
 };
 
 const LoadingPage = () => {
-  const [loading] = useRecoilState(loadingState);
-  return <div>{loading ? <LinearProgress variant={"indeterminate"} color={"info"} /> : false}</div>;
+  const loading = useRecoilValue(loadingState);
+  return (
+    <div>{loading ? <LinearProgress style={{ zIndex: 99 }} variant={"indeterminate"} color={"info"} /> : false}</div>
+  );
 };
 export default App;

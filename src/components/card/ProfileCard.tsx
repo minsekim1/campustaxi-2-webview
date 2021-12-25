@@ -74,7 +74,7 @@ export const ProfileCard = ({
         {/* 상세내용 */}
         <div style={{ flex: 4, marginLeft: 16, alignSelf: "center" }} onClick={onClick ? onClick : () => {}}>
           <div style={{ ...textOverflowHidden, fontSize: 14, color: GRAY7, fontWeight: "bold" }}>{address}</div>
-          <div style={{ ...textOverflowHidden, fontSize: 12, marginTop: 3, color: GRAY6 }}>{title}</div>
+          <div style={{ maxWidth:130,...textOverflowHidden, fontSize: 12, marginTop: 3, color: GRAY6 }}>{title}</div>
           <div style={{ ...textOverflowHidden, fontSize: 12, color: GRAY6 }}>{desc}</div>
         </div>
         {/* 삭제버튼 */}

@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useRef, useState } from "react";
 import { useHistory, useParams } from "react-router";
-import { useRecoilState } from "recoil";
-import { lastMessageMarginBottomState, loadingState, userDataState } from "../components/recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { lastMessageMarginBottomState, loadingState, MenuModalState, userDataState } from "../components/recoil";
 import useSWR from "swr";
 import { API_URL, postfetch } from "../components/common";
 import fetcher from "../hook/useSWR/fetcher";
@@ -13,6 +13,8 @@ import { UserType } from "../types/User";
 import useWindowDimensions from "../hook/useWindowDimensions";
 import { CreatorType } from "../types/Course";
 import { ChatRoomType } from "../types/ChatRoom";
+import {ChatMenuModal} from "../components/modal/ChatMenuModal";
+import { AlertDialog } from "../components/Dialog/AlertDialog";
 
 // 처음에만 가장 아래로 이동
 
@@ -23,6 +25,7 @@ export const ChatScreen = ({ }) => {
   const textareaRef = useRef("");
   const isInit = useRef(true);
   const messageareaRef = useRef<HTMLDivElement>(null);
+  
 
   //#region 스크롤 열기
   const body = document.getElementsByTagName('body')[0];
@@ -39,22 +42,23 @@ export const ChatScreen = ({ }) => {
   const { id }: { id: string | undefined } = useParams();
   const [loading, setLoading] = useRecoilState(loadingState);
   const { data, error, mutate } = useSWR(`${API_URL}/chats?chat_room_id=${id}`, fetcher, { refreshInterval: 1000 });
+  const { data: dataR, error: errorR, mutate: mutateR } = useSWR(`${API_URL}/chat-rooms?id=${id}`, fetcher, { refreshInterval: 1000 });
   const { data: dataU, error: errorU } = useSWR(`${API_URL}/users?id=${1}`, fetcher);
-  if ((error || !data || errorU || !dataU) && !loading) setLoading(true);
+  if ((!data || !dataU || !dataR || error || errorU || errorR ) && !loading) setLoading(true);
   useEffect(() => {
     return () => setLoading(false);
   }, []);
-  if (error || errorU)
+  if (error || errorU || errorR)
     return (
       <div>
-        <BackHeaderRight title={""} userImg={""} roomId={id} />
+        <BackHeaderRight roomData={null} />
         failed to load
       </div>
     );
-  if (!data || !dataU)
+  if (!data || !dataU || !dataR)
     return (
       <div>
-        <BackHeaderRight title={""} userImg={""} roomId={id} />
+        <BackHeaderRight roomData={null} />
         {/* loading... */}
       </div>
     );
@@ -63,12 +67,15 @@ export const ChatScreen = ({ }) => {
 
 
   const userData: UserType = dataU[0];
+  const chatRoomData: ChatRoomType = dataR[0];
 
   return (
     <>
-      <BackHeaderRight title={userData.nickname} userImg={userData.profile_image} roomId={id} />
+      <BackHeaderRight roomData={chatRoomData} />
       <MessageArea list={data} isInit={isInit} messageareaRef={messageareaRef} />
       <Input ref={textareaRef} list={data} mutate={mutate} />
+      <ChatMenuModal />
+      <AlertDialog/>
     </>
   );
 };

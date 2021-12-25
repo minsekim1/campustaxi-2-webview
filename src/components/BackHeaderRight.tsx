@@ -1,53 +1,53 @@
+import { Avatar, AvatarGroup } from "@mui/material";
 import { useState } from "react";
 import { useHistory } from "react-router";
+import { useSetRecoilState } from "recoil";
 import useSWR from "swr";
 import fetcher from "../hook/useSWR/fetcher";
 import { GRAY6, GRAY8 } from "../style";
+import { ChatRoomType } from "../types/ChatRoom";
 import { API_URL } from "./common";
 import { Icon } from "./common/Icon";
+import { MenuModalState } from "./recoil";
 
 
 type PropType = {
-	title: string;
-	userImg?: string | undefined | null;
-	roomId?: string;
+	roomData: ChatRoomType | null;
 };
-export const BackHeaderRight = ({ title, userImg = "", roomId }: PropType) => {
-
-	//#region 토큰 가져오기
+export const BackHeaderRight = ({ roomData }: PropType) => {
 	const history = useHistory();
-	const { data, error, mutate } = useSWR(`${API_URL}/users?id=${1}`, fetcher);
-	//#endregion
+	const setMenu = useSetRecoilState(MenuModalState)
 
+	if (!roomData) return <></>;
+	const onMenu = () => setMenu({visible:true})
 	return (
-		<>
-			<div
-				style={{
-					display: "flex",
-					justifyContent: "space-evenly",
-					position: "sticky",
-					backgroundColor: "white",
-					top: 0,
-					zIndex: 5,
-				}}
-				className={"topNotchHeader"}
-			>
-				<div style={{ flex: 1, padding: 16 }}>
-					<div style={{ width: 30 }} onClick={()=>history.goBack()}>
-						<Icon name={"faChevronLeft"} color={GRAY8} type={"light"} />
-					</div>
-				</div>
-				<div style={{ flex: 1, display: "flex", justifyContent: "center", padding: 16, fontWeight: "bold" }}>
-					{userImg ? <img src={userImg} width={24} height={24} style={{ borderRadius: 40, marginRight: 8 }} /> : false}
-					{title}
-				</div>
-				{/* 차단하기 및 삭제하기 */}
-				<div style={{ flex: 1, display: "flex", justifyContent: "flex-end", margin: "8px 16px 8px 8px" }}>
-						<div style={{ padding: 8 }}>
-						{/* <Icon name={"ellipsis-v-alt"} type={'light'} color={GRAY8} size={12} /> */}
-						</div>
+		<div
+			style={{
+				display: "flex",
+				justifyContent: "space-evenly",
+				position: "sticky",
+				backgroundColor: "white",
+				top: 0,
+				zIndex: 5,
+			}}
+			className={"topNotchHeader"}
+		>
+			<div style={{ flex: 1, padding: 16 }}>
+				<div style={{ width: 30 }} onClick={() => history.goBack()}>
+					<Icon name={"faChevronLeft"} color={GRAY8} type={"light"} />
 				</div>
 			</div>
-		</>
+			<div style={{ flex: 1, display: "flex", justifyContent: "center", padding: 8, fontWeight: "bold" }}>
+				<AvatarGroup max={4}>
+					{roomData.enter_users.map((u) => <Avatar alt={u.nickname} src={u.profile_image} style={{width:32, height:32}}/> )}
+				</AvatarGroup>
+			</div>
+			{/* 메뉴 : 차단하기 및 삭제하기 */}
+			<div style={{ flex: 1, display: "flex", justifyContent: "flex-end", margin: "8px 16px 8px 8px" }}onClick={onMenu}>
+				<div style={{ padding: 8 }}>
+					<Icon name={"faBars"} color={GRAY8} size={16} type="light"/>
+				</div>
+			</div>
+		</div>
 	);
 };

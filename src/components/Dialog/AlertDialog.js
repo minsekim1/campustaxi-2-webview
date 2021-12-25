@@ -26,14 +26,16 @@ export const AlertDialog = () => {
       >
         <DialogTitle id="alert-dialog-title"> {alertDialogInfo.title}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">{alertDialogInfo.text}</DialogContentText>
+          <DialogContentText style={{ whiteSpace: "pre-wrap" }} id="alert-dialog-description">
+            {alertDialogInfo.text}
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} style={{ color: GRAY6 }}>
             취소
           </Button>
           <Button onClick={alertDialogInfo.handleConfirm} style={{ color: "#d32f2f" }}>
-            삭제
+            {alertDialogInfo.confirmText ?? "삭제"}
           </Button>
         </DialogActions>
       </Dialog>
