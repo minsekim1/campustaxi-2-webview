@@ -52,7 +52,6 @@ export const ChatMenuModal = () => {
   };
 
   const room: ChatRoomType = dataR[0];
-  console.log(room.enter_users);
   return (
     <>
       <Drawer anchor={"right"} open={menu.visible} onClose={onClose}>
@@ -69,11 +68,13 @@ export const ChatMenuModal = () => {
         <Divider light />
         {room.enter_users.map((u) => (
           <ProfileCard
+            onClick={()=>history.push(`/user/${u.id}`)}
             address={u.nickname}
             title={u.greeting === "" ? "인삿말이 없습니다." : u.greeting}
             desc={`팔로워 ${u.follower ?? 0}명`}
             img={u.profile_image ?? null}
             icon={"faUser"}
+            userId={u.id}
           />
         ))}
         <Divider light sx={{ marginTop: 1 }} />

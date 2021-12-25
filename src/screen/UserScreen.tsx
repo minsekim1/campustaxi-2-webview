@@ -30,7 +30,8 @@ const MyScreen = () => {
   const { data, error, mutate } = useSWR(`${API_URL}/users?id=${id}`, fetcher);
   const { height, width } = useWindowDimensions();
 
-  const userData: UserType = data ? data[0] : null;
+  const isMe = id == userDataLocal?.id;
+  const userData: UserType = isMe? userDataLocal : data ? data[0] : null;
   if ((error || !userData) && !loading) setLoading(true);
   //#endregion
   //#region 스크롤 열기
@@ -73,19 +74,19 @@ const MyScreen = () => {
         <div>
           <div style={{ fontSize: 17, paddingTop: 8, flexDirection: "row", display: "flex", width: "100%" }}>
             <div style={{width:"20%"}}>
-              <Avatar sx={{ bgcolor: deepOrange[500] }} src={userDataLocal?.profile_image ?? undefined}
+              <Avatar sx={{ bgcolor: deepOrange[500] }} src={userData.profile_image ?? undefined}
                 style={{ width: width * 0.14, height: width*0.14}}>
-              {userDataLocal?.nickname.slice(0, 1)}
+              {userData.nickname.slice(0, 1)}
               </Avatar>
             </div>
             <div style={{ width:"60%", display: "flex", flexDirection: "column", paddingLeft: 16, paddingRight:16 }}>
-              {userDataLocal?.nickname ?? "이름 없음"}
-              <div style={{ color: GRAY7, fontSize: 15, paddingTop: 2, overflowWrap: 'anywhere' }}>{userDataLocal?.email ?? "이메일 없음"}</div>
+              {userData.nickname ?? "이름 없음"}
+              <div style={{ color: GRAY7, fontSize: 15, paddingTop: 2, overflowWrap: 'anywhere' }}>{userData.email ?? "이메일 없음"}</div>
               
             </div>
-            <div style={{ width: "20%",display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth:85}}>
+            {isMe ? <div style={{ width: "20%",display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth:85}}>
               <Button variant="outlined" size="small" style={{ height:32}} onClick={editProfile}>프로필 수정</Button>
-            </div>
+            </div> : false}
           </div>
           {/* <FaPenAlt style={{ color: "343A40", marginLeft: 5, height: 15 }} /> */}
           {/* <div className="points">{points} 보유중</div> */}

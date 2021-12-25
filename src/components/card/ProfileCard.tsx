@@ -13,7 +13,6 @@ import { fetcherBlob } from "../../hook/useSWR/fetcher";
 
 export const togglerFollow = async (myUserData: UserType, other_user_id: number) => {
   if (!myUserData.id) return;
-  console.log(myUserData);
 
   // const list = myUserData.follower.map((user)=>user.id).
 
