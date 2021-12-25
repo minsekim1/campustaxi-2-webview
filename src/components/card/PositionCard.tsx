@@ -43,7 +43,6 @@ export const PositionCard = ({
 
   //#region 이미지 가져오기
   useEffect(() => {
-    console.log(!noImg && !img);
     if (!noImg && img === undefined)
       fetch(`/v1/search/image?query=${title}&sort=date`, {
         method: "GET",

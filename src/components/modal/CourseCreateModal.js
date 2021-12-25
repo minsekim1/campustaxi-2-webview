@@ -27,7 +27,7 @@ import axios from "axios";
 import { KaKaoLoginBtn } from "../Btn/LoginBtn";
 
 //#region 파일업로드시 Blob to File
-const dataURLtoFile = (dataurl, fileName) => {
+export const dataURLtoFile = (dataurl, fileName) => {
   var arr = dataurl.split(","),
     mime = arr[0].match(/:(.*?);/)[1],
     bstr = atob(arr[1]),

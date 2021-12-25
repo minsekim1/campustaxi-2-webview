@@ -1,5 +1,5 @@
 import { BottomSheet } from "react-spring-bottom-sheet";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   BottomModalState,
   ChatRoomListState,
@@ -171,7 +171,7 @@ export const BottomModal = () => {
 //2021-10-05T21:50
 const defaultValueDate = new Date().toJSON().split(".")[0];
 export const CreateBottomModal = () => {
-  const [, setLoading] = useRecoilState(loadingState); //loading
+  const setLoading = useSetRecoilState(loadingState); //loading
 
   const [visible, setVisible] = useRecoilState(CreateBottomModalState);
   const userData = useRecoilValue(userDataState);

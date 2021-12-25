@@ -1,29 +1,35 @@
 import { useHistory, useParams } from "react-router";
-import { useEffect, useState } from "react";
-import { Tab, Tabs } from "@mui/material";
+import { Key, useEffect, useState } from "react";
+import { Avatar, Button, Tab, Tabs } from "@mui/material";
 import SwipeableViews from "react-swipeable-views";
 import { BackHeader } from "../components/BackHeader";
 import { CourseCard } from "../components/card/CourseCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import useWindowDimensions from "../hook/useWindowDimensions";
-import { useRecoilState } from "recoil";
-import { loadingState } from "../components/recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { editProfileDialogState, loadingState, userDataState } from "../components/recoil";
 import { GRAY2, GRAY4, GRAY7 } from "../style";
 import fetcher from "../hook/useSWR/fetcher";
 import useSWR from "swr";
 import { API_URL } from "../components/common";
 import { BackHeaderRight } from "../components/BackHeaderRight";
+import { CourseType } from "../types/Course";
+import { UserType } from "../types/User";
+import { deepOrange } from "@mui/material/colors";
+import { EditProfileDialog } from "../components/Dialog/EditProfileDialog";
 
 const MyScreen = () => {
   const history = useHistory();
-  // const [userData] = useRecoilState(userDataState);
+  const setEditProfileDialogInfo = useSetRecoilState(editProfileDialogState);
 
   //#region 데이터관리
   const [loading, setLoading] = useRecoilState(loadingState);
-  const { id } = useParams();
+  const p: any = useParams();
+  const id = p.id;
+  const userDataLocal = useRecoilValue(userDataState);
   const { data, error, mutate } = useSWR(`${API_URL}/users?id=${id}`, fetcher);
 
-  const userData = data ? data[0] : null;
+  const userData: UserType = data ? data[0] : null;
   if ((error || !userData) && !loading) setLoading(true);
   //#endregion
   //#region 스크롤 열기
@@ -55,50 +61,58 @@ const MyScreen = () => {
     );
   if (loading) setLoading(false);
   //#endregion
+  
+  const editProfile = () => setEditProfileDialogInfo({visible:true})
   return (
     <>
       <div style={{ height: 56, position: "fixed" }}>
-        <BackHeader color={'black'}/>
+        <BackHeader color={"black"} />
       </div>
       <div style={{ padding: 16, paddingTop: 56 }}>
         <div>
-          <img style={{ borderRadius: 100 }} width={80} src={userData.profile_image ?? ""}></img>
-        </div>
-        <div className="profileName">
-          <div>
-            <div style={{ fontSize: 17, paddingTop: 8 }}>
-              {userData.nickname ?? ""}
-              <div style={{ color: GRAY7, fontSize: 15, paddingTop: 2 }}>{userData.kakao_email ?? ""}</div>
+          <div style={{ fontSize: 17, paddingTop: 8, flexDirection: "row", display: "flex", width: "100%" }}>
+            <div style={{width:"20%"}}>
+            <Avatar sx={{ bgcolor: deepOrange[500] }} src={userDataLocal?.profile_image ?? undefined} >
+              {userDataLocal?.nickname.slice(0, 1)}
+              </Avatar>
             </div>
-            {/* <FaPenAlt style={{ color: "343A40", marginLeft: 5, height: 15 }} /> */}
-            {/* <div className="points">{points} 보유중</div> */}
-            {/* <Button variant="text">Text</Button>
+            <div style={{ width:"60%", display: "flex", flexDirection: "column", paddingLeft: 16, paddingRight:16 }}>
+              {userDataLocal?.nickname ?? "이름 없음"}
+              <div style={{ color: GRAY7, fontSize: 15, paddingTop: 2, overflowWrap: 'anywhere' }}>{userDataLocal?.email ?? "이메일 없음"}</div>
+              
+            </div>
+            <div style={{ width: "20%",display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth:85}}>
+              <Button variant="outlined" size="small" style={{ height:32}} onClick={editProfile}>프로필 수정</Button>
+            </div>
+          </div>
+          {/* <FaPenAlt style={{ color: "343A40", marginLeft: 5, height: 15 }} /> */}
+          {/* <div className="points">{points} 보유중</div> */}
+          {/* <Button variant="text">Text</Button>
               <Button variant="contained">Contained</Button>
               <Button variant="outlined">Outlined</Button> */}
-            {/* <div className="points"> 팔로우하기</div> */}
-          </div>
+          {/* <div className="points"> 팔로우하기</div> */}
+        </div>
 
-          {/* 코스제작 {courseNum} */}
-          {/* <div style={{ color: GRAY7, fontSize: 15 }}>
+        {/* 코스제작 {courseNum} */}
+        {/* <div style={{ color: GRAY7, fontSize: 15 }}>
             팔로잉 {userData.following && (userData.following.length ?? 0)} 팔로워 {"userData.follower" ?? 0}
           </div> */}
-        </div>
       </div>
       <ResultTabs />
+      <EditProfileDialog/>
     </>
   );
 };
 
 const ResultTabs = () => {
   const [index, setIndex] = useState(0);
-  const handleChange = (e, i) => setIndex(i);
-  const handleChangeIndex = (i) => setIndex(i);
+  const handleChange = (e: any, i: number) => setIndex(i);
+  const handleChangeIndex = (i: number) => setIndex(i);
 
   return (
     <>
       <Tabs
         value={index}
-        fullWidth
         onChange={handleChange}
         style={{
           position: "sticky",
@@ -180,18 +194,21 @@ const LogList = () => {
 };
 
 const CourseList = () => {
-  const { id } = useParams();
+  const p: any = useParams();
+  const id = p.id;
   const { height, width } = useWindowDimensions();
   const { data: list, error, mutate } = useSWR(`${API_URL}/courses?creator_id=${id}`, fetcher);
 
   return (
     <>
       <Swiper slidesPerView={1} direction={"vertical"} speed={500} height={260}>
-        {list ? list.map((course, i) => (
-          <SwiperSlide key={i.toString()}>
-            <CourseCard width={width} course={course} />
-          </SwiperSlide>
-        )) : false}
+        {list
+          ? list.map((course: CourseType | undefined) => (
+              <SwiperSlide key={course?.id}>
+                <CourseCard width={width} course={course} />
+              </SwiperSlide>
+            ))
+          : false}
       </Swiper>
     </>
   );

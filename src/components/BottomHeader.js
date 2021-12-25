@@ -1,12 +1,12 @@
 import { homeTabIndexState, userDataState } from "../components/recoil";
 import { HEADER_HEIGHT } from "./../style/index";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { useHistory } from "react-router";
 import useWindowDimensions from "../hook/useWindowDimensions";
 import { KaKaoLoginBtn } from "./Btn/LoginBtn";
 
 export const BottomHeader = ({ title, noProfile=false }) => {
-  const [userData] = useRecoilState(userDataState);
+  const userData = useRecoilValue(userDataState);
 
   const { height, width } = useWindowDimensions();
   const history = useHistory();

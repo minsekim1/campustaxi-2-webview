@@ -115,6 +115,15 @@ export const alertDialogState = atom({
   default: alertDialogInit,
 });
 /**
+ *  EditProfileDialog 띄우기
+ *  { visible: false, text: "" }
+ */
+export const editProfileDialogInit = { visible: false };
+export const editProfileDialogState = atom({
+  key: "recoil/editProfileDialogState",
+  default: editProfileDialogInit,
+});
+/**
  *  코스 생성시 삭제모드
  * {visible: false, index: -1, isDialog: false}
  */
