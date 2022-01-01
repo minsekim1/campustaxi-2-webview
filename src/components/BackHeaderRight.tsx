@@ -39,7 +39,16 @@ export const BackHeaderRight = ({ roomData }: PropType) => {
 			</div>
 			<div style={{ flex: 1, display: "flex", justifyContent: "center", padding: 8, fontWeight: "bold" }}>
 				<AvatarGroup max={4}>
-					{roomData.enter_users.map((u) => <Avatar alt={u.nickname} src={u.profile_image} style={{width:32, height:32}}/> )}
+					{roomData.enter_users.map((u) =>
+						
+						<Avatar sx={{ border: "1px solid gray" }}
+							alt={u.nickname}
+							src={u.profile_image}
+							style={{ width: 32, height: 32 }}
+						>
+							{u.nickname.slice(0, 1)}
+						</Avatar>
+					)}
 				</AvatarGroup>
 			</div>
 			{/* 메뉴 : 차단하기 및 삭제하기 */}

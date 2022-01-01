@@ -5,7 +5,7 @@ import { ProfileCard } from "../components/card/ProfileCard";
 import { CourseImage } from "../components/Input/CourseImage";
 import { BackHeader } from "../components/BackHeader";
 import useSWR from "swr";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { API_URL, postfetch } from "../components/common";
 import fetcher, { fetcherBlob } from "../hook/useSWR/fetcher";
 import { useRecoilState } from "recoil";
@@ -228,6 +228,7 @@ const ShareModal = ({ url = "", course }: { url: string; course: CourseType }) =
 
 const CourseArea = ({ mutate, course }: { course: CourseType, mutate: any }) => {
   //#region main image
+  const history = useHistory();
   const { data: image, error } = useSWR(
     course && course.images && course.images.length > 0 ? course.images[0].url : null,
     fetcherBlob
@@ -239,6 +240,7 @@ const CourseArea = ({ mutate, course }: { course: CourseType, mutate: any }) => 
     content = JSON.parse(course.content);
   } catch (error) { }
   //#endregion
+
   return (
     <>
       <CourseImage imgUrl={image} />
@@ -277,13 +279,14 @@ const CourseArea = ({ mutate, course }: { course: CourseType, mutate: any }) => 
             />
           </div>
           <CourseActionField mutate={mutate} course={course} />
-          <ProfileCard
+          {course && course.creator_id && <ProfileCard
             userId={course && course.creator_id ? course.creator_id.id : -1}
+            onClick={course && course.creator_id ? () => history.push(`/user/${course.creator_id.id}`) : () => alert("탈퇴/비공개 사용자입니다.")}
             address={course && course.creator_id ? course.creator_id.nickname : ""}
-            title={course && course.creator_id ? course.creator_id.email : ""}
-            desc={`팔로워 ${course && course.creator_id ? course.creator_id.follower ?? 0 : 0}`}
-            img={course && course.creator_id ? course.creator_id.profile_image : undefined}
-          />
+            title={course && course.creator_id ? course.creator_id.greeting === "" ? "인삿말이 없습니다." : course.creator_id.greeting : ""}
+            // desc={`팔로워 ${u.follower ?? 0}명`}
+            img={course && course.creator_id ? (course.creator_id.profile_image != undefined ? course.creator_id.profile_image : undefined) : undefined}
+          />}
           <CommandArea content={content} />
         </div>
       </div>

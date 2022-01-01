@@ -25,13 +25,10 @@ const App = () => {
         <LoadingPage />
         <Switch>
           <Route exact path="/">
-<<<<<<< HEAD
-=======
             {/* <HomeScreenPre /> */}
             <HomeScreen />
           </Route>
           <Route exact path="/home">
->>>>>>> ccbd491da679b7515ce9e6627e9ef2ca5f66038d
             <HomeScreen />
           </Route>
           <Route exact path="/course/detail/:id">

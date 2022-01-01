@@ -24,6 +24,7 @@ export const EditProfileDialog = () => {
 	const id = p.id;
 	const nickname = useRef<string | null>(userData?.nickname ?? null);
 	const email = useRef<string | null>(userData?.email ?? null);
+	const greeting = useRef<string | null>(userData?.greeting ?? null);
 	const imgFile = useRef<File>();
 	const [imgUrl, setImgUrl] = useState(userData?.profile_image);
 	const handleClose = () => {
@@ -49,21 +50,21 @@ export const EditProfileDialog = () => {
 
 		setLoading(true);
 		//imgFile.current
-		if (imgFile.current) { alert('현재 프로필 이미지 교체는 안됩니다.'); imgFile.current = undefined; }
-		if (false) {
+		// if (imgFile.current) { alert('현재 프로필 이미지 교체는 안됩니다.'); imgFile.current = undefined; }
+		if (imgFile.current) {
 			// 프로필 사진 업로드
-			// const data = new FormData();
-			// data.append("files", imgFile.current);
-			// await axios.post(`${API_URL_NO_Proxy}/upload`, data).then(async (d: any) => {
-			// 	// FIXME 나중에 서버연결 후 교체할것
-			// 	const imgId = d.data[0].id;
-			// 	const params = { nickname: nickname.current, email: email.current, profile_image: imgId };
-			// 	postfetch(`/users/${id}`, JSON.stringify(params), true, "PUT").then((d: any) => {
-			// 		if (typeof d.id === "number") setUserData((prev: any) => { console.log({ ...prev, ...d }); return { ...prev, ...d } })
-			// 	});
-			// })
+			const data = new FormData();
+			data.append("files", imgFile.current);
+			await axios.post(`${API_URL_NO_Proxy}/upload`, data).then(async (d: any) => {
+				// FIXME 나중에 서버연결 후 교체할것
+				const url = d.data[0].url;
+				const params = { nickname: nickname.current, email: email.current, profile_image: url, greeting: greeting.current };
+				postfetch(`/users/${id}`, JSON.stringify(params), true, "PUT").then((d: any) => {
+					if (typeof d.id === "number") setUserData((prev: any) => { console.log({ ...prev, ...d }); return { ...prev, ...d } })
+				});
+			})
 		} else {
-			const params = { nickname: nickname.current, email: email.current };
+			const params = { nickname: nickname.current, email: email.current, greeting: greeting.current };
 			await postfetch(`/users/${id}`, JSON.stringify(params), true, "PUT").then((d: any) => {
 				if (typeof d.id === "number") setUserData((prev: any) => { console.log({ ...prev, ...d }); return { ...prev, ...d } })
 			});
@@ -83,7 +84,7 @@ export const EditProfileDialog = () => {
 				aria-describedby="alert-dialog-description"
 			>
 				<DialogTitle id="alert-dialog-title">프로필 수정</DialogTitle>
-				<DialogContent style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+				<DialogContent style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingBottom:0 }}>
 					<input accept="image/*" style={{ display: "none" }} id="file-picker" type="file" onInput={handleProfileImg} />
 					<label htmlFor="file-picker">
 						<Badge
@@ -104,8 +105,7 @@ export const EditProfileDialog = () => {
 								</div>
 							}
 						>
-							<Avatar
-								sx={{ bgcolor: deepOrange[500] }}
+							<Avatar sx={{ border: "1px solid gray" }}
 								src={imgUrl ?? undefined}
 								style={{ width: 56, height: 56 }}
 							>
@@ -135,7 +135,26 @@ export const EditProfileDialog = () => {
 						defaultValue={email.current}
 						margin="normal"
 					/>
+					
+					
 				</DialogContent>
+				<div style={{padding:"0 24px", }}>
+				<TextField
+					onChange={(e) => {
+						greeting.current = e.target.value;
+						}}
+						fullWidth
+					multiline
+					id="outlined-basic"
+					label="인삿말"
+					variant="outlined"
+					size="small"
+					defaultValue={greeting.current}
+					margin="normal"
+					maxRows={7}
+					/>
+				</div>
+				
 				<DialogActions>
 					<Button onClick={handleClose} style={{ color: GRAY6 }}>
 						취소

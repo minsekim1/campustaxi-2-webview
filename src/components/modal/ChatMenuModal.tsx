@@ -71,7 +71,7 @@ export const ChatMenuModal = () => {
             onClick={()=>history.push(`/user/${u.id}`)}
             address={u.nickname}
             title={u.greeting === "" ? "인삿말이 없습니다." : u.greeting}
-            desc={`팔로워 ${u.follower ?? 0}명`}
+            // desc={`팔로워 ${u.follower ?? 0}명`}
             img={u.profile_image ?? null}
             icon={"faUser"}
             userId={u.id}

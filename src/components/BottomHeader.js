@@ -4,6 +4,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { useHistory } from "react-router";
 import useWindowDimensions from "../hook/useWindowDimensions";
 import { KaKaoLoginBtn } from "./Btn/LoginBtn";
+import { Avatar } from "@mui/material";
 
 export const BottomHeader = ({ title, noProfile=false }) => {
   const userData = useRecoilValue(userDataState);
@@ -67,32 +68,40 @@ export const BottomHeader = ({ title, noProfile=false }) => {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "end", marginRight: width * 0.05 }}>
           {!noProfile ? (
             userData ? (
-              <div
-                onClick={goToUser}
-                style={{
-                  ...inlineStyle.noStyleBtn,
-                  border: `3px solid #F1F3F5`,
-                  borderRadius: 200,
-                  backgroundColor: "#F1F3F5",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  display: "flex",
-                  width: 44,
-                  height: 44,
-                }}
-              >
-                <img
-                  alt={" "}
-                  width={32}
-                  height={32}
-                  style={{ borderRadius: 200 }}
-                  src={
-                    userData.profile_image ??
-                    "https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
-                  }
-                ></img>
+              <div onClick={goToUser}>
+                <Avatar
+                  sx={{ border: "1px solid gray" }}
+                  src={userData.profile_image ?? undefined}
+                >
+                  {userData.nickname.slice(0, 1)}
+                </Avatar>
               </div>
             ) : (
+              // <div
+              //   onClick={goToUser}
+              //   style={{
+              //     ...inlineStyle.noStyleBtn,
+              //     border: `3px solid #F1F3F5`,
+              //     borderRadius: 200,
+              //     backgroundColor: "#F1F3F5",
+              //     alignItems: "center",
+              //     justifyContent: "center",
+              //     display: "flex",
+              //     width: 44,
+              //     height: 44,
+              //   }}
+              // >
+              //   <img
+              //     alt={" "}
+              //     width={32}
+              //     height={32}
+              //     style={{ borderRadius: 200 }}
+              //     src={
+              //       userData.profile_image ??
+              //       "https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
+              //     }
+              //   ></img>
+              // </div>
               <KaKaoLoginBtn />
             )
           ) : (

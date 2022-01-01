@@ -8,7 +8,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import useWindowDimensions from "../hook/useWindowDimensions";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { editProfileDialogState, loadingState, userDataState } from "../components/recoil";
-import { GRAY2, GRAY4, GRAY7 } from "../style";
+import { GRAY2, GRAY4, GRAY6, GRAY7, GRAY8 } from "../style";
 import fetcher from "../hook/useSWR/fetcher";
 import useSWR from "swr";
 import { API_URL } from "../components/common";
@@ -74,19 +74,29 @@ const MyScreen = () => {
         <div>
           <div style={{ fontSize: 17, paddingTop: 8, flexDirection: "row", display: "flex", width: "100%" }}>
             <div style={{width:"20%"}}>
-              <Avatar sx={{ bgcolor: deepOrange[500] }} src={userData.profile_image ?? undefined}
+              <Avatar sx={{ border:"1px solid gray" }} src={userData.profile_image ?? undefined}
                 style={{ width: width * 0.14, height: width*0.14}}>
               {userData.nickname.slice(0, 1)}
               </Avatar>
             </div>
-            <div style={{ width:"60%", display: "flex", flexDirection: "column", paddingLeft: 16, paddingRight:16 }}>
-              {userData.nickname ?? "이름 없음"}
-              <div style={{ color: GRAY7, fontSize: 15, paddingTop: 2, overflowWrap: 'anywhere' }}>{userData.email ?? "이메일 없음"}</div>
-              
+            <div style={{ width: "60%", display: "flex", flexDirection: "column", paddingLeft: 16, paddingRight: 16 }}>
+              <div style={{ display: 'flex', flexDirection: 'column',height:"100%" }}>
+                <div style={{flex:1, marginTop:4}}>
+                  {userData.nickname ?? "이름 없음"}
+                </div>
+                <div style={{ flex: 1, marginBottom: 4 }}>
+                  <div style={{ color: GRAY7, fontSize: 15, paddingTop: 2, overflowWrap: 'anywhere' }}>{userData.email ?? "이메일 없음"}</div>
+                </div>
+              </div>
             </div>
-            {isMe ? <div style={{ width: "20%",display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth:85}}>
-              <Button variant="outlined" size="small" style={{ height:32}} onClick={editProfile}>프로필 수정</Button>
+            
+            {isMe ? <div style={{ width: "20%",display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth:"6em"}}>
+              <Button variant="outlined" size="small" style={{ height:32, }} onClick={editProfile}>프로필 수정</Button>
             </div> : false}
+            
+          </div>
+          <div style={{ padding:"8px 16px 0 16px", overflowWrap:'break-word',color:GRAY8 }}>
+            {userData.greeting ?? "인삿말이 없습니다."}
           </div>
           {/* <FaPenAlt style={{ color: "343A40", marginLeft: 5, height: 15 }} /> */}
           {/* <div className="points">{points} 보유중</div> */}
@@ -111,7 +121,7 @@ const ResultTabs = () => {
   const [index, setIndex] = useState(0);
   const handleChange = (e: any, i: number) => setIndex(i);
   const handleChangeIndex = (i: number) => setIndex(i);
-
+  const {  width } = useWindowDimensions();
   return (
     <>
       <Tabs
@@ -121,18 +131,20 @@ const ResultTabs = () => {
           position: "sticky",
           top: 0,
           backgroundColor: "white",
-          width: "100%",
+          width: width,
           zIndex: 10,
           paddingTop: 0,
+          margin:"0 24px"
         }}
       >
-        <Tab label="이용 내역" style={{ width: "50%", fontSize: 15 }} />
-        <Tab label="경로 제작" style={{ width: "50%", fontSize: 15 }} />
+        {/* <Tab label="이용 내역" style={{ width: "50%", fontSize: 15 }} /> */}
+        {/* <Tab label="경로 제작" style={{ width: "50%", fontSize: 15 }} /> */}
+        <Tab label="경로 제작" style={{width:"100%",  fontSize: 15 }}/>
       </Tabs>
       <SwipeableViews index={index} onChangeIndex={handleChangeIndex}>
-        <div>
+        {/* <div>
           <LogList />
-        </div>
+        </div> */}
         <div>
           <CourseList />
         </div>

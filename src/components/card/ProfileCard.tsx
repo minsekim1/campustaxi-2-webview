@@ -85,7 +85,7 @@ export const ProfileCard = ({
           false
         )}
         {/* 팔로우버튼 */}
-        {!userId || userData?.id !== userId ? (
+        {/* {!userId || userData?.id !== userId ? (
           <div
             style={{
               display: "flex",
@@ -105,7 +105,7 @@ export const ProfileCard = ({
           </div>
         ) : (
           false
-        )}
+        )} */}
       </div>
       {/* 덮개 */}
       {disable ? (

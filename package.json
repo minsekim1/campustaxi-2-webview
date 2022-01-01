@@ -57,13 +57,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "push": "sh push.sh",
-<<<<<<< HEAD
-    "eject": "react-scripts eject",
-    "upload": "npm run build && git add . && git commit -m \"build upload\" && git push",
-    "startP": "caddy reverse-proxy --from localhost:3030 --to localhost:3000"
-=======
     "upload": "npm run build && git add . && git commit -m \"build upload\" && git push"
->>>>>>> ccbd491da679b7515ce9e6627e9ef2ca5f66038d
   },
   "eslintConfig": {
     "extends": [
