@@ -3664,6 +3664,11 @@ cache-base@^1.0.1:
     union-value "^1.0.0"
     unset-value "^1.0.0"
 
+caddy@^0.0.13:
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/caddy/-/caddy-0.0.13.tgz#d5bcf91ef4c11440842ef5253d901c704f0548c7"
+  integrity sha1-1bz5HvTBFECELvUlPZAccE8FSMc=
+
 call-bind@^1.0.0, call-bind@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/call-bind/-/call-bind-1.0.2.tgz"
