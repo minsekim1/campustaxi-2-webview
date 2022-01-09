@@ -64,7 +64,8 @@ export const KaKaoLoginBtn = ({ width=64}) => {
         else {
           setUserData(d);
         }
-        history.goBack();
+        
+        history.push(window.location.origin);
       });
   };
   //#endregion
