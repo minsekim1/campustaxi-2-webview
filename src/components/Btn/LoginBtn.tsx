@@ -1,6 +1,5 @@
 import axios from "axios";
 import KakaoLogin from "react-kakao-login";
-import { LoginResponse } from "react-kakao-login/lib/types";
 import { useHistory } from "react-router";
 import { useRecoilState } from "recoil";
 import { getfetch, postfetch } from "../common";
@@ -13,7 +12,7 @@ export const KaKaoLoginBtn = ({ width=64}) => {
   const history = useHistory();
 
   //#region 회원가입하기
-  const onSuccess = async (response: { response: LoginResponse; profile?: any | profileType | undefined }) => {
+  const onSuccess = async (response: { response: any; profile?: any | profileType | undefined }) => {
     const prof = response.profile;
     const res = response.response;
     if (!res || !prof || !prof.kakao_account.email) {
