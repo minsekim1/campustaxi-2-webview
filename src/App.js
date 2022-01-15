@@ -14,6 +14,7 @@ import { loadingState } from "./components/recoil";
 import ChatScreen from "./screen/ChatScreen";
 import moment from "moment";
 import "moment/locale/ko";
+import { Redirect } from "./screen/Redirect";
 /* eslint-disable */
 
 resetServerContext();
@@ -53,6 +54,9 @@ const App = () => {
           </Route>
           <Route exact path="/user/:id">
             <UserScreen />
+          </Route>
+          <Route exact path="/redirect">
+            <Redirect/>
           </Route>
         </Switch>
       </BrowserRouter>
