@@ -7,7 +7,7 @@ export const Redirect = () => {
 
 	useEffect(() => { 
 		if (D.isIOS || D.isSafari) {
-			var url = "com.campustaxi.campustaxi://media";
+			var url = "campustaxi://media";
 			setTimeout(function () {
 				var url = "https://itunes.apple.com/kr/app/campustaxi/id1534509768?mt=8";
 				location.href = url;
