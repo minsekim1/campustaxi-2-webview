@@ -17,6 +17,7 @@ import "moment/locale/ko";
 import { Redirect } from "./screen/Redirect";
 /* eslint-disable */
 
+export const isIOSPublishing = true; //iOS 심사중일때는 켜놓을것.
 resetServerContext();
 
 const App = () => {

@@ -25,6 +25,7 @@ import { getItems } from "./../Input/CommandInput/dndFunc";
 import { API_URL, API_URL_NO_Proxy, postfetch } from "../common";
 import axios from "axios";
 import { KaKaoLoginBtn } from "../Btn/LoginBtn";
+import { isIOSPublishing } from "../../App";
 
 //#region 파일업로드시 Blob to File
 export const dataURLtoFile = (dataurl, fileName) => {
@@ -267,7 +268,7 @@ const BlockLogin = () => {
 
   return (
     <>
-      {!userData ? (
+      {(!userData && !isIOSPublishing) ? (
         <div
           style={{
             width: "100%",

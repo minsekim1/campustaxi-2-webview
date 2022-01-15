@@ -32,6 +32,7 @@ import { KaKaoLoginBtn } from "./Btn/LoginBtn";
 import useWindowDimensions from "../hook/useWindowDimensions";
 import useSWR from "swr";
 import { fetcherBlob } from "../hook/useSWR/fetcher";
+import { isIOSPublishing } from "../App";
 
 export const BottomModal = () => {
   const [visible, setVisible] = useRecoilState(BottomModalState);
@@ -381,11 +382,11 @@ export const CreateBottomModal = () => {
 };
 
 const BlockLogin = () => {
-  const [userData] = useRecoilState(userDataState);
+  const userData = useRecoilValue(userDataState);
 
   return (
     <>
-      {!userData ? (
+      {(!userData && !isIOSPublishing) ? (
         <div
           style={{
             width: "100%",

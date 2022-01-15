@@ -20,6 +20,7 @@ import { CourseType } from "../../types/Course";
 import { getfetch, postfetch } from "../common";
 import _ from "lodash";
 import { Switch } from "@material-ui/core";
+import { isIOSPublishing } from "../../App";
 
 const fontStyle = {
   fontSize: 15,
@@ -91,7 +92,7 @@ export const CourseActionField = ({ mutate, disable = false, course }: Props) =>
             </div>
           </div>
         </div>
-        <div style={{ flex: 1, ...styleCenter }} onClick={() => disable ? () => { } : !userData ? alert("로그인이 필요한 기능입니다!") : setModalInfo({ visible: !modalInfo.visible })}>
+        <div style={{ flex: 1, ...styleCenter }} onClick={() => disable ? () => { } : (!userData && !isIOSPublishing) ? alert("로그인이 필요한 기능입니다!") : setModalInfo({ visible: !modalInfo.visible })}>
 
           {/* 공유버튼 */}
           <Icon name={"faShareAlt"} size={32} type={"solid"} color={!userData ? 'gray' : "#0066d3"} />

@@ -71,16 +71,16 @@ export const KaKaoLoginBtn = ({ width=64}) => {
   //#endregion
   // 로그인된 상태에서 버튼 누르면 로그아웃됌
   return (
-    // <></>
-    <KakaoLogin
+    <></>
+    // <KakaoLogin
       
-      token={"0319421ef3dceca8c69d3b04efc365dc"}
-      onSuccess={onSuccess}
-      onFail={(p) => console.error(p)}
-      onLogout={() => console.log("logout!")}
-      style={{ backgroundColor: '#ffeb00', width: width, border:'none'  }}
+    //   token={"0319421ef3dceca8c69d3b04efc365dc"}
+    //   onSuccess={onSuccess}
+    //   onFail={(p) => console.error(p)}
+    //   onLogout={() => console.log("logout!")}
+    //   style={{ backgroundColor: '#ffeb00', width: width, border:'none'  }}
       
-    ><p style={{color:'black'}}>로그인</p></KakaoLogin>
+    // ><p style={{color:'black'}}>로그인</p></KakaoLogin>
   );
 };
 
