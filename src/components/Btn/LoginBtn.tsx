@@ -78,7 +78,6 @@ export const KaKaoLoginBtn = ({ width=64}) => {
       onSuccess={onSuccess}
       onFail={(p) => console.error(p)}
       onLogout={() => console.log("logout!")}
-      useLoginForm
       style={{ backgroundColor: '#ffeb00', width: width, border:'none'  }}
       
     ><p style={{color:'black'}}>로그인</p></KakaoLogin>
