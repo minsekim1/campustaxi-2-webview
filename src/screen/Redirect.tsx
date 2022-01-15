@@ -9,9 +9,8 @@ export const Redirect = () => {
 		if (D.isIOS || D.isSafari) {
 			var url = "campustaxi://media";
 			setTimeout(function () {
-				var url = "https://itunes.apple.com/kr/app/campustaxi/id1534509768?mt=8";
-				location.href = url;
-			}, 1000);
+				window.open("https://itunes.apple.com/kr/app/campustaxi/id1534509768?mt=8");
+			}, 2500);
 			location.href = url;
 			alert("I")
 		} else if(D.isAndroid){
