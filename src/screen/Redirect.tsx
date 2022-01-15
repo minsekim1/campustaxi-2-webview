@@ -7,9 +7,9 @@ export const Redirect = () => {
 
 	useEffect(() => { 
 		if (D.isIOS || D.isSafari) {
-			var url = "twitter://media";
+			var url = "campustaxi://media";
 			setTimeout(function () {
-				window.open("https://itunes.apple.com/kr/app/twitter/id333903271?mt=8");
+				window.open("https://itunes.apple.com/kr/app/campustaxi/id1534509768?mt=8");
 			}, 1000);
 			location.href = url;
 			alert("I")
