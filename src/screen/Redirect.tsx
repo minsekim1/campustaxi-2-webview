@@ -7,11 +7,11 @@ export const Redirect = () => {
 
 	useEffect(() => { 
 		if (D.isIOS || D.isSafari) {
-			// var url = "campustaxi://media";
-			// setTimeout(function () {
+			var url = "com.campustaxi.campustaxi://media";
+			setTimeout(function () {
 				window.open("https://itunes.apple.com/kr/app/campustaxi/id1534509768?mt=8");
-			// }, 1000);
-			// location.href = url;
+			}, 1000);
+			location.href = url;
 			alert("I")
 		} else if(D.isAndroid){
 			window.open("intent://campustaxi.campustaxi.com/#Intent;package=com.campustaxi.campustaxi;scheme=https;end")
