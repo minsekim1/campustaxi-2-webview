@@ -7,10 +7,11 @@ export const Redirect = () => {
 
 	useEffect(() => { 
 		if (D.isIOS || D.isSafari) {
-			window.open("instagram://media")
+			var url = "twitter://media";
 			setTimeout(function () {
-				window.open("https://itunes.apple.com/kr/app/instagram/id389801252?mt=8");
+				window.open("https://itunes.apple.com/kr/app/twitter/id333903271?mt=8");
 			}, 1000);
+			location.href = url;
 			alert("I")
 		} else if(D.isAndroid){
 			window.open("intent://campustaxi.campustaxi.com/#Intent;package=com.campustaxi.campustaxi;scheme=https;end")
