@@ -7,7 +7,7 @@ export const Redirect = () => {
 
 	useEffect(() => { 
 		if (D.isIOS || D.isSafari) {
-			var url = "같이타자://media";
+			var url = "campustaxi://media";
 			setTimeout(function () {
 				window.open("https://itunes.apple.com/kr/app/campustaxi/id1534509768?mt=8");
 			}, 1000);
