@@ -2,11 +2,12 @@ import axios from "axios";
 import KakaoLogin from "react-kakao-login";
 import { useHistory } from "react-router";
 import { useRecoilState } from "recoil";
+import { isIOSPublishing } from "../../App";
 import { getfetch, postfetch } from "../common";
 import { Browser, OS } from "../common/function/getPlatform";
 import { loadingState, userDataState } from "../recoil";
 
-export const KaKaoLoginBtn = ({ width=64}) => {
+export const KaKaoLoginBtn = ({ width = 64 }) => {
   const [userData, setUserData] = useRecoilState(userDataState);
   const [, setLoading] = useRecoilState(loadingState); //loading
   const history = useHistory();
@@ -23,9 +24,9 @@ export const KaKaoLoginBtn = ({ width=64}) => {
     const ip = ipRes && ipRes.data && ipRes.data.IPv4 ? ipRes.data.IPv4 : "";
 
     const signRes = await getfetch(`/users?kakao_id=${prof.id}`);
-    setLoading(true)
+    setLoading(true);
     if (signRes && !!signRes.length && signRes.length > 0 && typeof signRes[0].id == "number") {
-      setLoading(false)
+      setLoading(false);
       setUserData(signRes[0]);
     } else
       await postfetch(`/users`, {
@@ -59,28 +60,31 @@ export const KaKaoLoginBtn = ({ width=64}) => {
         kakao_expires_in: res.expires_in ?? "",
         kakao_refresh_token_expires_in: res.refresh_token_expires_in ?? "",
       }).then((d) => {
-        setLoading(false)
+        setLoading(false);
         if (d.statusCode === 400) console.error("로그인실패..", d);
         else {
           setUserData(d);
         }
-        
+
         history.push(window.location.origin);
       });
   };
   //#endregion
   // 로그인된 상태에서 버튼 누르면 로그아웃됌
   return (
-    <></>
-    // <KakaoLogin
-      
-    //   token={"0319421ef3dceca8c69d3b04efc365dc"}
-    //   onSuccess={onSuccess}
-    //   onFail={(p) => console.error(p)}
-    //   onLogout={() => console.log("logout!")}
-    //   style={{ backgroundColor: '#ffeb00', width: width, border:'none'  }}
-      
-    // ><p style={{color:'black'}}>로그인</p></KakaoLogin>
+    <>
+      {!isIOSPublishing && (
+        <KakaoLogin
+          token={"0319421ef3dceca8c69d3b04efc365dc"}
+          onSuccess={onSuccess}
+          onFail={(p) => console.error(p)}
+          onLogout={() => console.log("logout!")}
+          style={{ backgroundColor: "#ffeb00", width: width, border: "none" }}
+        >
+          <p style={{ color: "black" }}>로그인</p>
+        </KakaoLogin>
+      )}
+    </>
   );
 };
 
