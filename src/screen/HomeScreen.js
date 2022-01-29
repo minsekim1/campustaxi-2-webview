@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { BottomHeader } from "../components/BottomHeader";
 import { BottomTabBar } from "../components/BottomTabBar";
 import { CreateBtn } from "../components/Btn/CreateBtn";
-import { PreRegistrationPopup } from "../components/Dialog/PreRegistrationPopup";
 import { NMAP } from "../components/NMap";
 import { SearchPosition } from "../components/SearchPosition";
 import { SelectMapModal } from "../components/SelectMapModal";

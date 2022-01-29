@@ -57,7 +57,7 @@ const App = () => {
             <UserScreen />
           </Route>
           <Route exact path="/redirect">
-            <Redirect/>
+            <Redirect />
           </Route>
         </Switch>
       </BrowserRouter>

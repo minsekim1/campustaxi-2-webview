@@ -8,7 +8,6 @@ import { CropScreen } from "./../components/modal/CropScreen";
 import { CourseProductModal } from "../components/modal/CourseProductModal";
 import { AlertDialog } from "./../components/Dialog/AlertDialog";
 import { useEffect } from "react";
-import { useHistory } from "react-router";
 
 const CourseScreen = () => {
   useEffect(() => {

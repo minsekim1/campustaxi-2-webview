@@ -1,16 +1,14 @@
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
-import { GRAY7, SCREEN_HEIGHT, styleCenter } from "../../style";
+import { GRAY7, styleCenter } from "../../style";
 import { GRAY6 } from "../../style/index";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import {
   commandInputListState,
   commandWindowState,
   CreateRouteBottomModalState,
-  EndPosImageState,
   FilePathInit,
   loadingState,
-  StartPosImageState,
   userDataState,
 } from "../recoil";
 import { useEffect, useRef, useState } from "react";
@@ -22,7 +20,7 @@ import { CommandArea } from "../Input/CommandArea";
 import { FilePathState } from "./../recoil";
 import { ORANGE } from "./../../style/index";
 import { getItems } from "./../Input/CommandInput/dndFunc";
-import { API_URL, API_URL_NO_Proxy, postfetch } from "../common";
+import { API_URL_NO_Proxy, postfetch } from "../common";
 import axios from "axios";
 import { KaKaoLoginBtn } from "../Btn/LoginBtn";
 import { isIOSPublishing } from "../../App";
@@ -268,7 +266,7 @@ const BlockLogin = () => {
 
   return (
     <>
-      {(!userData && !isIOSPublishing) ? (
+      {!userData && !isIOSPublishing ? (
         <div
           style={{
             width: "100%",

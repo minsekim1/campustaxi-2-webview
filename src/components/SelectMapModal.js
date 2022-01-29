@@ -16,10 +16,6 @@ import { GRAY8, GRAY6 } from "./../style/index";
 import { PositionCard } from "./card/PositionCard";
 import { useHistory } from "react-router-dom";
 import { posInit } from "../types/ChatRoom";
-import axios from "axios";
-import { fetcherBlob, fetcherGetImageByKeyword } from "../hook/useSWR/fetcher";
-import useSWR from "swr";
-import { useEffect, useState } from "react";
 
 export const SelectMapModal = () => {
   // const title = useRef("");
